@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> -->
+<meta name="author" content="xym" />
+
+
+
+<meta name="description" content="了解了redis基础后，本章主要介绍redis字符串（string）、散列表（hash）数据类型及相应的命令。命令拾遗部分会对其他比较有用的命令进行补充介绍。">
+<meta name="keywords" content="redis命令,redis五种数据类型,字符串（string）,散列表（hash）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis入门指南-命令阶段I">
+<meta property="og:url" content="http://xym-loveit.github.io/2017/05/23/redis入门指南-命令阶段I/index.html">
+<meta property="og:site_name" content="放肆的青春">
+<meta property="og:description" content="了解了redis基础后，本章主要介绍redis字符串（string）、散列表（hash）数据类型及相应的命令。命令拾遗部分会对其他比较有用的命令进行补充介绍。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://op7wplti1.bkt.clouddn.com/barbin.png">
+<meta property="og:image" content="http://op7wplti1.bkt.clouddn.com/orcalc.png">
+<meta property="og:image" content="http://op7wplti1.bkt.clouddn.com/hashcar.png">
+<meta property="og:updated_time" content="2018-03-29T01:27:48.636Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis入门指南-命令阶段I">
+<meta name="twitter:description" content="了解了redis基础后，本章主要介绍redis字符串（string）、散列表（hash）数据类型及相应的命令。命令拾遗部分会对其他比较有用的命令进行补充介绍。">
+<meta name="twitter:image" content="http://op7wplti1.bkt.clouddn.com/barbin.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="放肆的青春" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>redis入门指南-命令阶段I | 放肆的青春</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?e3f38299cead93945f64f5549341ae46";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">xym</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">要变得和大叔一样强</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:xym-loveit@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/xym-loveit" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AbstractExecutorService/">AbstractExecutorService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ArrayBlockingQueue/">ArrayBlockingQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Callable/">Callable</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CountDownLatch/">CountDownLatch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CyclicBarrier/">CyclicBarrier</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EVAL及EVALSHA/">EVAL及EVALSHA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Executor/">Executor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ExecutorService/">ExecutorService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Executors/">Executors</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Future/">Future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FutureTask/">FutureTask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git命令/">Git命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java并发编程/">Java并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KEYS与ARGV/">KEYS与ARGV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lock/">Lock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lua脚本/">Lua脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis任务队列/">Redis任务队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis优先级队列/">Redis优先级队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis发布订阅/">Redis发布订阅</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis排序/">Redis排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis管道概念/">Redis管道概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis键值存储详解/">Redis键值存储详解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SORT参数讲解/">SORT参数讲解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SORT排序/">SORT排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Semaphore/">Semaphore</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/">Thread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/">ThreadLocal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadPoolExecutor/">ThreadPoolExecutor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java多线程/">java多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-trib-rb集群辅助工具/">redis-trib.rb集群辅助工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis一主多从模式/">redis一主多从模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis主从模式/">redis主从模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis事务/">redis事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis五种数据类型/">redis五种数据类型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis使用Lua脚本/">redis使用Lua脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis命令/">redis命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis命令重命名/">redis命令重命名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis哨兵监控/">redis哨兵监控</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis增量复制/">redis增量复制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制/">redis复制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制初始化/">redis复制初始化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制原理/">redis复制原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis多数据库/">redis多数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis安全/">redis安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis持久化/">redis持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis数据库密码/">redis数据库密码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis的AOF持久化/">redis的AOF持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis的RDB持久化/">redis的RDB持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis积压队列/">redis积压队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis管理工具/">redis管理工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis通信协议/">redis通信协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis配置/">redis配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis集群/">redis集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/synchronized/">synchronized</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/volatile/">volatile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/列表（list）/">列表（list）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/同步容器/">同步容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/哨兵的配置/">哨兵的配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/哨兵（sentinel）的实现原理/">哨兵（sentinel）的实现原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串（string）/">字符串（string）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常用工具/">常用工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序性能/">排序性能</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序缓存/">排序缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表（hash）/">散列表（hash）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有序集合（zset）/">有序集合（zset）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生存时间/">生存时间</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/节点（node）的插槽（slot）分配/">节点（node）的插槽（slot）分配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/访问频率限制/">访问频率限制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/进程/">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/键归属的插槽/">键归属的插槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阻塞队列/">阻塞队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集合/">集合</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集合（set）/">集合（set）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群故障恢复/">集群故障恢复</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群（cluster）插槽slot/">集群（cluster）插槽slot</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">一个行者</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">xym</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">xym</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">要变得和大叔一样强</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:xym-loveit@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/xym-loveit" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-redis入门指南-命令阶段I" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/23/redis入门指南-命令阶段I/" class="article-date">
+      <time datetime="2017-05-23T07:48:38.000Z" itemprop="datePublished">2017-05-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      redis入门指南-命令阶段I
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/redis系列/">redis系列</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis五种数据类型/">redis五种数据类型</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis命令/">redis命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字符串（string）/">字符串（string）</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/散列表（hash）/">散列表（hash）</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="命令热身"><a href="#命令热身" class="headerlink" title="命令热身"></a>命令热身</h2><h3 id="1-获得符合规则的键名列表"><a href="#1-获得符合规则的键名列表" class="headerlink" title="1. 获得符合规则的键名列表"></a>1. 获得符合规则的键名列表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KEYS pattern</span><br></pre></td></tr></table></figure>
+<p>pattern支持glob风格通配符格式，具体规则如下表：<br>符号|含义<br>—|—<br>？|匹配一个字符<br>*|匹配任意个（包括0个）字符<br>[]|匹配括号间任意字符，可以使用“-”符号表示一个范围，如a[b-d]可以匹配ab、ac、ad<br>\x|匹配字符x，用于转义符号。如要匹配？就需要使用 \?</p>
+<h3 id="2-判断键是否存在"><a href="#2-判断键是否存在" class="headerlink" title="2. 判断键是否存在"></a>2. 判断键是否存在</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXISTS key</span><br></pre></td></tr></table></figure>
+<p>如果存在返回1，否则返回0。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; exists test</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; exists noexists</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="3-删除键"><a href="#3-删除键" class="headerlink" title="3. 删除键"></a>3. 删除键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DEL key [key ...]</span><br></pre></td></tr></table></figure>
+<p>可以删除一个或多个键，返回数字是删除键的个数。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; del test</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; del test</span><br><span class="line">(integer) 0</span><br></pre></td></tr></table></figure>
+<p>第二次执行del命令返回0，因为test已经被删除了，实际并没有删除任何键，所以返回值为0。</p>
+<p><strong>技巧：DEL 命令的参数不支持通配符，但我们可以结合linux的管道和xargs命令自己实现删除所有符合规则的键。比如要删除所有以”user:*“开头的键,就可以执行redis-cli KEYS “user:*“|xargs redis-cli DEL。另外由于DEL命令支持多个键作为参数，所以还可以执行redis-cli DEL ‘redis-cli KEYS “user:*“‘ 来达到同样的效果，但是性能更好。</strong></p>
+<h3 id="4-获得键值的数据类型"><a href="#4-获得键值的数据类型" class="headerlink" title="4. 获得键值的数据类型"></a>4. 获得键值的数据类型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TYPE key</span><br></pre></td></tr></table></figure>
+<p>TYPE 命令用来获取键值的数据类型，返回值可能是string（字符串类型）、hash（散列类型）、list（列表类型）、set（集合类型）、zset（有序集合类型）。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set str str123</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; type str</span><br><span class="line">string --字符串</span><br><span class="line">127.0.0.1:6379&gt; lpush list1 l1 l2 l3 l4</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; type list1</span><br><span class="line">list --列表</span><br><span class="line">127.0.0.1:6379&gt; hmset people:1 name zhangsan age 22 work javacoder</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; type people:1</span><br><span class="line">hash --散列</span><br><span class="line">127.0.0.1:6379&gt; zadd zset1 101 a 102 b</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; type zset1</span><br><span class="line">zset --有序集合</span><br><span class="line">127.0.0.1:6379&gt; sadd set1 java oracle servet spring hibernate</span><br><span class="line">(integer) 5</span><br><span class="line">127.0.0.1:6379&gt; type set1</span><br><span class="line">set --集合</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="字符串类型"><a href="#字符串类型" class="headerlink" title="字符串类型"></a>字符串类型</h2><p>字符串类型是redis中最基本的数据类型，它能存储任何形式的字符串，包括二进制数据。你可以用其存储用户邮箱、json化的对象甚至是一张图片。一个字符串类型键允许存储的数据最大容量是512MB。<br>字符串类型是其他4中数据类型的基础，其他数据类型和字符串的差别从某种角度来说只是组织字符串的形式不同。</p>
+<h3 id="1、命令"><a href="#1、命令" class="headerlink" title="1、命令"></a>1、命令</h3><ul>
+<li>取值赋值</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SET key value</span><br><span class="line">GET key</span><br></pre></td></tr></table></figure>
+<ul>
+<li>递增数字</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INCR key</span><br></pre></td></tr></table></figure>
+<p>前面说过字符串可以存储任何形式的字符串，当存储的字符串是整数形式时，redis提供了一个使用的命令INCR，其作用是让当前键值递增，并返回递增后的值，用法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; incr num</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; incr num</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure>
+<p>包括INCR在内的所有redis命令都是原子操作，无论有多少客户端连接到redis执行命令都不可能出现竞态条件。</p>
+<h3 id="2、实践"><a href="#2、实践" class="headerlink" title="2、实践"></a>2、实践</h3><p>提示：redis对于键的命名并没有强制的要求，但比较好的实践是用“对象类型:对象ID:对象属性”来命名一个键，如使用键user:1:friends来存储ID为1的用户的好友列表，对于多个单词则推荐使用“.”分隔，一方面是沿用以前的习惯（redis之前的版本键名不能包含空格等特殊符号），另一方面是在redis-cli中容易输入，无需使用双引号包裹。另外为了日后维护方便，键的命名一定要有意义，如u:f:1的可读性显然不如user:1:friends好（虽然采用较短的名称可以节省存储空间，但由于键值的长度往往大于键名的长度，所以这部分的节省大部分情况下并不如可读性来得重要）。</p>
+<h3 id="3、命令拾遗"><a href="#3、命令拾遗" class="headerlink" title="3、命令拾遗"></a>3、命令拾遗</h3><ul>
+<li>增加指定整数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INCRBY key increment</span><br></pre></td></tr></table></figure>
+<p>INCRBY命令与INCR命令基本一样，只不过前者可以通过increment 参数指定一次增加的数值，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; incrby num 20</span><br><span class="line">(integer) 22</span><br><span class="line">127.0.0.1:6379&gt; incrby num 30</span><br><span class="line">(integer) 52</span><br></pre></td></tr></table></figure>
+<ul>
+<li>减少指定的整数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DECR key</span><br><span class="line">DECRBY key decrement</span><br></pre></td></tr></table></figure>
+<p>DECR命令与INCR命令用法相同，只不过时让键值递减，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; decr num</span><br><span class="line">(integer) 51</span><br><span class="line">127.0.0.1:6379&gt; decrby num 30</span><br><span class="line">(integer) 21</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<p>DECR和INCR及DECRBY和INCRBY是相反的操作，可通过正负数字实现对方相同的功能。</p>
+<ul>
+<li>指定增加浮点数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INCRBYFLOAT key increment</span><br></pre></td></tr></table></figure>
+<p>INCRBYFLOAT命令类似INCRBY 命令，差别是前者可以递增一个双精度浮点数，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; incrbyfloat fnum 2.764</span><br><span class="line">&quot;2.764&quot;</span><br><span class="line">127.0.0.1:6379&gt; incrbyfloat fnum 2E+4</span><br><span class="line">&quot;20002.76399999999999935&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>向尾部追加值</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APPEND key value</span><br></pre></td></tr></table></figure>
+<p>APPEND作用是向键值的末尾追加value。如果键不存在则将改键的值设为value，即相当于SET key value。返回值是追加后的字符串长度。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; append key &quot; world&quot;</span><br><span class="line">(integer) 11</span><br><span class="line">127.0.0.1:6379&gt; get hello</span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt; get key</span><br><span class="line">&quot;hello world&quot;</span><br></pre></td></tr></table></figure>
+<p>append命令的第二个参数加双引号，原因是该参数包含了空格，在redis-cli中输入需要双引号以示区分。</p>
+<ul>
+<li>获取字符串长度</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">STRLEN key</span><br></pre></td></tr></table></figure>
+<p>STRLEN命令返回键值的长度，如果键不存在则返回0。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set key 你好</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get key</span><br><span class="line">&quot;\xe4\xbd\xa0\xe5\xa5\xbd&quot;</span><br><span class="line">127.0.0.1:6379&gt; strlen key</span><br><span class="line">(integer) 6</span><br></pre></td></tr></table></figure>
+<ul>
+<li>同时获得/设置多个键值  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MGET key[key ...]</span><br><span class="line">MSET key value [key value ...]</span><br></pre></td></tr></table></figure>
+<p>MGET/MSET与GET/SET相似，不过MGET/MSET可以同时获得/设置多个键的键值，例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; mset k1 v1 k2 v2 k3 v3 k4 v4</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get k3</span><br><span class="line">&quot;v3&quot;</span><br><span class="line">127.0.0.1:6379&gt; get k4</span><br><span class="line">&quot;v4&quot;</span><br><span class="line">127.0.0.1:6379&gt; mget k1 k2 k3 k4</span><br><span class="line">1) &quot;v1&quot;</span><br><span class="line">2) &quot;v2&quot;</span><br><span class="line">3) &quot;v3&quot;</span><br><span class="line">4) &quot;v4&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>位操作</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GETBIT key offset --获取字符串类型键指定位置的二进制位的值（0或1），索引从0开始</span><br><span class="line">SETBIT key offset value --设置字符串类型键指定位置的二进制值，返回改位置旧值</span><br><span class="line">BITCOUNT key [start] [end] --获得字符串类型键中值为1的二进制位个数</span><br><span class="line">BITOP operation destkey key [key ...]--对多个字符串类型键进行位运算，并将结果存储在destkey参数指定的键中，bitop支持的操作命令（operation参数）有AND/OR/XOR/NOT。</span><br></pre></td></tr></table></figure>
+<p>一个字节有8个二进制位组成，Redis通过以上命令可以直接对二进制位进行操作。为演示首先准备将foo赋值为bar：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set foo bar</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+<p>bar的三个字母对应的ASCII码分别为98/97/114转换为二进制如下：  </p>
+<p><img src="http://op7wplti1.bkt.clouddn.com/barbin.png" alt="bar的二进制"></p>
+<p>GETBIT命令可以获得一个字符串类型键值指定位置的二进制的值（0/1）索引从0开始：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; getbit foo 0</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; getbit foo 6</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+<p>如果需要获取的二进制的索引超出了键值的二进制的实际长度则默认位值是0：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; getbit foo 100</span><br><span class="line">(integer) 0</span><br></pre></td></tr></table></figure>
+<p>SETBIT命令可以设置字符串类型键值指定位置的二进制位的值，返回值是该位置的旧值。如我们要将foo键值设置为aar，可以通过操作将foo键的二进制位的索引第6位设为0，第7位设为1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; setbit foo 6 0</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; setbit foo 7 1</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; get foo</span><br><span class="line">&quot;aar&quot;</span><br></pre></td></tr></table></figure>
+<p>BITCOUNT 命令可以获得字符串类型键中值是1的二进制位个数，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; bitcount foo</span><br><span class="line">(integer) 10</span><br></pre></td></tr></table></figure>
+<p>可以通过参数来限制统计字符的范围，如我们只希望统计前2个字节（即“aa”）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; bitcount foo 0 1</span><br><span class="line">(integer) 6</span><br></pre></td></tr></table></figure>
+<p>通过BITOP命令我们可以对bar和aar进行or运算：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set foo1 bar</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; set foo2 aar</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; bitop or res foo1 foo2</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; get res</span><br><span class="line">&quot;car&quot;</span><br></pre></td></tr></table></figure>
+<p>运算过程如下图：  </p>
+<p><img src="http://op7wplti1.bkt.clouddn.com/orcalc.png" alt="bit的or操作运算过程"></p>
+<h2 id="散列类型"><a href="#散列类型" class="headerlink" title="散列类型"></a>散列类型</h2><p>redis是采用字典结构以键值对的形式存储数据，而散列类型（hash）的健值也是一种字典结构，其存储了字段（field）和字段值的映射，但字段值只能是字符串，不支持其他类型数据，换句话说，散列类型不能嵌套其他的数据类型。一个散列类型键可以包含至多2的32次方-1个字段。</p>
+<p><em>提示：除了散列类型，redis的其他数据类型同样不支持数据类型嵌套。比如集合类型的每个元素都只能是字符串，不能是另一个集合或散列表等。</em></p>
+<p>散列类型适合存储对象：使用对象类别和ID构成键名，使用字段表示对象属性，而字段值则存储属性值。例如要存储ID为2的汽车对象，可以分别使用名为color、name和price的3个字段来存储该辆汽车的颜色、名称和价格。存储结构如图：</p>
+<p><img src="http://op7wplti1.bkt.clouddn.com/hashcar.png" alt="散列表存储汽车对象模型"></p>
+<p>相比关系型数据库（数据是以二维表的形式存储，要求所有记录都拥有同样的属性，无法单独为某条记录增减属性）redis散列类型不存在字段冗余等问题。redis并不要求每个键都依据固定的结构存储，我们完全可以自由的为任何键增减字段而不影响其他键。</p>
+<h3 id="1、命令-1"><a href="#1、命令-1" class="headerlink" title="1、命令"></a>1、命令</h3><ul>
+<li>赋值与取值</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HSET key field value --</span><br><span class="line">HGET key field --根据field获取对应键值</span><br><span class="line">HMSET key field value [field value ...]</span><br><span class="line">HMGET key field [field ...]</span><br><span class="line">HGETALL key</span><br></pre></td></tr></table></figure>
+<p>HSET命令用来给字段赋值，而HGET命令用来获得字段值。用法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; HSET car price 500</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; HSET car name BMW</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; HGET car name</span><br><span class="line">&quot;BMW&quot;</span><br></pre></td></tr></table></figure>
+<p>HSET命令方便之处在于不区分插入和更新操作，这意味着修改数据时不用事先判断字段是否存在再来决定执行的是插入操作（insert）还是更新（update）操作。当执行的是插入操作时（即之前的字段不存在）HSET命令返回1，当执行的是更新操作时（即之前字段存在）HSET命令返回0。更进一步，当键本身不存在时，HSET命令还会自动创建它。</p>
+<p>当需要同时设置多个字段的值时，可以使用HMSET命令。例如，下面语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HSET key field1 value1</span><br><span class="line">HSET key field2 value2</span><br></pre></td></tr></table></figure>
+<p>可以用HMSET命令改写成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HMSET key field1 value1 field2 value2</span><br></pre></td></tr></table></figure>
+<p>相应地，HMGET命令可以同时获得多个字段的值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; HMGET car name price</span><br><span class="line">1) &quot;BMW&quot;</span><br><span class="line">2) &quot;500&quot;</span><br></pre></td></tr></table></figure>
+<p>如果想获取键中所有字段和字段值却不知道键中有哪些字段时（如汽车对象的例子，每个对象拥有的属性都未必相同）应该使用HGETALL命令。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; HGETALL car</span><br><span class="line">1) &quot;price&quot;</span><br><span class="line">2) &quot;500&quot;</span><br><span class="line">3) &quot;name&quot;</span><br><span class="line">4) &quot;BMW&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>判断字段是否存在</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HEXISTS key field</span><br></pre></td></tr></table></figure>
+<p>HEXISTS 命令用来判断一个字段是否存在。如果存在则返回1，否则返回0（如果键不存在也返回0）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; Hexists car model</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; HSET car model c200</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; Hexists car model</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当字段不存在时赋值</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HSETNX key field value</span><br></pre></td></tr></table></figure>
+<p>HSETNX命令和HSET命令类似，区别在于如果字段已经存在，HSETNX命令将不执行任何操作。<br>HSETNX 命令是原子操作，不用担心竞态条件。</p>
+<ul>
+<li>增加数字</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HINCRBY key field increment</span><br><span class="line">127.0.0.1:6379&gt; Hincrby person score 60</span><br><span class="line">(integer) 60</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除字段</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HDEL key field [field ...]</span><br></pre></td></tr></table></figure>
+<p>HDEL命令可以删除一个或多个字段，返回值是被删除的字段个数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; HDEL car price</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; Hgetall car</span><br><span class="line">1) &quot;name&quot;</span><br><span class="line">2) &quot;BMW&quot;</span><br><span class="line">3) &quot;model&quot;</span><br><span class="line">4) &quot;c200&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="2、命令拾遗"><a href="#2、命令拾遗" class="headerlink" title="2、命令拾遗"></a>2、命令拾遗</h3><ul>
+<li>只获取字段名或字段值</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HKEYS key</span><br><span class="line">HVALS key</span><br></pre></td></tr></table></figure>
+<p>有时仅仅需要获取键中所有字段的名字而不需要字段值，那么可以使用HKEYS命令，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; Hkeys car</span><br><span class="line">1) &quot;name&quot;</span><br><span class="line">2) &quot;model&quot;</span><br></pre></td></tr></table></figure>
+<p>HVALS命令和HKEYS命令相对应，HVALS命令用来获得键中的所有字段值，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; HVALS car</span><br><span class="line">1) &quot;BMW&quot;</span><br><span class="line">2) &quot;c200&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>获得字段数量</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HLEN key</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; Hlen car</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/05/23/redis入门指南-命令阶段I/">redis入门指南-命令阶段I</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">xym</a></p>
+        <p><span>发布时间:</span>2017-05-23, 15:48:38</p>
+        <p><span>最后更新:</span>2018-03-29, 09:27:48</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/05/23/redis入门指南-命令阶段I/" title="redis入门指南-命令阶段I">http://xym-loveit.github.io/2017/05/23/redis入门指南-命令阶段I/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://xym-loveit.github.io/2017/05/23/redis入门指南-命令阶段I/　　作者: xym" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/05/23/redis入门指南-命令阶段II/">
+                    redis入门指南-命令阶段II
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/05/23/redis入门指南-准备阶段/">
+                    redis入门指南-准备阶段
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#命令热身"><span class="toc-number">1.</span> <span class="toc-text">命令热身</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-获得符合规则的键名列表"><span class="toc-number">1.1.</span> <span class="toc-text">1. 获得符合规则的键名列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-判断键是否存在"><span class="toc-number">1.2.</span> <span class="toc-text">2. 判断键是否存在</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-删除键"><span class="toc-number">1.3.</span> <span class="toc-text">3. 删除键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-获得键值的数据类型"><span class="toc-number">1.4.</span> <span class="toc-text">4. 获得键值的数据类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串类型"><span class="toc-number">2.</span> <span class="toc-text">字符串类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、命令"><span class="toc-number">2.1.</span> <span class="toc-text">1、命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、实践"><span class="toc-number">2.2.</span> <span class="toc-text">2、实践</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、命令拾遗"><span class="toc-number">2.3.</span> <span class="toc-text">3、命令拾遗</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#散列类型"><span class="toc-number">3.</span> <span class="toc-text">散列类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、命令-1"><span class="toc-number">3.1.</span> <span class="toc-text">1、命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、命令拾遗"><span class="toc-number">3.2.</span> <span class="toc-text">2、命令拾遗</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"redis入门指南-命令阶段I　| 放肆的青春　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://xym-loveit.github.io/2017/05/23/redis入门指南-命令阶段I/';
+            this.page.identifier = '2017/05/23/redis入门指南-命令阶段I/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//xym-loveit.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/05/23/redis入门指南-命令阶段II/" title="上一篇: redis入门指南-命令阶段II">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/05/23/redis入门指南-准备阶段/" title="下一篇: redis入门指南-准备阶段">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/29/常用工具/">常用工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/09/redis入门指南之管理/">redis入门指南之管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/05/redis入门指南之集群/">redis入门指南之集群</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/redis入门指南之哨兵/">redis入门指南之哨兵</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/redis入门指南之复制/">redis入门指南之复制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/redis入门指南之持久化/">redis入门指南之持久化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/redis入门指南之Lua脚本/">redis入门指南之Lua脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/26/redis入门指南之提高篇III/">redis入门指南之提高篇III</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/26/redis入门指南之提高篇II/">redis入门指南之提高篇II</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/redis入门指南之提高篇I/">redis入门指南之提高篇I</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/redis入门指南-命令阶段III/">redis入门指南-命令阶段III</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-命令阶段II/">redis入门指南-命令阶段II</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-命令阶段I/">redis入门指南-命令阶段I</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-准备阶段/">redis入门指南-准备阶段</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/04/常用-Git-命令清单/">常用 Git 命令清单</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/03/Git-常用命令/">Git 常用命令整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：Callable、Future和FutureTask/">Java并发编程：Callable、Future和FutureTask</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：CountDownLatch、CyclicBarrier和Semaphore/">Java并发编程：CountDownLatch、CyclicBarrier和Semaphore</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：线程池的使用/">Java并发编程：线程池的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：阻塞队列/">Java并发编程：阻塞队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：ConcurrentModificationException异常原因和解决方法/">Java并发编程：ConcurrentModificationException异常原因和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：同步容器/">Java并发编程：同步容器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：深入剖析ThreadLocal/">Java并发编程：深入剖析ThreadLocal</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：volatile关键字解析/">Java并发编程：volatile关键字解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：Lock/">Java并发编程：Lock</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：synchronized/">Java并发编程：synchronized</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：Thread类的使用/">Java并发编程：Thread类的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：如何创建线程/">Java并发编程:如何创建线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/Java多线程基础：进程和线程之由来/">Java多线程基础：进程和线程之由来</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/第一篇/">第一篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/hello-world/">Hello World</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2018 xym
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

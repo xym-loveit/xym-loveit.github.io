@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> -->
+<meta name="author" content="xym" />
+
+
+
+<meta name="description" content="通过使用redis事务、生存时间、缓存等redis的高级特性，更好在生产环节适宜的场景中使用它处理问题。">
+<meta name="keywords" content="redis命令,redis事务,生存时间,缓存,访问频率限制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis入门指南之提高篇I">
+<meta property="og:url" content="http://xym-loveit.github.io/2017/05/24/redis入门指南之提高篇I/index.html">
+<meta property="og:site_name" content="放肆的青春">
+<meta property="og:description" content="通过使用redis事务、生存时间、缓存等redis的高级特性，更好在生产环节适宜的场景中使用它处理问题。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-29T01:27:48.643Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis入门指南之提高篇I">
+<meta name="twitter:description" content="通过使用redis事务、生存时间、缓存等redis的高级特性，更好在生产环节适宜的场景中使用它处理问题。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="放肆的青春" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>redis入门指南之提高篇I | 放肆的青春</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?e3f38299cead93945f64f5549341ae46";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">xym</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">要变得和大叔一样强</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:xym-loveit@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/xym-loveit" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AbstractExecutorService/">AbstractExecutorService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ArrayBlockingQueue/">ArrayBlockingQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Callable/">Callable</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CountDownLatch/">CountDownLatch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CyclicBarrier/">CyclicBarrier</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EVAL及EVALSHA/">EVAL及EVALSHA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Executor/">Executor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ExecutorService/">ExecutorService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Executors/">Executors</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Future/">Future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FutureTask/">FutureTask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git命令/">Git命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java并发编程/">Java并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KEYS与ARGV/">KEYS与ARGV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lock/">Lock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lua脚本/">Lua脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis任务队列/">Redis任务队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis优先级队列/">Redis优先级队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis发布订阅/">Redis发布订阅</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis排序/">Redis排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis管道概念/">Redis管道概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis键值存储详解/">Redis键值存储详解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SORT参数讲解/">SORT参数讲解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SORT排序/">SORT排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Semaphore/">Semaphore</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/">Thread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/">ThreadLocal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadPoolExecutor/">ThreadPoolExecutor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java多线程/">java多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-trib-rb集群辅助工具/">redis-trib.rb集群辅助工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis一主多从模式/">redis一主多从模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis主从模式/">redis主从模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis事务/">redis事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis五种数据类型/">redis五种数据类型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis使用Lua脚本/">redis使用Lua脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis命令/">redis命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis命令重命名/">redis命令重命名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis哨兵监控/">redis哨兵监控</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis增量复制/">redis增量复制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制/">redis复制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制初始化/">redis复制初始化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制原理/">redis复制原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis多数据库/">redis多数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis安全/">redis安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis持久化/">redis持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis数据库密码/">redis数据库密码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis的AOF持久化/">redis的AOF持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis的RDB持久化/">redis的RDB持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis积压队列/">redis积压队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis管理工具/">redis管理工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis通信协议/">redis通信协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis配置/">redis配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis集群/">redis集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/synchronized/">synchronized</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/volatile/">volatile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/列表（list）/">列表（list）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/同步容器/">同步容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/哨兵的配置/">哨兵的配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/哨兵（sentinel）的实现原理/">哨兵（sentinel）的实现原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串（string）/">字符串（string）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常用工具/">常用工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序性能/">排序性能</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序缓存/">排序缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表（hash）/">散列表（hash）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有序集合（zset）/">有序集合（zset）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生存时间/">生存时间</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/节点（node）的插槽（slot）分配/">节点（node）的插槽（slot）分配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/访问频率限制/">访问频率限制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/进程/">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/键归属的插槽/">键归属的插槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阻塞队列/">阻塞队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集合/">集合</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集合（set）/">集合（set）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群故障恢复/">集群故障恢复</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群（cluster）插槽slot/">集群（cluster）插槽slot</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">一个行者</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">xym</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">xym</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">要变得和大叔一样强</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:xym-loveit@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/xym-loveit" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-redis入门指南之提高篇I" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/24/redis入门指南之提高篇I/" class="article-date">
+      <time datetime="2017-05-24T11:59:52.000Z" itemprop="datePublished">2017-05-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      redis入门指南之提高篇I
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/redis系列/">redis系列</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis事务/">redis事务</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis命令/">redis命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生存时间/">生存时间</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/缓存/">缓存</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/访问频率限制/">访问频率限制</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h6 id="重要星级-★★★★★"><a href="#重要星级-★★★★★" class="headerlink" title="重要星级 ★★★★★"></a>重要星级 ★★★★★</h6><hr>
+<h2 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h2><h3 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h3><p>Redis中的事务（transaction）是一组命令集合。事务同命令一样都是redis的最小执行单位，一个事务中的命令要么都执行，要么都不执行。事务的应用非常普遍，如银行转账过程中A给B汇款，首先系统从A的账户将钱划走，然后向B的账户增加相应的金额。这二个步骤必须属于同一个事务，要么全执行，要么全不执行。否则只执行第一步，钱就凭空消失了，这显然让人无法接受。<br>事务的原理是先将属于一个事务的命令发送给Redis，然后再让Redis依次执行这个命令。如：</p>
+<pre><code>127.0.0.1:6379&gt; multi
+OK
+127.0.0.1:6379&gt; sadd &quot;user:1:following&quot; 2
+QUEUED
+127.0.0.1:6379&gt; sadd &quot;user:2:followers&quot; 1
+QUEUED
+127.0.0.1:6379&gt; exec
+1) (integer) 1
+2) (integer) 1
+</code></pre><p>以上代码演示了事务的使用方式。首先使用multi命令告诉Redis：“下面我发给你的命令属于同一个事务，你先不要执行，而是把他们暂时存起来。”Redis回答：“OK。” 而后我们发送了2个sadd命令来实现关注和被关注的操作，可以看到Redis遵守了承若，没有执行这些命令，而是返回QUEUED表示这两条命令已经进入等待执行的事务队列中了。<br>当把所有同一个事务中的执行的命令都发给Redis后，我们使用EXEC命令告诉Redis将等待执行的事务队列中所有命令（即刚才所有返回QUEUED的命令）按照发送顺序依次执行。EXEC命令的返回值就是这些命令的返回值组成的列表，返回值顺序和命令的顺序相同。<br>Redis保证一个事务中的所有命令要么都执行，要么都不执行。如果在发送EXEC命令前客户端断线了，则Redis会清空事务队列，事务中的所有命令都不会执行。而一旦客户端发送了EXEC命令，所有的命令就都会被执行，即使此后客户端断线也没关系，因为Redis中已经记录了所有要执行的命令。<br>除此之外，Redis的事务还能保证一个事务内的命令依次执行而不被其他命令插入。试想客户端A需要执行几条命令，同时客户端B发送了一条命令，如果不适用事务，则客户端B的命令可能会插入到客户端A的几条命令中执行。如果不希望发生这种情况，也可以使用事务。</p>
+<h3 id="2、错误处理"><a href="#2、错误处理" class="headerlink" title="2、错误处理"></a>2、错误处理</h3><p>如果事务中某个命令执行出错，Redis会怎么处理呢？  </p>
+<h4 id="（1）语法错误。语法错误指命令不存在或者命令参数的个数不对。如："><a href="#（1）语法错误。语法错误指命令不存在或者命令参数的个数不对。如：" class="headerlink" title="（1）语法错误。语法错误指命令不存在或者命令参数的个数不对。如："></a>（1）语法错误。语法错误指命令不存在或者命令参数的个数不对。如：</h4><pre><code>127.0.0.1:6379&gt; multi
+OK
+127.0.0.1:6379&gt; set key value
+QUEUED
+127.0.0.1:6379&gt; set key
+(error) ERR wrong number of arguments for &apos;set&apos; command
+127.0.0.1:6379&gt; errorcommand key
+(error) ERR unknown command &apos;errorcommand&apos;
+127.0.0.1:6379&gt; exec
+(error) EXECABORT Transaction discarded because of previous errors.
+</code></pre><p>跟在MULTI命令后执行了3个命令：一个是正确命令，成功地加入了事务队列；其余二个命令都有语法错误。而只要有一个命令有语法错误，执行EXEC命令后Redis就会直接返回错误，连语法正确的命令也不会执行。  </p>
+<h4 id="（2）运行错误。运行错误指在命令执行时出现的错误，比如使用散列类型的命令操作集合类型的键，这种错误在实际执行之前Redis是无法发现的，所以在事务里这样的命令是会被Redis接受并执行的。如果事务里的一条命令出现了运行错误，事务里其他的命令依然会继续执行（包括出错命令之后的命令）。如："><a href="#（2）运行错误。运行错误指在命令执行时出现的错误，比如使用散列类型的命令操作集合类型的键，这种错误在实际执行之前Redis是无法发现的，所以在事务里这样的命令是会被Redis接受并执行的。如果事务里的一条命令出现了运行错误，事务里其他的命令依然会继续执行（包括出错命令之后的命令）。如：" class="headerlink" title="（2）运行错误。运行错误指在命令执行时出现的错误，比如使用散列类型的命令操作集合类型的键，这种错误在实际执行之前Redis是无法发现的，所以在事务里这样的命令是会被Redis接受并执行的。如果事务里的一条命令出现了运行错误，事务里其他的命令依然会继续执行（包括出错命令之后的命令）。如："></a>（2）运行错误。运行错误指在命令执行时出现的错误，比如使用散列类型的命令操作集合类型的键，这种错误在实际执行之前Redis是无法发现的，所以在事务里这样的命令是会被Redis接受并执行的。如果事务里的一条命令出现了运行错误，事务里其他的命令依然会继续执行（包括出错命令之后的命令）。如：</h4><pre><code>127.0.0.1:6379&gt; multi
+OK
+127.0.0.1:6379&gt; set key 1
+QUEUED
+127.0.0.1:6379&gt; sadd key 2
+QUEUED
+127.0.0.1:6379&gt; set key 3
+QUEUED
+127.0.0.1:6379&gt; exec
+1) OK
+2) (error) WRONGTYPE Operation against a key holding the wrong kind of value
+3) OK
+127.0.0.1:6379&gt; get key
+&quot;3&quot;
+</code></pre><p>可见虽然sadd key 2出现了错误，但是set key 3 依然执行了。<br>Redis的事务没有关系型数据库事务提供的回滚（rollback）功能。为此开发者必须在事务执行出错后自己收拾烂摊子（将事务恢复到执行前的状态等）<br>不过由于Redis不支持回滚功能，也是的Redis在事务上可以保持简洁和快速。  </p>
+<h3 id="3、WATCH命令"><a href="#3、WATCH命令" class="headerlink" title="3、WATCH命令"></a>3、WATCH命令</h3><p>我们知道在一个事务中只有当所有命令都依次执行完后才能得到每个结果的返回值，可是有些情况下需要先获得一条命令的返回值，然后再根据这个值执行下一条命令。例如，介绍INCR命令时曾经说过使用GET 和SET命令自己实现incr函数会出现竞态条件，伪代码如下：  </p>
+<pre><code>def incr($key)
+    $value=GET $key
+    if not $value
+            $value=0
+    $value=$value+1
+    SET $key,$value
+    return $value
+</code></pre><p>因为事务中的每一个命令的执行结果都是最后一期返回的，所以无法将前一条命令的结果作为下一条命令的参数，即在执行SET命令时无法获得GET命令的返回值，也就无法做到增1的功能。所以无法使用事务来实现incr函数。<br>为了解决这个问题，我们需要换种思路。即在GET获得键值后保证该键值不被其他客户端修改，直到函数执行完成后才允许其他客户端修改该键值，这样也可以防止竞态条件。要实现这一思路需要请出事务家族中的另一位成员：WATCH。WATCH命令可以监控一个或多个键，一旦其中有一个键被修改（或删除），之后的事务就不会执行。监控一直持续到EXEC命令（事务中的命令是在EXEC之后才执行的，所以在MULTI命令后可以修改WATCH监控的键值）。如：</p>
+<pre><code>127.0.0.1:6379&gt; set key 1
+OK
+127.0.0.1:6379&gt; watch key
+OK
+127.0.0.1:6379&gt; set key 2
+OK
+127.0.0.1:6379&gt; multi
+OK
+127.0.0.1:6379&gt; set key 3
+QUEUED
+127.0.0.1:6379&gt; exec
+(nil)
+127.0.0.1:6379&gt; get key
+&quot;2&quot;
+</code></pre><p>上面例子在执行WATCH命令后、事务执行前修改了key的值（即set key 2），所以最后的事务中的命令SET key 3没有执行，EXEC命令返回空结果。学会了WATCH命令就可以通过事务自己实现incr函数了，伪代码如下：  </p>
+<pre><code>def incr($key)
+    WATCH $key
+    $value=GET $key
+    if not $value
+            $value=0
+    $value=$value+1
+    MULTI
+    SET $key,$value
+    result=EXEC
+    return result[0]
+</code></pre><p><strong>提示：由于WATCH命令的作用只是当被监控的键值被修改后阻止之后一个事务的执行，而不能保证其他客户端不修改这一键值，所以我们需要在EXEC执行失败后重新执行整个函数。</strong><br>执行EXEC命令后会取消对所有键的监控，如果不想执行事务中的命令也可以使用UNWATCH命令来取消监控。比如我们要实现hsetxx函数，作用于HSETNX命令类似，只不过是仅当字段存在时才赋值。为了避免竞态条件我们使用事务来完成这一功能：</p>
+<pre><code>def hsetxx($key,$field,$value)
+    WATCH $key
+    $isFieldExists =HEXISTS $key,$field
+    if $isFieldExists is 1
+        MULTI
+        HSET $key,$field,$value
+        EXEC
+    else
+        UNWATCH
+    return $isFieldExists
+</code></pre><p>在代码中会判断要赋值的字段是否存在，如果字段不存在的话就不执行事务中的命令，但需要使用UNWATCH命令来保证下一个事务的执行不会受到影响。</p>
+<h2 id="生存时间"><a href="#生存时间" class="headerlink" title="生存时间"></a>生存时间</h2><h3 id="1、命令"><a href="#1、命令" class="headerlink" title="1、命令"></a>1、命令</h3><p>EXPIRE命令的使用方法为EXPIRE key seconds，其中seconds参数表示键的生存时间，单位是秒。如想要让session:2345 键在15分钟后删除：  </p>
+<pre><code>127.0.0.1:6379&gt; set session:2345 1234
+OK
+127.0.0.1:6379&gt; expire session:2345 900
+(integer) 1
+</code></pre><p>EXPIRE命令返回1表示设置成功，返回0表示键不存在或设置失败。例如：  </p>
+<pre><code>127.0.0.1:6379&gt; del session:2345
+(integer) 1
+127.0.0.1:6379&gt; expire session:2345 900
+(integer) 0
+</code></pre><p>如果想知道一个键还有多久时间删除，可以使用TTL命令。返回值为键的剩余时间（单位是秒）。</p>
+<pre><code>127.0.0.1:6379&gt; set foo bar
+OK
+127.0.0.1:6379&gt; expire foo 20
+(integer) 1
+127.0.0.1:6379&gt; ttl foo
+(integer) 8
+127.0.0.1:6379&gt; ttl foo
+(integer) 4
+127.0.0.1:6379&gt; ttl foo
+(integer) 1
+127.0.0.1:6379&gt; ttl foo
+(integer) -2
+127.0.0.1:6379&gt; get foo
+(nil)
+</code></pre><p>可见随着时间的不同，foo键的生存时间逐渐减少，20秒后foo键会被删除。当然不存在时TTL命令会返回-1，另外同样会返回-1的是没有为键设置生存时间（即永久存在的，这是建立一个键之后的默认情况）。</p>
+<pre><code>127.0.0.1:6379&gt; set k1 v1
+OK
+127.0.0.1:6379&gt; ttl k1
+(integer) -1
+127.0.0.1:6379&gt; ttl k3
+(integer) -1
+</code></pre><p>如果想取消键的生存时间设置（即将键恢复成永久的），可以使用PERSIST命令。如果生存时间被成功清除则返回1；否则返回0（因为键不存在或键本来就是永久的）：  </p>
+<pre><code>127.0.0.1:6379&gt; set foo bar
+OK
+127.0.0.1:6379&gt; persist foo --键本来就是永久的则返回0
+(integer) 0
+127.0.0.1:6379&gt; expire foo 20
+(integer) 1
+127.0.0.1:6379&gt; ttl foo
+(integer) 15
+127.0.0.1:6379&gt; persist foo --键有生存时间则设置为永久，成功返回1
+(integer) 1
+127.0.0.1:6379&gt; ttl foo
+</code></pre><p>除了PERSIST命令之外，使用SET或GETSET命令为键赋值也会同时清除键的生存时间，例如：  </p>
+<pre><code>127.0.0.1:6379&gt; expire foo 20
+(integer) 1
+127.0.0.1:6379&gt; ttl foo
+(integer) 11
+127.0.0.1:6379&gt; set foo bar
+OK
+127.0.0.1:6379&gt; ttl foo
+(integer) -1
+</code></pre><p>使用EXPIRE命令会重新设置键的生存时间，如：  </p>
+<pre><code>127.0.0.1:6379&gt; set foo bar
+OK
+127.0.0.1:6379&gt; expire foo 20
+(integer) 1
+127.0.0.1:6379&gt; ttl foo
+(integer) 18
+127.0.0.1:6379&gt; expire foo 30
+(integer) 1
+127.0.0.1:6379&gt; ttl foo
+(integer) 27
+</code></pre><p>其他只对键值进行操作的命令（如：INCR/LPUSH/HSET/ZREM）均不会影响键的生存时间。<br>EXPIRE命令的seconds参数必须是整数，所以最小单位是1秒。如果想要更精确的控制键的生存时间应该使用PEXPIRE命令，PEXPIRE命令与EXPIRE的唯一区别是前者的时间单位是毫秒，即PEXPIRE key 1000与EXPIRE key 1等价。对应地可以用PTTL 命令以毫秒为单位返回键的剩余时间。<br><strong>提示：如果使用WATCH命令监测一个拥有生存时间的键，该键时间到期自动删除并不会被WATCH命令认为该键被改变，也就不会影响事务的执行。</strong><br>另外还有2个相对不太常用的命令：EXPIREAT和PEXPIREAT。<br>EXPIREAT命令与EXPIRE命令的差别在于前者使用unix时间作为第二个参数表示键的生存时间的截止时间。PEXPIREAT命令与EXPIREAT命令的区别是前者的时间单位是毫秒。如：  </p>
+<pre><code>127.0.0.1:6379&gt; set foo val
+OK
+127.0.0.1:6379&gt; get foo
+&quot;val&quot;
+127.0.0.1:6379&gt; EXPIREAT foo 1498473048362 --时间戳，截止到年月日时分秒
+(integer) 1
+127.0.0.1:6379&gt; ttl foo
+(integer) 1496977350307
+127.0.0.1:6379&gt; ttl foo
+(integer) 1496977350301
+127.0.0.1:6379&gt; PEXPIREAT foo 1498473048362000 --时间戳，截止到年月日时分秒，毫秒为单位
+(integer) 1
+127.0.0.1:6379&gt; pttl foo
+(integer) 1496977350234675
+</code></pre><h3 id="2、访问频率限制策略"><a href="#2、访问频率限制策略" class="headerlink" title="2、访问频率限制策略"></a>2、访问频率限制策略</h3><ul>
+<li>实现访问频率限制1<br>如需要限制每个用户（以IP计）一段时间的最大访问量。如：<br>每分钟用户最多能访问某系统100个界面，思路是对每个用户使用一个名为“rate.limiting:用户ID”的字符串类型键，每次用户访问则使用INCR 命令递增该键的键值，如果递增后的值是1（第一次访问页面），则同时还要设置该键的生存时间为1分钟。这样每次用户访问页面时都读取该键的键值，如果超过100就表明该用户的访问频次超过了限制，需要提示用户稍后访问。该键每分钟自动被删除，所以下一分钟用户的访问次数又会重新计算，也就达到了限制访问频率的目的。伪代码如下：  </li>
+</ul>
+<pre><code>$isKeyExists=EXISTE rate.limiting:$IP
+if $isKeyExists is 1
+    $times=INCR rate.limiting:$IP
+    if $times&gt;100
+        print 访问频率超过了限制，请稍后再试
+        exit
+else
+    //第一次访问设置生存时间
+    INCR rate.limiting:$IP
+    EXPIRE $keyName,60
+</code></pre><p>上述代码存在一个不太明显的问题：假如程序执行完倒数第二行后突然因为某种原因退出了，没能够为该键设置生存时间，那么该键会永久存在，导致使用对应IP的用户在管理员手动删除该键前最多只能访问100次，这是一个很严重的问题。<br>为了保证建立键和为键设置生存时间一起执行，可以使用上面学习的事务功能，修改后代码如下：  </p>
+<pre><code>$isKeyExists=EXISTE rate.limiting:$IP
+if $isKeyExists is 1
+    $times=INCR rate.limiting:$IP
+    if $times&gt;100
+        print 访问频率超过了限制，请稍后再试
+        exit
+else
+    //第一次访问设置生存时间,并通过事务保证原子性
+    MULTI
+    INCR rate.limiting:$IP
+    EXPIRE $keyName,60
+    EXEC
+</code></pre><ul>
+<li>实现访问频率限制2<br>事实上，上述代码仍然有个问题：如果一个用户在一分钟的第一秒访问了一次，在同一分钟的最后一秒访问了99次，又在下一分钟的第一秒访问了100次，这样的访问是可以通过现在的访问频率限制的，但实际上该用户在2秒钟内访问了199次，这与每个用户每分钟只能访问100次的限制差距较大。尽管这种情况比较极端，但在一些场合中还是需要粒度更小的控制方案。如果要精确控制每分钟最多访问100次，需要记录下用户每次访问的时间。因此对每个用户，我们使用一个列表类型的键来记录他最近100次访问时间。一旦键中的元素超过100个，就判断时间最早的元素距现在的时间是否小于1分钟。如果是则表示最近一分钟的访问次数超过了100频次限制；如果不是就将限制的时间加入到列表中，同时把最早的元素删除掉。伪代码如下：  </li>
+</ul>
+<pre><code>$listLength=LLEN rate.limiting:$IP
+if $listLength &lt;100
+    //访问次数不超过限制就加入
+    LPUSH rate.limiting:$IP,now()
+else
+    //超过限制就根据时差分情况
+    $time=LINDEX rate.limiting:$IP,-1
+    //如果最早的一次访问距离现在不超过1分钟，说明访问密集已经超出频次限制 
+    if now()-$time&lt;60
+        print 访问频率超过限制，请稍后再试
+    else
+    //说明最早的访问到距离现在已超过一分钟，没有超出限制
+    LPUSH rate.limiting:$IP,now()
+    //踢掉最右端的元素（即最早访问时间）
+    LTRIM rate.limiting:$IP,0,99
+</code></pre><p>由于需要记录每次访问的时间，所以当要限制“A时间最多访问B次”时，如果“B”的数值较大，比方法会占用较多的存储空间，实际使用时还需要开发者自己权衡。除此之外该方法也会出现竞态条件。  </p>
+<h3 id="3、实现缓存（缓存占用内存解决方案）"><a href="#3、实现缓存（缓存占用内存解决方案）" class="headerlink" title="3、实现缓存（缓存占用内存解决方案）"></a>3、实现缓存（缓存占用内存解决方案）</h3><p>为了提高网站的负载能力，常常需要将一些访问频率较高但是对CPU或IO资源消耗较大的操作结果缓存起来，并希望让这些缓存过段时间自动过期。比如教务网站要对全校所有学生的各个科目成绩汇总排名，并在首页上显示前10名学生姓名，由于计算过程较耗资源，所以可以将结果使用Redis的字符串缓存起来。由于学生成绩总在不断变化，需要每隔二小时就重新计算一次排名，这可以通过给键设置生存时间的方式实现。每次用户访问首页时程序先去查询缓存是否存在，如果存在则直接使用缓存的值；否则重新计算排名并将结果赋值给该键并同时设置该键的生存时间为2小时。伪代码如下：  </p>
+<pre><code>$rank=GET cache:rank
+if not $rank
+    $rank=计算排名...
+    MULTI
+    SET cache:rank,$rank
+    EXPIRE cache:rank,7200
+    EXEC
+</code></pre><p>然后在一些场合中这种方法并不能满足需求。当服务器内存有限时，如果大量使用缓存键且生存时间设置的过长就会导致Redis占满内存；另一方面如果为了防止Redis占用内存过大而将缓存键的生存时间设得太短，就可能导致缓存命中率过低并且大量内存白白闲置。实际开发中会发现很难为缓存键设置合理的生存时间，为此可以限制Redis能够使用的最大内存，并让Redis按照一定的规则淘汰不需要的缓存键，这种方式只将Redis用作缓存系统时非常有用。<br>具体的设置方法为：修改配置文件中的maxmemory参数，限制Redis最大可用内存大小（单位是字节），当超出这个限制时Redis会根据maxmemory-policy参数指定的策略来删除不需要的键，直到Redis内存小于指定内存。<br>maxmemory-policy支持规则如下，其中LRU（Least Recently Used）算法即“最近最少使用”，其认为最近最少使用的键在未来一段时间内也不会被用到，即当需要时这些键是可以被删除的。  </p>
+<table>
+<thead>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>volatile-lru</td>
+<td>使用LRU算法删除一个键（只针对设置了生存时间的键）</td>
+</tr>
+<tr>
+<td>allkeys-lru</td>
+<td>使用LRU算法删除一个键</td>
+</tr>
+<tr>
+<td>volatile-random</td>
+<td>随机删除一个键（只针对设置了生存时间的键）</td>
+</tr>
+<tr>
+<td>allkeys-random</td>
+<td>随机删除一个键</td>
+</tr>
+<tr>
+<td>volatile-ttl</td>
+<td>删除生存时间最近的一个键</td>
+</tr>
+<tr>
+<td>noevication</td>
+<td>不删除键，值返回错误</td>
+</tr>
+</tbody>
+</table>
+<p>如当maxmemory-policy设置为allkeys-lru时，一旦Redis占用的内存超过了限制，Redis会不断删除数据中最近最少使用的键，直到占用的内存小于限制值。</p>
+<p><strong>LRU(Least Recently Used)最近最少使用：事实上Redis并不会准确地将整个数据库中最久未被使用的键删除，而是每次从数据库中随机取3个键并删除这3个键中最久未被使用的键。删除生存时间最接近的键的实现方法也是这样。“3”这个数字可以通过Redis的配置文件中的maxmemory-samples参数设置。</strong></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/05/24/redis入门指南之提高篇I/">redis入门指南之提高篇I</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">xym</a></p>
+        <p><span>发布时间:</span>2017-05-24, 19:59:52</p>
+        <p><span>最后更新:</span>2018-03-29, 09:27:48</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/05/24/redis入门指南之提高篇I/" title="redis入门指南之提高篇I">http://xym-loveit.github.io/2017/05/24/redis入门指南之提高篇I/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://xym-loveit.github.io/2017/05/24/redis入门指南之提高篇I/　　作者: xym" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/05/26/redis入门指南之提高篇II/">
+                    redis入门指南之提高篇II
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/05/24/redis入门指南-命令阶段III/">
+                    redis入门指南-命令阶段III
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#重要星级-★★★★★"><span class="toc-number">1.</span> <span class="toc-text">重要星级 ★★★★★</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis事务"><span class="toc-number"></span> <span class="toc-text">Redis事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、概述"><span class="toc-number"></span> <span class="toc-text">1、概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、错误处理"><span class="toc-number"></span> <span class="toc-text">2、错误处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#（1）语法错误。语法错误指命令不存在或者命令参数的个数不对。如："><span class="toc-number"></span> <span class="toc-text">（1）语法错误。语法错误指命令不存在或者命令参数的个数不对。如：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#（2）运行错误。运行错误指在命令执行时出现的错误，比如使用散列类型的命令操作集合类型的键，这种错误在实际执行之前Redis是无法发现的，所以在事务里这样的命令是会被Redis接受并执行的。如果事务里的一条命令出现了运行错误，事务里其他的命令依然会继续执行（包括出错命令之后的命令）。如："><span class="toc-number"></span> <span class="toc-text">（2）运行错误。运行错误指在命令执行时出现的错误，比如使用散列类型的命令操作集合类型的键，这种错误在实际执行之前Redis是无法发现的，所以在事务里这样的命令是会被Redis接受并执行的。如果事务里的一条命令出现了运行错误，事务里其他的命令依然会继续执行（包括出错命令之后的命令）。如：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、WATCH命令"><span class="toc-number"></span> <span class="toc-text">3、WATCH命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生存时间"><span class="toc-number"></span> <span class="toc-text">生存时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、命令"><span class="toc-number"></span> <span class="toc-text">1、命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、访问频率限制策略"><span class="toc-number"></span> <span class="toc-text">2、访问频率限制策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、实现缓存（缓存占用内存解决方案）"><span class="toc-number"></span> <span class="toc-text">3、实现缓存（缓存占用内存解决方案）</span></a>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"redis入门指南之提高篇I　| 放肆的青春　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://xym-loveit.github.io/2017/05/24/redis入门指南之提高篇I/';
+            this.page.identifier = '2017/05/24/redis入门指南之提高篇I/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//xym-loveit.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/05/26/redis入门指南之提高篇II/" title="上一篇: redis入门指南之提高篇II">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/05/24/redis入门指南-命令阶段III/" title="下一篇: redis入门指南-命令阶段III">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/29/常用工具/">常用工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/09/redis入门指南之管理/">redis入门指南之管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/05/redis入门指南之集群/">redis入门指南之集群</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/redis入门指南之哨兵/">redis入门指南之哨兵</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/redis入门指南之复制/">redis入门指南之复制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/redis入门指南之持久化/">redis入门指南之持久化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/redis入门指南之Lua脚本/">redis入门指南之Lua脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/26/redis入门指南之提高篇III/">redis入门指南之提高篇III</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/26/redis入门指南之提高篇II/">redis入门指南之提高篇II</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/redis入门指南之提高篇I/">redis入门指南之提高篇I</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/redis入门指南-命令阶段III/">redis入门指南-命令阶段III</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-命令阶段II/">redis入门指南-命令阶段II</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-命令阶段I/">redis入门指南-命令阶段I</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-准备阶段/">redis入门指南-准备阶段</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/04/常用-Git-命令清单/">常用 Git 命令清单</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/03/Git-常用命令/">Git 常用命令整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：Callable、Future和FutureTask/">Java并发编程：Callable、Future和FutureTask</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：CountDownLatch、CyclicBarrier和Semaphore/">Java并发编程：CountDownLatch、CyclicBarrier和Semaphore</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：线程池的使用/">Java并发编程：线程池的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：阻塞队列/">Java并发编程：阻塞队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：ConcurrentModificationException异常原因和解决方法/">Java并发编程：ConcurrentModificationException异常原因和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：同步容器/">Java并发编程：同步容器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：深入剖析ThreadLocal/">Java并发编程：深入剖析ThreadLocal</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：volatile关键字解析/">Java并发编程：volatile关键字解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：Lock/">Java并发编程：Lock</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：synchronized/">Java并发编程：synchronized</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：Thread类的使用/">Java并发编程：Thread类的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：如何创建线程/">Java并发编程:如何创建线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/Java多线程基础：进程和线程之由来/">Java多线程基础：进程和线程之由来</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/第一篇/">第一篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/hello-world/">Hello World</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2018 xym
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

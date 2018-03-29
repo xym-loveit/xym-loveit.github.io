@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> -->
+<meta name="author" content="xym" />
+
+
+
+<meta name="description" content="也许在今天，我们无法想象在很多年以前计算机是什么样子。我们现在可以用计算机来做很多事情：办公、娱乐、上网，但是在计算机刚出现的时候，是为了解决数学计算的问题，因为很多大量的计算通过人力去完成是很耗时间和人力成本的。在最初的时候，计算机只能接受一些特定的指令，用户输入一个指令，计算机就做一个操作">
+<meta name="keywords" content="java多线程,线程,进程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程基础：进程和线程之由来">
+<meta property="og:url" content="http://xym-loveit.github.io/2017/04/28/Java多线程基础：进程和线程之由来/index.html">
+<meta property="og:site_name" content="放肆的青春">
+<meta property="og:description" content="也许在今天，我们无法想象在很多年以前计算机是什么样子。我们现在可以用计算机来做很多事情：办公、娱乐、上网，但是在计算机刚出现的时候，是为了解决数学计算的问题，因为很多大量的计算通过人力去完成是很耗时间和人力成本的。在最初的时候，计算机只能接受一些特定的指令，用户输入一个指令，计算机就做一个操作">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-29T01:27:48.620Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java多线程基础：进程和线程之由来">
+<meta name="twitter:description" content="也许在今天，我们无法想象在很多年以前计算机是什么样子。我们现在可以用计算机来做很多事情：办公、娱乐、上网，但是在计算机刚出现的时候，是为了解决数学计算的问题，因为很多大量的计算通过人力去完成是很耗时间和人力成本的。在最初的时候，计算机只能接受一些特定的指令，用户输入一个指令，计算机就做一个操作">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="放肆的青春" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Java多线程基础：进程和线程之由来 | 放肆的青春</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?e3f38299cead93945f64f5549341ae46";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">xym</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">要变得和大叔一样强</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:xym-loveit@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/xym-loveit" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AbstractExecutorService/">AbstractExecutorService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ArrayBlockingQueue/">ArrayBlockingQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Callable/">Callable</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CountDownLatch/">CountDownLatch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CyclicBarrier/">CyclicBarrier</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EVAL及EVALSHA/">EVAL及EVALSHA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Executor/">Executor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ExecutorService/">ExecutorService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Executors/">Executors</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Future/">Future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FutureTask/">FutureTask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git命令/">Git命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java并发编程/">Java并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KEYS与ARGV/">KEYS与ARGV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lock/">Lock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lua脚本/">Lua脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis任务队列/">Redis任务队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis优先级队列/">Redis优先级队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis发布订阅/">Redis发布订阅</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis排序/">Redis排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis管道概念/">Redis管道概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis键值存储详解/">Redis键值存储详解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SORT参数讲解/">SORT参数讲解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SORT排序/">SORT排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Semaphore/">Semaphore</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/">Thread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/">ThreadLocal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadPoolExecutor/">ThreadPoolExecutor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java多线程/">java多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-trib-rb集群辅助工具/">redis-trib.rb集群辅助工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis一主多从模式/">redis一主多从模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis主从模式/">redis主从模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis事务/">redis事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis五种数据类型/">redis五种数据类型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis使用Lua脚本/">redis使用Lua脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis命令/">redis命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis命令重命名/">redis命令重命名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis哨兵监控/">redis哨兵监控</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis增量复制/">redis增量复制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制/">redis复制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制初始化/">redis复制初始化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制原理/">redis复制原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis多数据库/">redis多数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis安全/">redis安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis持久化/">redis持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis数据库密码/">redis数据库密码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis的AOF持久化/">redis的AOF持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis的RDB持久化/">redis的RDB持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis积压队列/">redis积压队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis管理工具/">redis管理工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis通信协议/">redis通信协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis配置/">redis配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis集群/">redis集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/synchronized/">synchronized</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/volatile/">volatile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/列表（list）/">列表（list）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/同步容器/">同步容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/哨兵的配置/">哨兵的配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/哨兵（sentinel）的实现原理/">哨兵（sentinel）的实现原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串（string）/">字符串（string）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常用工具/">常用工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序性能/">排序性能</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序缓存/">排序缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表（hash）/">散列表（hash）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有序集合（zset）/">有序集合（zset）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生存时间/">生存时间</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/节点（node）的插槽（slot）分配/">节点（node）的插槽（slot）分配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/访问频率限制/">访问频率限制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/进程/">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/键归属的插槽/">键归属的插槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阻塞队列/">阻塞队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集合/">集合</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集合（set）/">集合（set）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群故障恢复/">集群故障恢复</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群（cluster）插槽slot/">集群（cluster）插槽slot</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">一个行者</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">xym</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">xym</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">要变得和大叔一样强</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:xym-loveit@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/xym-loveit" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Java多线程基础：进程和线程之由来" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/04/28/Java多线程基础：进程和线程之由来/" class="article-date">
+      <time datetime="2017-04-28T09:32:45.000Z" itemprop="datePublished">2017-04-28</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java多线程基础：进程和线程之由来
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Java并发编程系列/">Java并发编程系列</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java多线程/">java多线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/线程/">线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/进程/">进程</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>　在前面，已经介绍了Java的基础知识，现在我们来讨论一点稍微难一点的问题：Java并发编程。当然，Java并发编程涉及到很多方面的内容，不是一朝一夕就能够融会贯通使用的，需要在实践中不断积累。由于并发肯定涉及到多线程，因此在进入并发编程主题之前，我们先来了解一下进程和线程的由来，这对后面对并发编程的理解将会有很大的帮助。</p>
+<p>　　下面是本文的目录大纲：</p>
+<p>　　一.操作系统中为什么会出现进程？</p>
+<p>　　二.为什么会出现线程？</p>
+<p>　　三.多线程并发</p>
+<p>　　若有不正之处，请多多谅解并欢迎指正。</p>
+<p>　　请尊重作者劳动成果，转载请标明原文地址：</p>
+<p>　　<a href="http://www.cnblogs.com/dolphin0520/p/3910667.html" target="_blank" rel="noopener">http://www.cnblogs.com/dolphin0520/p/3910667.html</a></p>
+<h2 id="一-操作系统中为什么会出现进程？"><a href="#一-操作系统中为什么会出现进程？" class="headerlink" title="一.操作系统中为什么会出现进程？"></a>一.操作系统中为什么会出现进程？</h2><p>　　说起进程的由来，我们需要从操作系统的发展历史谈起。</p>
+<p>　　也许在今天，我们无法想象在很多年以前计算机是什么样子。我们现在可以用计算机来做很多事情：办公、娱乐、上网，但是在计算机刚出现的时候，是为了解决数学计算的问题，因为很多大量的计算通过人力去完成是很耗时间和人力成本的。在最初的时候，计算机只能接受一些特定的指令，用户输入一个指令，计算机就做一个操作。当用户在思考或者输入数据时，计算机就在等待。显然这样效率和很低下，因为很多时候，计算机处于等待用户输入的状态。</p>
+<p>　　那么能不能把一系列需要操作的指令预先写下来，形成一个清单，然后一次性交给计算机，计算机不断地去读取指令来进行相应的操作？就这样，批处理操作系统诞生了。用户可以将需要执行的多个程序写在磁带上，然后交由计算机去读取并逐个地执行这些程序，并将输出结果写到另一个磁带上。</p>
+<p>　　虽然批处理操作系统的诞生极大地提高了任务处理的便捷性，但是仍然存在一个很大的问题：</p>
+<p>　　假如有两个任务A和B，任务A在执行到一半的过程中，需要读取大量的数据输入（I/O操作），而此时CPU只能静静地等待任务A读取完数据才能继续执行，这样就白白浪费了CPU资源。人们于是想，能否在任务A读取数据的过程中，让任务B去执行，当任务A读取完数据之后，让任务B暂停，然后让任务A继续执行？</p>
+<p>　　但是这样就有一个问题，原来每次都是一个程序在计算机里面运行，也就说内存中始终只有一个程序的运行数据。而如果想要任务A执行I/O操作的时候，让任务B去执行，必然内存中要装入多个程序，那么如何处理呢？多个程序使用的数据如何进行辨别呢？并且当一个程序运行暂停后，后面如何恢复到它之前执行的状态呢？</p>
+<p>　　这个时候人们就发明了进程，用进程来对应一个程序，每个进程对应一定的内存地址空间，并且只能使用它自己的内存空间，各个进程间互不干扰。并且进程保存了程序每个时刻的运行状态，这样就为进程切换提供了可能。当进程暂时时，它会保存当前进程的状态（比如进程标识、进程的使用的资源等），在下一次重新切换回来时，便根据之前保存的状态进行恢复，然后继续执行。</p>
+<p>　　这就是并发，能够让操作系统从宏观上看起来同一个时间段有多个任务在执行。换句话说，进程让操作系统的并发成为了可能。</p>
+<p>　　注意，虽然并发从宏观上看有多个任务在执行，但是事实上，任一个具体的时刻，只有一个任务在占用CPU资源（当然是对于单核CPU来说的）。</p>
+<h2 id="二-为什么会出现线程？"><a href="#二-为什么会出现线程？" class="headerlink" title="二.为什么会出现线程？"></a>二.为什么会出现线程？</h2><p>　　在出现了进程之后，操作系统的性能得到了大大的提升。虽然进程的出现解决了操作系统的并发问题，但是人们仍然不满足，人们逐渐对实时性有了要求。因为一个进程在一个时间段内只能做一件事情，如果一个进程有多个子任务，只能逐个地去执行这些子任务。比如对于一个监控系统来说，它不仅要把图像数据显示在画面上，还要与服务端进行通信获取图像数据，还要处理人们的交互操作。如果某一个时刻该系统正在与服务器通信获取图像数据，而用户又在监控系统上点击了某个按钮，那么该系统就要等待获取完图像数据之后才能处理用户的操作，如果获取图像数据需要耗费10s，那么用户就只有一直在等待。显然，对于这样的系统，人们是无法满足的。</p>
+<p>　　那么可不可以将这些子任务分开执行呢？即在系统获取图像数据的同时，如果用户点击了某个按钮，则会暂停获取图像数据，而先去响应用户的操作（因为用户的操作往往执行时间很短），在处理完用户操作之后，再继续获取图像数据。人们就发明了线程，让一个线程去执行一个子任务，这样一个进程就包括了多个线程，每个线程负责一个独立的子任务，这样在用户点击按钮的时候，就可以暂停获取图像数据的线程，让UI线程响应用户的操作，响应完之后再切换回来，让获取图像的线程得到CPU资源。从而让用户感觉系统是同时在做多件事情的，满足了用户对实时性的要求。</p>
+<p>　　换句话说，进程让操作系统的并发性成为可能，而线程让进程的内部并发成为可能。</p>
+<p>　　但是要注意，一个进程虽然包括多个线程，但是这些线程是共同享有进程占有的资源和地址空间的。进程是操作系统进行资源分配的基本单位，而线程是操作系统进行调度的基本单位。</p>
+<h2 id="三-多线程并发"><a href="#三-多线程并发" class="headerlink" title="三.多线程并发"></a>三.多线程并发</h2><p>　　由于多个线程是共同占有所属进程的资源和地址空间的，那么就会存在一个问题：</p>
+<p>　　如果多个线程要同时访问某个资源，怎么处理？</p>
+<p>　　这个问题就是后序文章中要重点讲述的同步问题。</p>
+<p>　　那么可能有朋友会问，现在很多时候都采用多线程编程，那么是不是多线程的性能一定就由于单线程呢？</p>
+<p>　　不一定，要看具体的任务以及计算机的配置。比如说：</p>
+<p>　　对于单核CPU，如果是CPU密集型任务，如解压文件，多线程的性能反而不如单线程性能，因为解压文件需要一直占用CPU资源，如果采用多线程，线程切换导致的开销反而会让性能下降。</p>
+<p>　　但是对于比如交互类型的任务，肯定是需要使用多线程的、</p>
+<p>　　而对于多核CPU，对于解压文件来说，多线程肯定优于单线程，因为多个线程能够更加充分利用每个核的资源。</p>
+<p>　　虽然多线程能够提升程序性能，但是相对于单线程来说，它的编程要复杂地多，要考虑线程安全问题。因此，在实际编程过程中，要根据实际情况具体选择。</p>
+<p>　　关于进程和线程的由来，暂时就讲这么多了，感兴趣的朋友可以参考相关资料。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/04/28/Java多线程基础：进程和线程之由来/">Java多线程基础：进程和线程之由来</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">xym</a></p>
+        <p><span>发布时间:</span>2017-04-28, 17:32:45</p>
+        <p><span>最后更新:</span>2018-03-29, 09:27:48</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/04/28/Java多线程基础：进程和线程之由来/" title="Java多线程基础：进程和线程之由来">http://xym-loveit.github.io/2017/04/28/Java多线程基础：进程和线程之由来/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://xym-loveit.github.io/2017/04/28/Java多线程基础：进程和线程之由来/　　作者: xym" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/04/30/Java并发编程：如何创建线程/">
+                    Java并发编程:如何创建线程
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/04/28/第一篇/">
+                    第一篇
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一-操作系统中为什么会出现进程？"><span class="toc-number">1.</span> <span class="toc-text">一.操作系统中为什么会出现进程？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二-为什么会出现线程？"><span class="toc-number">2.</span> <span class="toc-text">二.为什么会出现线程？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三-多线程并发"><span class="toc-number">3.</span> <span class="toc-text">三.多线程并发</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Java多线程基础：进程和线程之由来　| 放肆的青春　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://xym-loveit.github.io/2017/04/28/Java多线程基础：进程和线程之由来/';
+            this.page.identifier = '2017/04/28/Java多线程基础：进程和线程之由来/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//xym-loveit.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/04/30/Java并发编程：如何创建线程/" title="上一篇: Java并发编程:如何创建线程">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/04/28/第一篇/" title="下一篇: 第一篇">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/29/常用工具/">常用工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/09/redis入门指南之管理/">redis入门指南之管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/05/redis入门指南之集群/">redis入门指南之集群</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/redis入门指南之哨兵/">redis入门指南之哨兵</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/redis入门指南之复制/">redis入门指南之复制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/redis入门指南之持久化/">redis入门指南之持久化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/redis入门指南之Lua脚本/">redis入门指南之Lua脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/26/redis入门指南之提高篇III/">redis入门指南之提高篇III</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/26/redis入门指南之提高篇II/">redis入门指南之提高篇II</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/redis入门指南之提高篇I/">redis入门指南之提高篇I</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/redis入门指南-命令阶段III/">redis入门指南-命令阶段III</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-命令阶段II/">redis入门指南-命令阶段II</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-命令阶段I/">redis入门指南-命令阶段I</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-准备阶段/">redis入门指南-准备阶段</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/04/常用-Git-命令清单/">常用 Git 命令清单</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/03/Git-常用命令/">Git 常用命令整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：Callable、Future和FutureTask/">Java并发编程：Callable、Future和FutureTask</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：CountDownLatch、CyclicBarrier和Semaphore/">Java并发编程：CountDownLatch、CyclicBarrier和Semaphore</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：线程池的使用/">Java并发编程：线程池的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：阻塞队列/">Java并发编程：阻塞队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：ConcurrentModificationException异常原因和解决方法/">Java并发编程：ConcurrentModificationException异常原因和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：同步容器/">Java并发编程：同步容器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：深入剖析ThreadLocal/">Java并发编程：深入剖析ThreadLocal</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：volatile关键字解析/">Java并发编程：volatile关键字解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：Lock/">Java并发编程：Lock</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：synchronized/">Java并发编程：synchronized</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：Thread类的使用/">Java并发编程：Thread类的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：如何创建线程/">Java并发编程:如何创建线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/Java多线程基础：进程和线程之由来/">Java多线程基础：进程和线程之由来</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/第一篇/">第一篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/hello-world/">Hello World</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2018 xym
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> -->
+<meta name="author" content="xym" />
+
+
+
+<meta name="description" content="git常用命令收集,附在线pdf版">
+<meta name="keywords" content="Git命令,Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 常用命令整理">
+<meta property="og:url" content="http://xym-loveit.github.io/2017/05/03/Git-常用命令/index.html">
+<meta property="og:site_name" content="放肆的青春">
+<meta property="og:description" content="git常用命令收集,附在线pdf版">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-29T01:27:48.619Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git 常用命令整理">
+<meta name="twitter:description" content="git常用命令收集,附在线pdf版">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="放肆的青春" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Git 常用命令整理 | 放肆的青春</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?e3f38299cead93945f64f5549341ae46";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">xym</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">要变得和大叔一样强</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:xym-loveit@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/xym-loveit" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AbstractExecutorService/">AbstractExecutorService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ArrayBlockingQueue/">ArrayBlockingQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Callable/">Callable</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CountDownLatch/">CountDownLatch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CyclicBarrier/">CyclicBarrier</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EVAL及EVALSHA/">EVAL及EVALSHA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Executor/">Executor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ExecutorService/">ExecutorService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Executors/">Executors</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Future/">Future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FutureTask/">FutureTask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git命令/">Git命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java并发编程/">Java并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KEYS与ARGV/">KEYS与ARGV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lock/">Lock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lua脚本/">Lua脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis任务队列/">Redis任务队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis优先级队列/">Redis优先级队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis发布订阅/">Redis发布订阅</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis排序/">Redis排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis管道概念/">Redis管道概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis键值存储详解/">Redis键值存储详解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SORT参数讲解/">SORT参数讲解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SORT排序/">SORT排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Semaphore/">Semaphore</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/">Thread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/">ThreadLocal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadPoolExecutor/">ThreadPoolExecutor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java多线程/">java多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-trib-rb集群辅助工具/">redis-trib.rb集群辅助工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis一主多从模式/">redis一主多从模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis主从模式/">redis主从模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis事务/">redis事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis五种数据类型/">redis五种数据类型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis使用Lua脚本/">redis使用Lua脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis命令/">redis命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis命令重命名/">redis命令重命名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis哨兵监控/">redis哨兵监控</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis增量复制/">redis增量复制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制/">redis复制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制初始化/">redis复制初始化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制原理/">redis复制原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis多数据库/">redis多数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis安全/">redis安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis持久化/">redis持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis数据库密码/">redis数据库密码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis的AOF持久化/">redis的AOF持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis的RDB持久化/">redis的RDB持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis积压队列/">redis积压队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis管理工具/">redis管理工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis通信协议/">redis通信协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis配置/">redis配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis集群/">redis集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/synchronized/">synchronized</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/volatile/">volatile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/列表（list）/">列表（list）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/同步容器/">同步容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/哨兵的配置/">哨兵的配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/哨兵（sentinel）的实现原理/">哨兵（sentinel）的实现原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串（string）/">字符串（string）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常用工具/">常用工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序性能/">排序性能</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序缓存/">排序缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表（hash）/">散列表（hash）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有序集合（zset）/">有序集合（zset）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生存时间/">生存时间</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/节点（node）的插槽（slot）分配/">节点（node）的插槽（slot）分配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/访问频率限制/">访问频率限制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/进程/">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/键归属的插槽/">键归属的插槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阻塞队列/">阻塞队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集合/">集合</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集合（set）/">集合（set）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群故障恢复/">集群故障恢复</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群（cluster）插槽slot/">集群（cluster）插槽slot</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">一个行者</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">xym</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">xym</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">要变得和大叔一样强</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:xym-loveit@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/xym-loveit" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Git-常用命令" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/03/Git-常用命令/" class="article-date">
+      <time datetime="2017-05-02T16:39:39.000Z" itemprop="datePublished">2017-05-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Git 常用命令整理
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Git命令/">Git命令</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git命令/">Git命令</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>全局配置用户名称、邮箱<br>git config –global user.name ‘xxx’<br>git config –global user.email ‘xxx’</p>
+<p>git init# 初始化Git仓库<br>git add &lt;hello.txt&gt;  # 把所有要提交的文件修改放到暂存区<br>git commit -m ‘add a file’ # 把暂存区的所有内容提交到当前分支<br>git status #掌握工作区状态<br>git diff #查看文件修改内容<br>git log #查看提交历史<br>git log –pretty=oneline  </p>
+<p>git reset –hard HEAD^ #回退到上一个版本<br>HEAD^^(上上版本),HEAD~100(往上100个版本)<br>commit id(版本号) 可回到指定版本<br>git reflog #查看历史命令<br>工作区（Working Directory）<br>版本库（Repository） #.git<br>    stage(index) 暂存区<br>    master Git自动创建的分支<br>    HEAD 指针<br>git diff HEAD – <file> #查看工作区和版本库里最新版本的区别<br>git checkout – <file> #用版本库的版本替换工作区的版本，无论是工作区的修改还是删除，都可以’一键还原’  </file></file></p>
+<pre><code>#丢弃工作区的修改（让文件回到最近一次的git commit或git add时的状态）  
+</code></pre><p>git reset HEAD <file> #把暂存区的修改撤销掉，重新放回工作区。<br>git rm <file> #删除文件，若文件已提交到版本库，不用担心误删，但是只能恢复文件到最新版本  </file></file></p>
+<p>ssh-keygen -t rsa -C <a href="mailto:&#39;user@example.com" target="_blank" rel="noopener">&#39;user@example.com</a>‘ #创建SSH Key<br>git remote add origin <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:username/repostery.git #关联本地仓库，远程库的名字为origin  </p>
+<pre><code>#第一次使用Git的clone或者push命令连接GitHub时需确认  
+</code></pre><p>git push -u origin master   #第一次把当前分支master推送到远程，-u参数不但推送，而且将本地的分支和远程的分支关联起来<br>git push origin master #把当前分支master推送到远程<br>git clone <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:username/repostery.git #从远程库克隆一个到本地库  </p>
+<pre><code>#git支持多种协议，包括https，但通过试试支持原生git协议速度最快  
+</code></pre><p>分支<br>git checkout -b dev #创建并切换分支  </p>
+<pre><code>#相当于git branch dev 和git checkout dev   
+</code></pre><p>git branch #查看当前分支，当前分支前有个*号<br>git branch <name> #创建分支<br>git checkout <name> #切换分支<br>git merge <name> #合并某个分支到当前分支<br>git branch -d <name> #删除分支<br>git log –graph #查看分支合并图<br>git merge –no-ff -m ‘message’ dev #禁用Fast forward合并dev分支  </name></name></name></name></p>
+<pre><code>#本次合并要创建新的commit，所以要加上-m参数，把commit描述写进去  
+#Fast forward合并不可查看合并记录  
+</code></pre><p>git stash #隐藏当前工作现场，等恢复后继续工作<br>git stash list #查看stash记录<br>git stash apply #仅恢复现场，不删除stash内容<br>git stash drop #删除stash内容<br>git stash pop #恢复现场的同时删除stash内容<br>git branch -D <name> #强行删除某个未合并的分支  </name></p>
+<pre><code>#开发新feature最好新建一个分支  
+</code></pre><p>git remote #查看远程仓库<br>git remote -v #查看远程库详细信息  </p>
+<p>git pull #抓取远程提交<br>git checkout -b branch-name origin/branch-name #在本地创建和远程分支对应的分支<br>git branch –set-upstream branch-name origin/branch-name #建立本地分支和远程分支的关联  </p>
+<p>标签<br>git tag v1.0 #给当前分支最新的commit打标签<br>git tag v0.9 36df530 #给历史提交的commit打标签<br>git tag -a v0.1 -m ‘version 0.1 released’ 3628164 #-a指定标签名，-m指定说明文字<br>git tag -s <tagname> -m ‘blabla’ #可以用PGP签名标签<br>git tag #查看所有标签<br>git show v1.0 #查看标签信息<br>git tag -d v0.1 #删除标签<br>git push origin <tagname> #推送某个标签到远程<br>git push origin –tags #推送所有尚未推送的本地标签  </tagname></tagname></p>
+<p>删除远程标签<br>git tag -d v0.2 #先删除本地标签<br>git push origin :refs/tags/v0.2 #删除远程标签    </p>
+<p>自定义git<br>git config –global color.ui true<br>编写.gitignore文件来忽略某些文件，此文件本身要放到版本库内，并可对其做版本管理<br>git add -f hello.pyc #-f参数强制添加到Git<br>git check-ignore -v hello.pyc　＃检查.gitignore文件的规则<br>简写命令<br>git config –global alias.co checkout #简写checkout命令<br>git config –global alias.st status<br>git config –global alias.ci commit<br>git config –global alias.br branch<br>git config –global alias.unstage ‘reset HEAD’ #撤销暂存区的修改<br>git config –global alias.last ‘log -1’ #查看最近一次的提交<br>git config –global alias.lg “log –color –graph –pretty=format:’%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset’ –abbrev-commit”<br>配置文件<br>–global参数时针对当前用户起作用，如果不加，仅针对当前仓库起作用<br>每个仓库的Git配置文件在 .git/config 文件中<br>当前用户的Git配置文件在用户主目录下的 .gitconfig 文件中  </p>
+<p>搭建Git服务器<br>1、安装git sudo apt install git<br>2、创建git用户 sudo adduser git<br>3、创建证书登录，将所有需要登录的用户的公钥导入到/home/git/.ssh/authorized_keys文件，每行一个<br>4、初始化Git仓库<br>    在仓库目录下输入命令 sudo git init –bare sample.git 创建裸仓库（没有工作区）<br>    把owner改为git sudo chown -R git:git sample.git<br>5、禁用shell登录，修改/etc/passwd文件<br>    git:x:1001:1001:,,,:/home/git:/bin/bash<br>    改为：<br>    git:x:1001:1001:,,,:/home/git:/usr/bin/git-shell  </p>
+<p>6、克隆远程仓库<br>git clone git@server:/srv/sample.git  </p>
+<p>附：<br><a href="http://op7wplti1.bkt.clouddn.com/atlassian_git_cheatsheet.pdf" target="_blank" rel="noopener">Git备忘录1</a><br><a href="http://op7wplti1.bkt.clouddn.com/github-git-cheat-sheet.pdf" target="_blank" rel="noopener">Git备忘录2</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/05/03/Git-常用命令/">Git 常用命令整理</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">xym</a></p>
+        <p><span>发布时间:</span>2017-05-03, 00:39:39</p>
+        <p><span>最后更新:</span>2018-03-29, 09:27:48</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/05/03/Git-常用命令/" title="Git 常用命令整理">http://xym-loveit.github.io/2017/05/03/Git-常用命令/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://xym-loveit.github.io/2017/05/03/Git-常用命令/　　作者: xym" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/05/04/常用-Git-命令清单/">
+                    常用 Git 命令清单
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/05/01/Java并发编程：Callable、Future和FutureTask/">
+                    Java并发编程：Callable、Future和FutureTask
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Git 常用命令整理　| 放肆的青春　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://xym-loveit.github.io/2017/05/03/Git-常用命令/';
+            this.page.identifier = '2017/05/03/Git-常用命令/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//xym-loveit.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/05/04/常用-Git-命令清单/" title="上一篇: 常用 Git 命令清单">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/05/01/Java并发编程：Callable、Future和FutureTask/" title="下一篇: Java并发编程：Callable、Future和FutureTask">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/29/常用工具/">常用工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/09/redis入门指南之管理/">redis入门指南之管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/05/redis入门指南之集群/">redis入门指南之集群</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/redis入门指南之哨兵/">redis入门指南之哨兵</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/redis入门指南之复制/">redis入门指南之复制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/redis入门指南之持久化/">redis入门指南之持久化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/redis入门指南之Lua脚本/">redis入门指南之Lua脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/26/redis入门指南之提高篇III/">redis入门指南之提高篇III</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/26/redis入门指南之提高篇II/">redis入门指南之提高篇II</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/redis入门指南之提高篇I/">redis入门指南之提高篇I</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/redis入门指南-命令阶段III/">redis入门指南-命令阶段III</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-命令阶段II/">redis入门指南-命令阶段II</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-命令阶段I/">redis入门指南-命令阶段I</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-准备阶段/">redis入门指南-准备阶段</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/04/常用-Git-命令清单/">常用 Git 命令清单</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/03/Git-常用命令/">Git 常用命令整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：Callable、Future和FutureTask/">Java并发编程：Callable、Future和FutureTask</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：CountDownLatch、CyclicBarrier和Semaphore/">Java并发编程：CountDownLatch、CyclicBarrier和Semaphore</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：线程池的使用/">Java并发编程：线程池的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：阻塞队列/">Java并发编程：阻塞队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：ConcurrentModificationException异常原因和解决方法/">Java并发编程：ConcurrentModificationException异常原因和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：同步容器/">Java并发编程：同步容器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：深入剖析ThreadLocal/">Java并发编程：深入剖析ThreadLocal</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：volatile关键字解析/">Java并发编程：volatile关键字解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：Lock/">Java并发编程：Lock</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：synchronized/">Java并发编程：synchronized</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：Thread类的使用/">Java并发编程：Thread类的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：如何创建线程/">Java并发编程:如何创建线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/Java多线程基础：进程和线程之由来/">Java多线程基础：进程和线程之由来</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/第一篇/">第一篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/hello-world/">Hello World</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2018 xym
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

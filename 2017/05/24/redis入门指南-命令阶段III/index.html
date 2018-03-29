@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> -->
+<meta name="author" content="xym" />
+
+
+
+<meta name="description" content="了解了redis基础后，本章主要介绍有序集合（zset）数据类型及相应的命令。命令拾遗部分会对其他比较有用的命令进行补充介绍">
+<meta name="keywords" content="redis命令,redis五种数据类型,有序集合（zset）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis入门指南-命令阶段III">
+<meta property="og:url" content="http://xym-loveit.github.io/2017/05/24/redis入门指南-命令阶段III/index.html">
+<meta property="og:site_name" content="放肆的青春">
+<meta property="og:description" content="了解了redis基础后，本章主要介绍有序集合（zset）数据类型及相应的命令。命令拾遗部分会对其他比较有用的命令进行补充介绍">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-29T01:27:48.638Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis入门指南-命令阶段III">
+<meta name="twitter:description" content="了解了redis基础后，本章主要介绍有序集合（zset）数据类型及相应的命令。命令拾遗部分会对其他比较有用的命令进行补充介绍">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="放肆的青春" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>redis入门指南-命令阶段III | 放肆的青春</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?e3f38299cead93945f64f5549341ae46";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">xym</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">要变得和大叔一样强</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:xym-loveit@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/xym-loveit" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AbstractExecutorService/">AbstractExecutorService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ArrayBlockingQueue/">ArrayBlockingQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Callable/">Callable</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CountDownLatch/">CountDownLatch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CyclicBarrier/">CyclicBarrier</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EVAL及EVALSHA/">EVAL及EVALSHA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Executor/">Executor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ExecutorService/">ExecutorService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Executors/">Executors</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Future/">Future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FutureTask/">FutureTask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git命令/">Git命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java并发编程/">Java并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KEYS与ARGV/">KEYS与ARGV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lock/">Lock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lua脚本/">Lua脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis任务队列/">Redis任务队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis优先级队列/">Redis优先级队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis发布订阅/">Redis发布订阅</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis排序/">Redis排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis管道概念/">Redis管道概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis键值存储详解/">Redis键值存储详解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SORT参数讲解/">SORT参数讲解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SORT排序/">SORT排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Semaphore/">Semaphore</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/">Thread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/">ThreadLocal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadPoolExecutor/">ThreadPoolExecutor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java多线程/">java多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-trib-rb集群辅助工具/">redis-trib.rb集群辅助工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis一主多从模式/">redis一主多从模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis主从模式/">redis主从模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis事务/">redis事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis五种数据类型/">redis五种数据类型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis使用Lua脚本/">redis使用Lua脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis命令/">redis命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis命令重命名/">redis命令重命名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis哨兵监控/">redis哨兵监控</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis增量复制/">redis增量复制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制/">redis复制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制初始化/">redis复制初始化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制原理/">redis复制原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis多数据库/">redis多数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis安全/">redis安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis持久化/">redis持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis数据库密码/">redis数据库密码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis的AOF持久化/">redis的AOF持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis的RDB持久化/">redis的RDB持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis积压队列/">redis积压队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis管理工具/">redis管理工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis通信协议/">redis通信协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis配置/">redis配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis集群/">redis集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/synchronized/">synchronized</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/volatile/">volatile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/列表（list）/">列表（list）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/同步容器/">同步容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/哨兵的配置/">哨兵的配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/哨兵（sentinel）的实现原理/">哨兵（sentinel）的实现原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串（string）/">字符串（string）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常用工具/">常用工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序性能/">排序性能</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序缓存/">排序缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表（hash）/">散列表（hash）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有序集合（zset）/">有序集合（zset）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生存时间/">生存时间</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/节点（node）的插槽（slot）分配/">节点（node）的插槽（slot）分配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/访问频率限制/">访问频率限制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/进程/">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/键归属的插槽/">键归属的插槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阻塞队列/">阻塞队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集合/">集合</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集合（set）/">集合（set）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群故障恢复/">集群故障恢复</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群（cluster）插槽slot/">集群（cluster）插槽slot</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">一个行者</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">xym</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">xym</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">要变得和大叔一样强</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:xym-loveit@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/xym-loveit" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-redis入门指南-命令阶段III" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/24/redis入门指南-命令阶段III/" class="article-date">
+      <time datetime="2017-05-24T01:23:42.000Z" itemprop="datePublished">2017-05-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      redis入门指南-命令阶段III
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/redis系列/">redis系列</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis五种数据类型/">redis五种数据类型</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis命令/">redis命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/有序集合（zset）/">有序集合（zset）</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="有序集合类型"><a href="#有序集合类型" class="headerlink" title="有序集合类型"></a>有序集合类型</h2><p>在集合类型的基础上有序集合类型为集合中的每个元素都关联了一个分数，这使得我们不仅可以完成插入、删除和判断元素是否存在等集合类型支持的操作，还能够获得分数最高（或最低）的前N个元素、获得指定分数范围内的元素等与分数有关的操作。虽然集合中每个元素都是不同的，但是他们的分数却可以相同。 </p>
+<p>有序集合类型和列表类型的区别：<br>（1）二者都是有序的。<br>（2）二者都可以获得某一范围的元素。  </p>
+<p>（3）列表类型是通过链表实现的，获取靠近两端的数据速度极快，而当元素增多后，访问中间数据的速度会较慢，所以它更加适合实现如“新鲜事”或“日志”这样的很少访问中间元素的应用。<br>（4）有序集合类型是使用散列表和跳跃表（skip list）实现的，所以即使读取位于中间部分的数据速度也很快（时间复杂度O（logN））。<br>（5）列表中不能简单地调整某个元素的位置，但是有序集合可以（通过更改这个元素的分数）。<br>（6）有序集合要比列表类型更耗费内存。</p>
+<h3 id="1、命令"><a href="#1、命令" class="headerlink" title="1、命令"></a>1、命令</h3><ul>
+<li>增加元素  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZADD key score member [score member ...]</span><br></pre></td></tr></table></figure>
+<p>ZADD命令用来向有序集合中加入一个元素和该元素的分数，如果该元素已经存在则会用新的分数替换原有的分数。ZADD命令的返回值是新加入到集合的元素的个数（不包含之前已经存在的元素）。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zadd scores 89 tom 67 peter 100 david</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; zadd scores 76 peter --如果元素已存在，用新分数替换原有分数</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; zadd test 17E+307 a --分数支持双精度</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd test 1.5 a </span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; zadd test 1.5 b</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd test +inf c --分数赋值为正无穷大</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd test -inf d --分数设置为负无穷大</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+<p><strong>+inf表示正无穷大<br>-inf表示负无穷大</strong></p>
+<ul>
+<li>获得元素的分数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ZSCORE key member</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ZRANGE scores 0 -1 withscores</span><br><span class="line">1) &quot;peter&quot;</span><br><span class="line">2) &quot;76&quot;</span><br><span class="line">3) &quot;tom&quot;</span><br><span class="line">4) &quot;89&quot;</span><br><span class="line">5) &quot;david&quot;</span><br><span class="line">6) &quot;100&quot;</span><br><span class="line">127.0.0.1:6379&gt; zscore scores tom</span><br><span class="line">&quot;89</span><br></pre></td></tr></table></figure>
+<ul>
+<li>获得排名在某个范围的元素列表  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ZRANGE key start stop [WITHSCORES]</span><br><span class="line">ZREVRANGE key start stop [WITHSCORES]</span><br></pre></td></tr></table></figure>
+<p>ZRANGE 命令会按照元素的分数从小到大的顺序返回索引从start到stop之间的所有元素（包括两端元素）。ZRANGE命令与LRANGE命令十分相似，如索引都是从0开始，负数代表从后向前查找（-1表示最后一个元素）。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrange scores 1 2</span><br><span class="line">1) &quot;tom&quot;</span><br><span class="line">2) &quot;david&quot;</span><br><span class="line">127.0.0.1:6379&gt; zrange scores 0 -1</span><br><span class="line">1) &quot;peter&quot;</span><br><span class="line">2) &quot;tom&quot;</span><br><span class="line">3) &quot;david&quot;</span><br></pre></td></tr></table></figure>
+<p>如果同时获得元素的分数的话可以在ZRANGE命令尾部加上WITHSCORES参数，这时返回的数据格式就从，“元素1，元素2，…，元素<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">n”变成了“元素1，分数1，元素2，分数2,...,元素n，分数n”。如：</span><br><span class="line">127.0.0.1:6379&gt; zrange scores 0 -1 withscores</span><br><span class="line">1) &quot;peter&quot;</span><br><span class="line">2) &quot;76&quot;</span><br><span class="line">3) &quot;tom&quot;</span><br><span class="line">4) &quot;89&quot;</span><br><span class="line">5) &quot;david&quot;</span><br><span class="line">6) &quot;100&quot;</span><br></pre></td></tr></table></figure></p>
+<p>如果两个元素分数相同，redis会按照字典顺序（即“0”&lt;“9”&lt;”A”&lt;”Z”&lt;”a”&lt;”z” 这样的顺序）来进行排列。<br>ZREVRANGE命令和ZRANGE的唯一不同在于ZREVRANGE命令是按元素的分数从大到小的顺序给出结果。</p>
+<ul>
+<li>获得指定分数范围的元素  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</span><br><span class="line">ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT offset count]--注意参数</span><br></pre></td></tr></table></figure>
+<p>ZRANGEBYSCORE命令参数虽然多，但是很好理解。该命令按照元素的分数从小到大的顺序返回分数在min和max之间（包括min和max）的元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; ZRANGEBYSCORE scores 80 100 withscores</span><br><span class="line">1) &quot;tom&quot;</span><br><span class="line">2) &quot;89&quot;</span><br><span class="line">3) &quot;david&quot;</span><br><span class="line">4) &quot;100&quot;</span><br></pre></td></tr></table></figure>
+<p>如果希望分数范围不包含端点值，可以在分数加上“（”符号。如，希望返回80分到100分的数据，可以含80分，但不包含100分，则修改命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; ZRANGEBYSCORE scores 80 (100 withscores</span><br><span class="line">1) &quot;tom&quot;</span><br><span class="line">2) &quot;89&quot;</span><br><span class="line">127.0.0.1:6379&gt; ZRANGEBYSCORE scores 80 100 withscores</span><br><span class="line">1) &quot;tom&quot;</span><br><span class="line">2) &quot;89&quot;</span><br><span class="line">3) &quot;david&quot;</span><br><span class="line">4) &quot;100&quot;</span><br></pre></td></tr></table></figure>
+<p>min和max还支持无穷大，通ZADD命令一样，-inf和+inf分别表示负无穷大和正无穷大。比如你希望得到所有分数高于80分（不包含80分）的人的名单，但你却不知道最高分是多少，这时就可以使用+inf。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; ZRANGEbyscore scores (80 +inf withscores</span><br><span class="line">1) &quot;tom&quot;</span><br><span class="line">2) &quot;89&quot;</span><br><span class="line">3) &quot;david&quot;</span><br><span class="line">4) &quot;100&quot;</span><br></pre></td></tr></table></figure>
+<p>LIMIT offset count与SQL 中的用法基本相同，即在获得的元素列表的基础上向后偏移offset个元素，并且只获取前count个元素。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrange scores 0 -1 withscores</span><br><span class="line"> 1) &quot;admin&quot;</span><br><span class="line"> 2) &quot;69&quot;</span><br><span class="line"> 3) &quot;peter&quot;</span><br><span class="line"> 4) &quot;76&quot;</span><br><span class="line"> 5) &quot;tom&quot;</span><br><span class="line"> 6) &quot;89&quot;</span><br><span class="line"> 7) &quot;david&quot;</span><br><span class="line"> 8) &quot;100&quot;</span><br><span class="line"> 9) &quot;xym&quot;</span><br><span class="line">10) &quot;102&quot;</span><br></pre></td></tr></table></figure>
+<p>获取分数高于60分的从第二个人开始的三个人：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; ZRANGEBYSCORE scores 60 +inf LIMIT 1 3 withscores</span><br><span class="line">1) &quot;peter&quot;</span><br><span class="line">2) &quot;76&quot;</span><br><span class="line">3) &quot;tom&quot;</span><br><span class="line">4) &quot;89&quot;</span><br><span class="line">5) &quot;david&quot;</span><br><span class="line">6) &quot;100&quot;</span><br></pre></td></tr></table></figure>
+<p>ZREVRANGEBYSCORE 命令不仅是按照元素的分数从大往小的顺序给出结果，而且它的min和max参数的顺序和ZRANGEBYSCORE命令拾相反的。如：  </p>
+<p>获取分数低于100分的前三个人：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrevrangebyscore scores 100 0 LIMIT 0 3 WITHscores</span><br><span class="line">1) &quot;david&quot;</span><br><span class="line">2) &quot;100&quot;</span><br><span class="line">3) &quot;tom&quot;</span><br><span class="line">4) &quot;89&quot;</span><br><span class="line">5) &quot;peter&quot;</span><br><span class="line">6) &quot;76&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>增加某个元素的分数  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZINCRBY key increment member</span><br></pre></td></tr></table></figure>
+<p>ZINCRBY 命令可以增加一个元素的分数，返回的是更改后的分数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zincrby scores 8 xym</span><br><span class="line">&quot;110&quot;</span><br><span class="line">127.0.0.1:6379&gt; zrange scores 0 -1 withscores</span><br><span class="line"> 1) &quot;admin&quot;</span><br><span class="line"> 2) &quot;69&quot;</span><br><span class="line"> 3) &quot;peter&quot;</span><br><span class="line"> 4) &quot;76&quot;</span><br><span class="line"> 5) &quot;tom&quot;</span><br><span class="line"> 6) &quot;89&quot;</span><br><span class="line"> 7) &quot;david&quot;</span><br><span class="line"> 8) &quot;100&quot;</span><br><span class="line"> 9) &quot;xym&quot;</span><br><span class="line">10) &quot;110&quot;</span><br></pre></td></tr></table></figure>
+<p>如果指定的元素不存在，redis在执行命令前会先去建立并将它的分数赋为0再去执行操作。</p>
+<h3 id="2、命令拾遗"><a href="#2、命令拾遗" class="headerlink" title="2、命令拾遗"></a>2、命令拾遗</h3><ul>
+<li>获得集合中的元素的数量  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ZCARD key</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; zcard scores</span><br><span class="line">(integer) 5</span><br><span class="line">127.0.0.1:6379&gt; zrange scores 0 -1 withscores</span><br><span class="line"> 1) &quot;admin&quot;</span><br><span class="line"> 2) &quot;69&quot;</span><br><span class="line"> 3) &quot;peter&quot;</span><br><span class="line"> 4) &quot;76&quot;</span><br><span class="line"> 5) &quot;tom&quot;</span><br><span class="line"> 6) &quot;89&quot;</span><br><span class="line"> 7) &quot;david&quot;</span><br><span class="line"> 8) &quot;100&quot;</span><br><span class="line"> 9) &quot;xym&quot;</span><br><span class="line">10) &quot;110&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>获得指定分数范围内的元素个数  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zcount scores (80 +inf</span><br><span class="line">(integer) 3</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除一个或多个元素  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZREM key member [member ...]</span><br></pre></td></tr></table></figure>
+<p>ZREM 命令的返回值是成功删除的元素数量（不包含本来就不存在的元素）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrange scores 0 -1 withscores</span><br><span class="line"> 1) &quot;admin&quot;</span><br><span class="line"> 2) &quot;69&quot;</span><br><span class="line"> 3) &quot;peter&quot;</span><br><span class="line"> 4) &quot;76&quot;</span><br><span class="line"> 5) &quot;tom&quot;</span><br><span class="line"> 6) &quot;89&quot;</span><br><span class="line"> 7) &quot;david&quot;</span><br><span class="line"> 8) &quot;100&quot;</span><br><span class="line"> 9) &quot;xym&quot;</span><br><span class="line">10) &quot;110&quot;</span><br><span class="line">127.0.0.1:6379&gt; zrem scores tom</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zrange scores 0 -1 withscores</span><br><span class="line">1) &quot;admin&quot;</span><br><span class="line">2) &quot;69&quot;</span><br><span class="line">3) &quot;peter&quot;</span><br><span class="line">4) &quot;76&quot;</span><br><span class="line">5) &quot;david&quot;</span><br><span class="line">6) &quot;100&quot;</span><br><span class="line">7) &quot;xym&quot;</span><br><span class="line">8) &quot;110&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>按照排名范围删除元素  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZREMRANGEBYRANK key start top</span><br></pre></td></tr></table></figure>
+<p>ZREMRANGEBYRANK命令按照元素的分数从小到大的顺序（即索引0表示最小的值）删除处在指定排名范围内的所有元素，并返回删除的元素数量。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrange scores 0 -1 withscores</span><br><span class="line">1) &quot;admin&quot;</span><br><span class="line">2) &quot;69&quot;</span><br><span class="line">3) &quot;peter&quot;</span><br><span class="line">4) &quot;76&quot;</span><br><span class="line">5) &quot;david&quot;</span><br><span class="line">6) &quot;100&quot;</span><br><span class="line">7) &quot;xym&quot;</span><br><span class="line">8) &quot;110&quot;</span><br><span class="line">127.0.0.1:6379&gt; ZREMRANGEBYRANK scores 0 1</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; zrange scores 0 -1 withscores</span><br><span class="line">1) &quot;david&quot;</span><br><span class="line">2) &quot;100&quot;</span><br><span class="line">3) &quot;xym&quot;</span><br><span class="line">4) &quot;110&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>按照分数范围删除元素  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZREMRANGEBYSCORE key min max</span><br></pre></td></tr></table></figure>
+<p>ZREMRANGEBYSCORE命令会删除指定分数范围内所有元素，参数min和max的特性和ZRANGEBYSCORE命令中的一样。返回值是删除的元素数量。如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrange scores 0 -1 withscores</span><br><span class="line">1) &quot;tom&quot;</span><br><span class="line">2) &quot;78&quot;</span><br><span class="line">3) &quot;admin&quot;</span><br><span class="line">4) &quot;98&quot;</span><br><span class="line">5) &quot;david&quot;</span><br><span class="line">6) &quot;100&quot;</span><br><span class="line">7) &quot;xym&quot;</span><br><span class="line">8) &quot;110&quot;</span><br><span class="line">127.0.0.1:6379&gt; zremrangebyscore scores (98 101</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zrange scores 0 -1 withscores</span><br><span class="line">1) &quot;tom&quot;</span><br><span class="line">2) &quot;78&quot;</span><br><span class="line">3) &quot;admin&quot;</span><br><span class="line">4) &quot;98&quot;</span><br><span class="line">5) &quot;xym&quot;</span><br><span class="line">6) &quot;110&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>获得元素排名  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ZRANK key member</span><br><span class="line">ZREVRANK key member</span><br></pre></td></tr></table></figure>
+<p>ZRANK命令会按照元素分数从小到大的顺序获得指定的元素的排名（从0开始，即分数最小的元素排名为0），ZREVRANK命名相反（分数最大的元素排名为0）。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrange scores 0 -1 withscores</span><br><span class="line">1) &quot;tom&quot;</span><br><span class="line">2) &quot;78&quot;</span><br><span class="line">3) &quot;admin&quot;</span><br><span class="line">4) &quot;98&quot;</span><br><span class="line">5) &quot;xym&quot;</span><br><span class="line">6) &quot;110&quot;</span><br><span class="line">127.0.0.1:6379&gt; zrank scores xym</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; zrevrank scores xym</span><br><span class="line">(integer) 0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>计算有序集合的交集  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZINTERSTORE destination numkeys key [key ...] [WEIGHTS weight [weight ...]] [AGGREGATE SUM|MIN|MAX]</span><br></pre></td></tr></table></figure>
+<p>ZINTERSTORE 命令用来计算多个有序集合的交集并将结果存储在destination键中（同样以有序集合的类型存储），返回值为destination键中元素的个数。destination键中元素的分数是由AGGREGATE参数决定的。<br>（1）当AGGREGATE时SUM（默认值）时，destination键中的元素的分数是每个参与计算的集合中该元素分数的和。如： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zadd store1 1 a 2 b</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; zadd store2 10 a 20 b</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; Zinterstore destStore 2 store1 store2</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; zrange destStore 0 -1 withscores</span><br><span class="line">1) &quot;a&quot;</span><br><span class="line">2) &quot;11&quot;</span><br><span class="line">3) &quot;b&quot;</span><br><span class="line">4) &quot;22&quot;</span><br></pre></td></tr></table></figure>
+<p>（2）当AGGREGATE时MIN时，destination键中的元素的分数是每个参与计算的集合中该元素分数的最小值。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zinterstore destStore 2 store1 store2 AGGREGATE min</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; zrange destStore 0 -1 withscores</span><br><span class="line">1) &quot;a&quot;</span><br><span class="line">2) &quot;1&quot;</span><br><span class="line">3) &quot;b&quot;</span><br><span class="line">4) &quot;2&quot;</span><br></pre></td></tr></table></figure>
+<p>（3）当AGGREGATE时MAX时，destination键中的元素的分数是每个参与计算的集合中该元素分数的最大值。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zinterstore destStore 2 store1 store2 AGGREGATE max</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; zrange destStore 0 -1 withscores</span><br><span class="line">1) &quot;a&quot;</span><br><span class="line">2) &quot;10&quot;</span><br><span class="line">3) &quot;b&quot;</span><br><span class="line">4) &quot;20&quot;</span><br></pre></td></tr></table></figure>
+<p>ZINTERSTORE 命令还能够通过WEIGHTS参数设置每个集合的权重，每个集合在参与计算时元素的分数会被乘上该集合的权重。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zinterstore destStore 2 store1 store2 WEIGHTS 1 0.1</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; ZRANGE destStore 0 -1 withscores</span><br><span class="line">1) &quot;a&quot;</span><br><span class="line">2) &quot;2&quot;</span><br><span class="line">3) &quot;b&quot;</span><br><span class="line">4) &quot;4&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; zrange store1 0 -1 withscores</span><br><span class="line">1) &quot;a&quot;</span><br><span class="line">2) &quot;1&quot;</span><br><span class="line">3) &quot;b&quot;</span><br><span class="line">4) &quot;2&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; zrange store2 0 -1 withscores</span><br><span class="line">1) &quot;a&quot;</span><br><span class="line">2) &quot;10&quot;</span><br><span class="line">3) &quot;b&quot;</span><br><span class="line">4) &quot;20&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>计算方式为：a分数1*1+10*0.1=2，b分数2*1+20*0.1=4，注意如果加WEIGHTS参数，则后面对应每一个有序集合的权重，是多值</strong><br>其他有序集合命令请查阅<a href="http://doc.redisfans.com/" target="_blank" rel="noopener">Redis命令中文在线参考</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/05/24/redis入门指南-命令阶段III/">redis入门指南-命令阶段III</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">xym</a></p>
+        <p><span>发布时间:</span>2017-05-24, 09:23:42</p>
+        <p><span>最后更新:</span>2018-03-29, 09:27:48</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/05/24/redis入门指南-命令阶段III/" title="redis入门指南-命令阶段III">http://xym-loveit.github.io/2017/05/24/redis入门指南-命令阶段III/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://xym-loveit.github.io/2017/05/24/redis入门指南-命令阶段III/　　作者: xym" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/05/24/redis入门指南之提高篇I/">
+                    redis入门指南之提高篇I
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/05/23/redis入门指南-命令阶段II/">
+                    redis入门指南-命令阶段II
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#有序集合类型"><span class="toc-number">1.</span> <span class="toc-text">有序集合类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、命令"><span class="toc-number">1.1.</span> <span class="toc-text">1、命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、命令拾遗"><span class="toc-number">1.2.</span> <span class="toc-text">2、命令拾遗</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"redis入门指南-命令阶段III　| 放肆的青春　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://xym-loveit.github.io/2017/05/24/redis入门指南-命令阶段III/';
+            this.page.identifier = '2017/05/24/redis入门指南-命令阶段III/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//xym-loveit.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/05/24/redis入门指南之提高篇I/" title="上一篇: redis入门指南之提高篇I">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/05/23/redis入门指南-命令阶段II/" title="下一篇: redis入门指南-命令阶段II">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/29/常用工具/">常用工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/09/redis入门指南之管理/">redis入门指南之管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/05/redis入门指南之集群/">redis入门指南之集群</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/redis入门指南之哨兵/">redis入门指南之哨兵</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/redis入门指南之复制/">redis入门指南之复制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/redis入门指南之持久化/">redis入门指南之持久化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/redis入门指南之Lua脚本/">redis入门指南之Lua脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/26/redis入门指南之提高篇III/">redis入门指南之提高篇III</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/26/redis入门指南之提高篇II/">redis入门指南之提高篇II</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/redis入门指南之提高篇I/">redis入门指南之提高篇I</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/redis入门指南-命令阶段III/">redis入门指南-命令阶段III</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-命令阶段II/">redis入门指南-命令阶段II</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-命令阶段I/">redis入门指南-命令阶段I</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-准备阶段/">redis入门指南-准备阶段</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/04/常用-Git-命令清单/">常用 Git 命令清单</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/03/Git-常用命令/">Git 常用命令整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：Callable、Future和FutureTask/">Java并发编程：Callable、Future和FutureTask</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：CountDownLatch、CyclicBarrier和Semaphore/">Java并发编程：CountDownLatch、CyclicBarrier和Semaphore</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：线程池的使用/">Java并发编程：线程池的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：阻塞队列/">Java并发编程：阻塞队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：ConcurrentModificationException异常原因和解决方法/">Java并发编程：ConcurrentModificationException异常原因和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：同步容器/">Java并发编程：同步容器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：深入剖析ThreadLocal/">Java并发编程：深入剖析ThreadLocal</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：volatile关键字解析/">Java并发编程：volatile关键字解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：Lock/">Java并发编程：Lock</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：synchronized/">Java并发编程：synchronized</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：Thread类的使用/">Java并发编程：Thread类的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：如何创建线程/">Java并发编程:如何创建线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/Java多线程基础：进程和线程之由来/">Java多线程基础：进程和线程之由来</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/第一篇/">第一篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/hello-world/">Hello World</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2018 xym
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
