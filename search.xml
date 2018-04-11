@@ -21,7 +21,13 @@
             
             <tag> SpringCloud常见问题 </tag>
             
-            <tag> Spring Cloud 问题诊断 </tag>
+            <tag> Eureka 配置 </tag>
+            
+            <tag> Ribbon 配置 </tag>
+            
+            <tag> Hystrix 配置 </tag>
+            
+            <tag> Turbine 配置 </tag>
             
             <tag> Spring Cloud 配置手册 </tag>
             
@@ -630,9 +636,9 @@
             
             <tag> java多线程 </tag>
             
-            <tag> 同步容器 </tag>
-            
             <tag> 集合 </tag>
+            
+            <tag> 同步容器 </tag>
             
         </tags>
       
