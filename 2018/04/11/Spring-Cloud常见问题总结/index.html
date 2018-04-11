@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="放肆的青春">
 <meta property="og:description" content="在使用SpringCloud的过程中，可能会遇到一些问题。本文对常见问题做一些总结。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-11T15:54:55.609Z">
+<meta property="og:updated_time" content="2018-04-11T16:00:12.347Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Cloud常见问题总结">
 <meta name="twitter:description" content="在使用SpringCloud的过程中，可能会遇到一些问题。本文对常见问题做一些总结。">
@@ -158,13 +158,13 @@
                 <div class="tips-box hide">
                     <div class="tips-arrow"></div>
                     <ul class="tips-inner">
-                        <li>Menu</li>
-                        <li>Tags</li>
+                        <li>菜单</li>
+                        <li>标签</li>
                         
-                        <li>Friends</li>
+                        <li>友情链接</li>
                         
                         
-                        <li>About Me</li>
+                        <li>关于我</li>
                         
                     </ul>
                 </div>
@@ -276,7 +276,7 @@
             </nav>
         </header>                
     </div>
-    <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
       <div class="body-wrap"><article id="post-Spring-Cloud常见问题总结" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -322,7 +322,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="Eureka常见问题"><a href="#Eureka常见问题" class="headerlink" title="Eureka常见问题"></a>Eureka常见问题</h3><h4 id="Eureka注册服务慢"><a href="#Eureka注册服务慢" class="headerlink" title="Eureka注册服务慢"></a>Eureka注册服务慢</h4><p>默认情况下，服务注册到Eureka Server的过程慢。在开发或测试时，常常希望能够加速这一过程，从而提升工作效率。Spring Cloud官方详细描述了该问题的原因并提供了解决方案：  </p>
+        <h2 id="Eureka常见问题"><a href="#Eureka常见问题" class="headerlink" title="Eureka常见问题"></a>Eureka常见问题</h2><h3 id="Eureka注册服务慢"><a href="#Eureka注册服务慢" class="headerlink" title="Eureka注册服务慢"></a>Eureka注册服务慢</h3><p>默认情况下，服务注册到Eureka Server的过程慢。在开发或测试时，常常希望能够加速这一过程，从而提升工作效率。Spring Cloud官方详细描述了该问题的原因并提供了解决方案：  </p>
 <blockquote>
 <p>简单翻译：服务注册涉及到周期性心跳，默认30秒一次（通过客户端配置ServiceUrl）。只有当实例、服务端和客户端的本地缓存中的元数据都相同时，服务才能被其他客户端发现（所以可能需要3次心跳）。可以使用参数<code>eureka.instance.leaseRenewalntervalInSeconds</code>修改时间间隔，从而加快客户端连接到其他服务的过程。在生产环境中最好坚持使用默认值，因为在服务器内部有一些计算，他们会对续约作出假设。</p>
 </blockquote>
@@ -330,7 +330,7 @@
 <blockquote>
 <p>原文来自：<a href="https://cloud.spring.io/spring-cloud-netflix/multi/multi__service_discovery_eureka_clients.html#_why_is_it_so_slow_to_register_a_service" target="_blank" rel="noopener">https://cloud.spring.io/spring-cloud-netflix/multi/multi__service_discovery_eureka_clients.html#_why_is_it_so_slow_to_register_a_service</a></p>
 </blockquote>
-<h4 id="已停止的微服务节点注销慢或不注销"><a href="#已停止的微服务节点注销慢或不注销" class="headerlink" title="已停止的微服务节点注销慢或不注销"></a>已停止的微服务节点注销慢或不注销</h4><p>在开发环境下，常常希望Eureka Server能迅速有效地注销已停止的微服务实例，然而，由于Eureka Server清理无效节点周期长（默认90秒），以及自我保护模式等原因，可能会遇到微服务注销慢甚至不注销的问题。解决方案如下：  </p>
+<h3 id="已停止的微服务节点注销慢或不注销"><a href="#已停止的微服务节点注销慢或不注销" class="headerlink" title="已停止的微服务节点注销慢或不注销"></a>已停止的微服务节点注销慢或不注销</h3><p>在开发环境下，常常希望Eureka Server能迅速有效地注销已停止的微服务实例，然而，由于Eureka Server清理无效节点周期长（默认90秒），以及自我保护模式等原因，可能会遇到微服务注销慢甚至不注销的问题。解决方案如下：  </p>
 <ul>
 <li><p>Eureka Server 端：<br>配置关闭自我保护，并按需配置Eureka Server清理无效节点的时间间隔。  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">eureka.server.enable-self-preservation</span><br><span class="line">#设为false，关闭自我保护，从而保证会注销微服务</span><br><span class="line">eureka.server.eviction-interval-timer-in-ms</span><br><span class="line">#清理间隔（单位毫秒，默认为60*1000）</span><br></pre></td></tr></table></figure>
@@ -352,7 +352,7 @@
 <blockquote>
 <p>修改Eureka的续约频率可能会打破Eureka的自我保护特性，详见：<a href="https://github.com/spring-cloud/spring-cloud-netflix/issues/373" target="_blank" rel="noopener">https://github.com/spring-cloud/spring-cloud-netflix/issues/373</a>。这意味着在生产环境中，如果想要使用Eureka的自我保护特性，应该坚持使用默认配置。</p>
 </blockquote>
-<h4 id="如何自定义微服务的Instance-ID。"><a href="#如何自定义微服务的Instance-ID。" class="headerlink" title="如何自定义微服务的Instance ID。"></a>如何自定义微服务的Instance ID。</h4><p>Instance ID用于唯一标识注册到Eureka Server上的微服务实例。在Eureka Server首页可以直观地看到各个微服务的Instance ID。如下图： </p>
+<h3 id="如何自定义微服务的Instance-ID。"><a href="#如何自定义微服务的Instance-ID。" class="headerlink" title="如何自定义微服务的Instance ID。"></a>如何自定义微服务的Instance ID。</h3><p>Instance ID用于唯一标识注册到Eureka Server上的微服务实例。在Eureka Server首页可以直观地看到各个微服务的Instance ID。如下图： </p>
 <p><img src="" alt=""></p>
 <p>在Spring Cloud中，服务的Instance ID的默认值是<code>${spring.cloud.client.hostname}:${spring.application.name}:${server.port}</code>。如果想要自定义这部分内容，只须在微服务中配置<code>eureka.instance.instance-id</code>属性即可，例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: microservice-provider-user</span><br><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    #将Instance ID设置成 IP:端口的形式 </span><br><span class="line">    instance-id: $&#123;spring.cloud.client.ipAddress&#125;:$&#123;server.port&#125;</span><br></pre></td></tr></table></figure>
@@ -361,7 +361,7 @@
 <blockquote>
 <p>Spring Cloud初始化Instance ID的相关代码：<br>org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration<br>org.springframework.cloud.commons.util.IdUtils.getDefaultInstanceId(PropertyResolver resolver);<br>org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean.getInstanceId()</p>
 </blockquote>
-<h4 id="Eureka的UNKNOWN问题总结"><a href="#Eureka的UNKNOWN问题总结" class="headerlink" title="Eureka的UNKNOWN问题总结"></a>Eureka的UNKNOWN问题总结</h4><p>注册信息unknown，是新手常会遇到的问题。如下图，有二种UNKNOWN的情况，一种是应用名称UNKNOWN,另一种是应用状态UNKNOWN。下面分别说明这二种情况。</p>
+<h3 id="Eureka的UNKNOWN问题总结"><a href="#Eureka的UNKNOWN问题总结" class="headerlink" title="Eureka的UNKNOWN问题总结"></a>Eureka的UNKNOWN问题总结</h3><p>注册信息unknown，是新手常会遇到的问题。如下图，有二种UNKNOWN的情况，一种是应用名称UNKNOWN,另一种是应用状态UNKNOWN。下面分别说明这二种情况。</p>
 <p><img src="" alt=""></p>
 <p><strong>应用名称UNKNOWN</strong></p>
 <p>应用名称UNKNOWN显然不合适，首先微服务的名称不够语义化，无法直接观看出这是哪个服务；更重要的是，我们常常使用应用名称消费对应微服务接口。<br>一般来说，有二种情况会导致该问题的发生：  </p>
@@ -374,17 +374,17 @@
 <blockquote>
 <p>SpringFox是一款基于Spring和Swagger的开源的API文档框架，前身是swagger-springmvc。官网：<a href="http://springfox.github.io/springfox/" target="_blank" rel="noopener">http://springfox.github.io/springfox/</a>。</p>
 </blockquote>
-<h3 id="Hystrix-Feign整合Hystrix后首次请求失败"><a href="#Hystrix-Feign整合Hystrix后首次请求失败" class="headerlink" title="Hystrix/Feign整合Hystrix后首次请求失败"></a>Hystrix/Feign整合Hystrix后首次请求失败</h3><p>某些场景下，Feign或Ribbon整合Hystrix后，会出现首次调用失败的问题。</p>
-<h4 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h4><p>Hystrix默认的超时时间是1秒，如果在1秒内得不到响应，就会进入<code>fallback</code>逻辑。由于Spring的懒加载机制，首次请求往往会比较慢，因此在某些机器（特别是低端的机器）上，首次请求需要的时间可能就会大于1秒。</p>
-<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><ul>
+<h2 id="Hystrix-Feign整合Hystrix后首次请求失败"><a href="#Hystrix-Feign整合Hystrix后首次请求失败" class="headerlink" title="Hystrix/Feign整合Hystrix后首次请求失败"></a>Hystrix/Feign整合Hystrix后首次请求失败</h2><p>某些场景下，Feign或Ribbon整合Hystrix后，会出现首次调用失败的问题。</p>
+<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>Hystrix默认的超时时间是1秒，如果在1秒内得不到响应，就会进入<code>fallback</code>逻辑。由于Spring的懒加载机制，首次请求往往会比较慢，因此在某些机器（特别是低端的机器）上，首次请求需要的时间可能就会大于1秒。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><ul>
 <li>方法一：延长Hystrix的超时时间，示例：<br><code>hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000</code>该配置让Hystrix的超时时间改为5秒 </li>
 <li>方法二：禁用Hystrix的超时，示例：<br><code>hystrix.command.default.execution.timeout.enabled: false</code></li>
 <li>方法三：对于Feign，还可为Feign禁用Hystrix，示例：<br><code>feign.hystrix.enabled: false</code><br>这样即可为Feign全局禁用Hystrix支持，该方式比较极端，一般不建议使用。</li>
 </ul>
-<h3 id="Turbine集合数据不完整"><a href="#Turbine集合数据不完整" class="headerlink" title="Turbine集合数据不完整"></a>Turbine集合数据不完整</h3><p>在某些版本的Spring Cloud（例如Brixton SR5）中，Turbine会发生该问题。该问题直观体现是：使用Turbine聚合了多个微服务，但在Hystrix Dashboard上只能看到部分微服务的监控数据。</p>
+<h2 id="Turbine集合数据不完整"><a href="#Turbine集合数据不完整" class="headerlink" title="Turbine集合数据不完整"></a>Turbine集合数据不完整</h2><p>在某些版本的Spring Cloud（例如Brixton SR5）中，Turbine会发生该问题。该问题直观体现是：使用Turbine聚合了多个微服务，但在Hystrix Dashboard上只能看到部分微服务的监控数据。</p>
 <p>例如Turbine配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">turbine:</span><br><span class="line">  app-config: microservice-consumer-movie,microservice-consumer-movie-feign-hystrix-fallback-stream</span><br><span class="line">  cluster-name-expression: &quot;&apos;default&apos;&quot;</span><br></pre></td></tr></table></figure></p>
 <p>Turbine理应聚合<code>microservice-consumer-movie</code>和<code>microservice-consumer-movie-feign-hystrix-fallback-stream</code>这两个微服务的监控数据，然而打开Hystrix Dashboard时，会发现Hystrix Dashboard只显示部分微服务的监控数据。</p>
-<h4 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h4><p>当Turbine集合的微服务部署在同一台主机时，就会出现该问题。</p>
+<h3 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h3><p>当Turbine集合的微服务部署在同一台主机时，就会出现该问题。</p>
 <ul>
 <li><p>方法一：为各个微服务配置不同的<code>hostname</code>。并将<code>preferIpAddress</code>设为false或者不设置。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http://discovery:8761/eureka/</span><br><span class="line">  instance:</span><br><span class="line">    hostname: ribbon #配置hostname</span><br></pre></td></tr></table></figure>
@@ -399,17 +399,17 @@
 <blockquote>
 <p>org.springframework.cloud.netflix.turbine.TurbineProperties.combineHostPort<br>org.springframework.cloud.netflix.turbine.CommonsInstanceDiscovery.getInstance(String hostname, String port, String cluster, Boolean status)<br>相关issue：<a href="https://github.com/spring-cloud/spring-cloud-netflix/issues/1087" target="_blank" rel="noopener">https://github.com/spring-cloud/spring-cloud-netflix/issues/1087</a></p>
 </blockquote>
-<h3 id="Spring-Cloud各组件配置属性"><a href="#Spring-Cloud各组件配置属性" class="headerlink" title="Spring Cloud各组件配置属性"></a>Spring Cloud各组件配置属性</h3><p>Spring Cloud中的大部门问题都可以使用配置属性的方式来解决。下面将配置的地址罗列出来，方便查阅。</p>
-<h4 id="Spring-Cloud的配置"><a href="#Spring-Cloud的配置" class="headerlink" title="Spring Cloud的配置"></a>Spring Cloud的配置</h4><p>Spring Cloud的所有组件配置都在其官方文档的附录，地址如下：  </p>
+<h2 id="Spring-Cloud各组件配置属性"><a href="#Spring-Cloud各组件配置属性" class="headerlink" title="Spring Cloud各组件配置属性"></a>Spring Cloud各组件配置属性</h2><p>Spring Cloud中的大部门问题都可以使用配置属性的方式来解决。下面将配置的地址罗列出来，方便查阅。</p>
+<h3 id="Spring-Cloud的配置"><a href="#Spring-Cloud的配置" class="headerlink" title="Spring Cloud的配置"></a>Spring Cloud的配置</h3><p>Spring Cloud的所有组件配置都在其官方文档的附录，地址如下：  </p>
 <p><a href="http://cloud.spring.io/spring-cloud-static/Camden.SR7/#_appendix_compendium_of_configuration_properties" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/Camden.SR7/#_appendix_compendium_of_configuration_properties</a></p>
-<h4 id="原生配置"><a href="#原生配置" class="headerlink" title="原生配置"></a>原生配置</h4><p>Spring Cloud 整合了很多类库，例如：<code>Eureka</code>、<code>Ribbon</code>、<code>Feign</code>等。这些组件自身也有一些配置属性，如下：  </p>
+<h3 id="原生配置"><a href="#原生配置" class="headerlink" title="原生配置"></a>原生配置</h3><p>Spring Cloud 整合了很多类库，例如：<code>Eureka</code>、<code>Ribbon</code>、<code>Feign</code>等。这些组件自身也有一些配置属性，如下：  </p>
 <ul>
 <li>Eureka的配置：<a href="https://github.com/Netflix/eureka/wiki/Configuring-Eureka" target="_blank" rel="noopener">https://github.com/Netflix/eureka/wiki/Configuring-Eureka</a></li>
 <li>Ribbon的配置：<a href="https://github.com/Netflix/ribbon/wiki/Programmers-Guide" target="_blank" rel="noopener">https://github.com/Netflix/ribbon/wiki/Programmers-Guide</a></li>
 <li>Hystrix的配置：<a href="https://github.com/Netflix/Hystrix/wiki/Configuration" target="_blank" rel="noopener">https://github.com/Netflix/Hystrix/wiki/Configuration</a></li>
 <li>Turbine的配置：<a href="https://github.com/Netflix/Turbine/wiki/Configuration-(1.x" target="_blank" rel="noopener">https://github.com/Netflix/Turbine/wiki/Configuration-(1.x)</a>)</li>
 </ul>
-<h3 id="Spring-Cloud定位问题的思路"><a href="#Spring-Cloud定位问题的思路" class="headerlink" title="Spring Cloud定位问题的思路"></a>Spring Cloud定位问题的思路</h3><h4 id="1、排查配置问题"><a href="#1、排查配置问题" class="headerlink" title="1、排查配置问题"></a>1、排查配置问题</h4><p>排查配置有无问题，举几个例说明。</p>
+<h2 id="Spring-Cloud定位问题的思路"><a href="#Spring-Cloud定位问题的思路" class="headerlink" title="Spring Cloud定位问题的思路"></a>Spring Cloud定位问题的思路</h2><h3 id="1、排查配置问题"><a href="#1、排查配置问题" class="headerlink" title="1、排查配置问题"></a>1、排查配置问题</h3><p>排查配置有无问题，举几个例说明。</p>
 <ul>
 <li>YAML缩进是否正确<ul>
 <li>项目启动报错，错误指向yml文件</li>
@@ -423,7 +423,7 @@
 <ul>
 <li>应当配置在<code>Eureka Client</code>项目上的属性，配置在了<code>Eureka Server</code>项目上</li>
 <li>应当写在<code>bootstrap.yml</code>中的属性，写在了<code>application.yml</code>中，如：<code>spring.cloud.config.uri=http://localhost:8080</code>     </li>
-<li>应当写在<code>application.yml</code>的属性，写在了<code>bootstrap.yml</code>中，如：<code>eureka.client.healthcheck.enabled-true</code><h4 id="2、排查环境问题"><a href="#2、排查环境问题" class="headerlink" title="2、排查环境问题"></a>2、排查环境问题</h4>如确认配置无误，即可考虑运行环境是否存在问题。</li>
+<li>应当写在<code>application.yml</code>的属性，写在了<code>bootstrap.yml</code>中，如：<code>eureka.client.healthcheck.enabled-true</code><h3 id="2、排查环境问题"><a href="#2、排查环境问题" class="headerlink" title="2、排查环境问题"></a>2、排查环境问题</h3>如确认配置无误，即可考虑运行环境是否存在问题。</li>
 </ul>
 </li>
 <li><p>环境变量</p>
@@ -440,8 +440,8 @@
 </ul>
 </li>
 </ul>
-<h4 id="3、排查代码问题"><a href="#3、排查代码问题" class="headerlink" title="3、排查代码问题"></a>3、排查代码问题</h4><p>经过以上步骤，依然没有定位到问题，那么可能是编写代码出了问题。很多时候，常常因为少了某个注解，或是依赖缺失，而导致了各种异常。许多场景下，设置合理的日志级别，会对问题的定位有奇效。</p>
-<h4 id="4、排查Spring-Cloud自身问题"><a href="#4、排查Spring-Cloud自身问题" class="headerlink" title="4、排查Spring Cloud自身问题"></a>4、排查Spring Cloud自身问题</h4><p>如果确定不是自身问题，就可以debug一下Spring Cloud的代码。同时，可在github等平台给项目提交issue，然后参考官方回复，尝试规避相应问题。</p>
+<h3 id="3、排查代码问题"><a href="#3、排查代码问题" class="headerlink" title="3、排查代码问题"></a>3、排查代码问题</h3><p>经过以上步骤，依然没有定位到问题，那么可能是编写代码出了问题。很多时候，常常因为少了某个注解，或是依赖缺失，而导致了各种异常。许多场景下，设置合理的日志级别，会对问题的定位有奇效。</p>
+<h3 id="4、排查Spring-Cloud自身问题"><a href="#4、排查Spring-Cloud自身问题" class="headerlink" title="4、排查Spring Cloud自身问题"></a>4、排查Spring Cloud自身问题</h3><p>如果确定不是自身问题，就可以debug一下Spring Cloud的代码。同时，可在github等平台给项目提交issue，然后参考官方回复，尝试规避相应问题。</p>
 <p><strong>可参考资源：</strong></p>
 <blockquote>
 <p>各项自身的github，例如：Eureka的Github：<a href="https://github.com/netflix/eureka" target="_blank" rel="noopener">https://github.com/netflix/eureka</a><br>Spring Cloud对应的项目Github，例如Eureka项目在 Spring Cloud Netflix中：<a href="https://github.com/spring-cloud/spring-cloud-netflix" target="_blank" rel="noopener">https://github.com/spring-cloud/spring-cloud-netflix</a></p>
@@ -457,17 +457,17 @@
   
     
     <div class="copyright">
-        <p><span>Title:</span><a href="/2018/04/11/Spring-Cloud常见问题总结/">Spring Cloud常见问题总结</a></p>
-        <p><span>Author:</span><a href="/" title="Back to Homepage">xym</a></p>
-        <p><span>Created:</span>2018-04-11, 21:01:13</p>
-        <p><span>Updated:</span>2018-04-11, 23:54:55</p>
+        <p><span>本文标题:</span><a href="/2018/04/11/Spring-Cloud常见问题总结/">Spring Cloud常见问题总结</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">xym</a></p>
+        <p><span>发布时间:</span>2018-04-11, 21:01:13</p>
+        <p><span>最后更新:</span>2018-04-12, 00:00:12</p>
         <p>
-            <span>Full URL:</span><a class="post-url" href="/2018/04/11/Spring-Cloud常见问题总结/" title="Spring Cloud常见问题总结">http://xym-loveit.github.io/2018/04/11/Spring-Cloud常见问题总结/</a>
-            <span class="copy-path" data-clipboard-text="From http://xym-loveit.github.io/2018/04/11/Spring-Cloud常见问题总结/　　By xym" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/04/11/Spring-Cloud常见问题总结/" title="Spring Cloud常见问题总结">http://xym-loveit.github.io/2018/04/11/Spring-Cloud常见问题总结/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://xym-loveit.github.io/2018/04/11/Spring-Cloud常见问题总结/　　作者: xym" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
-            <span>License:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"CC BY-NC-SA 4.0"</a> Keep Link &amp; Author if Distribute.
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
         </p>
     </div>
 
@@ -488,9 +488,9 @@
 </article>
 
     <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
+        <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Eureka常见问题"><span class="toc-number">1.</span> <span class="toc-text">Eureka常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Eureka注册服务慢"><span class="toc-number">1.1.</span> <span class="toc-text">Eureka注册服务慢</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#已停止的微服务节点注销慢或不注销"><span class="toc-number">1.2.</span> <span class="toc-text">已停止的微服务节点注销慢或不注销</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何自定义微服务的Instance-ID。"><span class="toc-number">1.3.</span> <span class="toc-text">如何自定义微服务的Instance ID。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Eureka的UNKNOWN问题总结"><span class="toc-number">1.4.</span> <span class="toc-text">Eureka的UNKNOWN问题总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hystrix-Feign整合Hystrix后首次请求失败"><span class="toc-number">2.</span> <span class="toc-text">Hystrix/Feign整合Hystrix后首次请求失败</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#原因分析"><span class="toc-number">2.1.</span> <span class="toc-text">原因分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案"><span class="toc-number">2.2.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Turbine集合数据不完整"><span class="toc-number">3.</span> <span class="toc-text">Turbine集合数据不完整</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案-1"><span class="toc-number">3.1.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud各组件配置属性"><span class="toc-number">4.</span> <span class="toc-text">Spring Cloud各组件配置属性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Spring-Cloud的配置"><span class="toc-number">4.1.</span> <span class="toc-text">Spring Cloud的配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原生配置"><span class="toc-number">4.2.</span> <span class="toc-text">原生配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud定位问题的思路"><span class="toc-number">5.</span> <span class="toc-text">Spring Cloud定位问题的思路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、排查配置问题"><span class="toc-number">5.1.</span> <span class="toc-text">1、排查配置问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、排查环境问题"><span class="toc-number">5.2.</span> <span class="toc-text">2、排查环境问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、排查代码问题"><span class="toc-number">5.3.</span> <span class="toc-text">3、排查代码问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、排查Spring-Cloud自身问题"><span class="toc-number">5.4.</span> <span class="toc-text">4、排查Spring Cloud自身问题</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Eureka常见问题"><span class="toc-number">1.</span> <span class="toc-text">Eureka常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Eureka注册服务慢"><span class="toc-number">1.1.</span> <span class="toc-text">Eureka注册服务慢</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#已停止的微服务节点注销慢或不注销"><span class="toc-number">1.2.</span> <span class="toc-text">已停止的微服务节点注销慢或不注销</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何自定义微服务的Instance-ID。"><span class="toc-number">1.3.</span> <span class="toc-text">如何自定义微服务的Instance ID。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eureka的UNKNOWN问题总结"><span class="toc-number">1.4.</span> <span class="toc-text">Eureka的UNKNOWN问题总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hystrix-Feign整合Hystrix后首次请求失败"><span class="toc-number">2.</span> <span class="toc-text">Hystrix/Feign整合Hystrix后首次请求失败</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原因分析"><span class="toc-number">2.1.</span> <span class="toc-text">原因分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案"><span class="toc-number">2.2.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Turbine集合数据不完整"><span class="toc-number">3.</span> <span class="toc-text">Turbine集合数据不完整</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案-1"><span class="toc-number">3.1.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Cloud各组件配置属性"><span class="toc-number">4.</span> <span class="toc-text">Spring Cloud各组件配置属性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Cloud的配置"><span class="toc-number">4.1.</span> <span class="toc-text">Spring Cloud的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原生配置"><span class="toc-number">4.2.</span> <span class="toc-text">原生配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Cloud定位问题的思路"><span class="toc-number">5.</span> <span class="toc-text">Spring Cloud定位问题的思路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、排查配置问题"><span class="toc-number">5.1.</span> <span class="toc-text">1、排查配置问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、排查环境问题"><span class="toc-number">5.2.</span> <span class="toc-text">2、排查环境问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、排查代码问题"><span class="toc-number">5.3.</span> <span class="toc-text">3、排查代码问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、排查Spring-Cloud自身问题"><span class="toc-number">5.4.</span> <span class="toc-text">4、排查Spring Cloud自身问题</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -504,10 +504,10 @@
         }
     </style>
 
-    <input type="button" id="tocButton" value="Hide"  title="Show or Hide Table of Contents">
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
     <script>
-        yiliaConfig.toc = ["Hide", "Show", !!"false"];
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
     </script>
 
 
@@ -568,13 +568,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/" title="Back to Homepage"><i class="fa fa-home"></i></a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
-        <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2018/04/08/Eureka配置参数/" title="Next: Eureka配置参数">
+            <a href="/2018/04/08/Eureka配置参数/" title="下一篇: Eureka配置参数">
                 <i class="fa fa-angle-right"></i>
             </a>
         
@@ -597,14 +597,14 @@
                 2017-2018 xym
             </div>
             <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank" title="A fast, simple &amp; powerful blog framework">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="Another simple and elegant theme for Hexo  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
             </div>
         </div>
         
             <div class="visit">
                 
                     <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" title="Site Visitors"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
                         </span>
                     </span>
                 
@@ -613,7 +613,7 @@
                 
                 
                     <span id="busuanzi_container_page_pv" style='display:none'>
-                        <span id="page-visit"  title="Page Hits"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
                         </span>
                     </span>
                 
@@ -646,9 +646,9 @@
 
 
 <div class="scroll" id="scroll">
-    <a href="#" title="Back to Top"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments" onclick="load$hide();" title="Comments"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer" title="Go to Bottom"><i class="fa fa-arrow-down"></i></a>
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
 </div>
 <script>
     // Open in New Window
