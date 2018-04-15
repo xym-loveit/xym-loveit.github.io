@@ -25,7 +25,9 @@
             
             <tag> pull命令 </tag>
             
-            <tag> 本地搭建私有仓库配置，时速云镜像仓库 </tag>
+            <tag> 本地搭建私有仓库配置 </tag>
+            
+            <tag> 时速云镜像仓库 </tag>
             
         </tags>
       
@@ -46,6 +48,10 @@
       
         <tags>
             
+            <tag> rm命令 </tag>
+            
+            <tag> import命令 </tag>
+            
             <tag> docker容器 </tag>
             
             <tag> create命令 </tag>
@@ -62,11 +68,7 @@
             
             <tag> exec命令 </tag>
             
-            <tag> rm命令 </tag>
-            
             <tag> export命令 </tag>
-            
-            <tag> import命令 </tag>
             
         </tags>
       
@@ -91,10 +93,6 @@
             
             <tag> pull命令 </tag>
             
-            <tag> rm命令 </tag>
-            
-            <tag> import命令 </tag>
-            
             <tag> docker镜像 </tag>
             
             <tag> images命令 </tag>
@@ -107,7 +105,11 @@
             
             <tag> rmi命令 </tag>
             
+            <tag> rm命令 </tag>
+            
             <tag> commit命令 </tag>
+            
+            <tag> import命令 </tag>
             
             <tag> save命令 </tag>
             
@@ -753,9 +755,9 @@
             
             <tag> java多线程 </tag>
             
-            <tag> 集合 </tag>
-            
             <tag> 同步容器 </tag>
+            
+            <tag> 集合 </tag>
             
         </tags>
       
