@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://op7wplti1.bkt.clouddn.com/1900654235_4b2x-i_epub.jpg">
 <meta property="og:image" content="http://op7wplti1.bkt.clouddn.com/1900654235_4b3-i_epub.jpg">
 <meta property="og:image" content="http://op7wplti1.bkt.clouddn.com/1900654235_4b3x-i_epub.jpg">
-<meta property="og:updated_time" content="2018-04-14T17:30:12.977Z">
+<meta property="og:updated_time" content="2018-04-15T07:30:22.670Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker 基本操作之容器">
 <meta name="twitter:description" content="Docker入门指南，容器各种操作命令。">
@@ -164,13 +164,13 @@
                 <div class="tips-box hide">
                     <div class="tips-arrow"></div>
                     <ul class="tips-inner">
-                        <li>菜單</li>
-                        <li>標籤</li>
+                        <li>菜单</li>
+                        <li>标签</li>
                         
-                        <li>友情鏈接</li>
+                        <li>友情链接</li>
                         
                         
-                        <li>關於我</li>
+                        <li>关于我</li>
                         
                     </ul>
                 </div>
@@ -282,7 +282,7 @@
             </nav>
         </header>                
     </div>
-    <link class="menu-list" tags="標籤" friends="友情鏈接" about="關於我"/>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
       <div class="body-wrap"><article id="post-Docker-基本操作之容器" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -340,6 +340,67 @@
 <p>Create命令与容器资源限制和安全保护相关选项如下图：</p>
 <p><img src="http://op7wplti1.bkt.clouddn.com/1900654235_4b3-i_epub.jpg" alt="Create命令与容器资源限制和安全保护相关选项1"></p>
 <p><img src="http://op7wplti1.bkt.clouddn.com/1900654235_4b3x-i_epub.jpg" alt="Create命令与容器资源限制和安全保护相关选项2"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//根据镜像创建一个容器</span><br><span class="line">[root@xxx /]# docker create -it registry.cn-hangzhou.aliyuncs.com/xym/163ubuntu:14.04 </span><br><span class="line">d26cbeecf22d92fdff515a9bb8146521c8e4c6ea76cf7baab5abebb4b31dfc52</span><br><span class="line"></span><br><span class="line">//查看docker本地所有容器,注意状态为Created</span><br><span class="line">[root@xxx /]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                                   COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">d26cbeecf22d        registry.cn-hangzhou.aliyuncs.com/xym/163ubuntu:14.04   &quot;/bin/sh -c &apos;/usr/sb…&quot;   8 seconds ago       Created                                 practical_wright</span><br><span class="line"></span><br><span class="line">//使用start启动docker容器</span><br><span class="line">[root@xxx /]# docker start d26</span><br><span class="line">d26</span><br><span class="line"></span><br><span class="line">//查看docker本地所有容器,注意状态为Up</span><br><span class="line">[root@xxx /]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                                   COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">d26cbeecf22d        registry.cn-hangzhou.aliyuncs.com/xym/163ubuntu:14.04   &quot;/bin/sh -c &apos;/usr/sb…&quot;   41 seconds ago      Up 2 seconds                            practical_wright</span><br></pre></td></tr></table></figure>
+<p>其他比较重要的选项还包括：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-l，--label=[]：以键值对方式指定容器的标签信息;</span><br><span class="line"></span><br><span class="line">--label-file=[]：从文件读取标签信息。</span><br></pre></td></tr></table></figure>
+<h3 id="2、启动容器"><a href="#2、启动容器" class="headerlink" title="2、启动容器"></a>2、启动容器</h3><p>命令格式：<code>docker start [OPTIONS] CONTAINER [CONTAINER...]</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//查看本地所有Docker容器，注意状态为Exited</span><br><span class="line">[root@xxx /]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                                   COMMAND                  CREATED             STATUS                       PORTS               NAMES</span><br><span class="line">d26cbeecf22d        registry.cn-hangzhou.aliyuncs.com/xym/163ubuntu:14.04   &quot;/bin/sh -c &apos;/usr/sb…&quot;   14 minutes ago      Exited (137) 5 seconds ago                       practical_wright</span><br><span class="line"></span><br><span class="line">//使用start启动容器</span><br><span class="line">[root@xxx /]# docker start d26cb</span><br><span class="line">d26cb</span><br><span class="line"></span><br><span class="line">//查看本地所有Docker容器，注意状态为Up</span><br><span class="line">[root@xxx /]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                                   COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">d26cbeecf22d        registry.cn-hangzhou.aliyuncs.com/xym/163ubuntu:14.04   &quot;/bin/sh -c &apos;/usr/sb…&quot;   14 minutes ago      Up 2 seconds</span><br></pre></td></tr></table></figure>
+<h3 id="3、新建并启动容器"><a href="#3、新建并启动容器" class="headerlink" title="3、新建并启动容器"></a>3、新建并启动容器</h3><p>除了创建容器后通过start命令来启动，也可以直接新建并启动容器。所需要的命令主要为<code>docker run</code>,等价于先执行<code>docker create</code>命令，再执行<code>docker start</code>命令。<br>例如，下面的命令输出一个“Hello World”，之后容器自动终止：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//创建容器并执行一个输出命令</span><br><span class="line">[root@xym /]# docker run ubuntu:latest /bin/echo &quot;Hello World&quot;</span><br><span class="line">Hello World</span><br><span class="line"></span><br><span class="line">//查看本地所有Docker容器，注意状态为Exited</span><br><span class="line">[root@xym /]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                     PORTS               NAMES</span><br><span class="line">3fa47db4c105        ubuntu:latest       &quot;/bin/echo &apos;Hello Wo…&quot;   8 seconds ago       Exited (0) 7 seconds ago                       elated_goldwasser</span><br></pre></td></tr></table></figure>
+<p>这跟在本地直接执行<code>/bin/echo &quot;Hello World&quot;</code>几乎感觉不出任何区别。当利用<code>docker run</code>来创建并启动容器时，Docker在后台运行的标准操作：  </p>
+<ul>
+<li>检查本地是否存在指定的镜像，不存在就从共有仓库下载；</li>
+<li>利用镜像创建容器，并启动该容器；</li>
+<li>分配一个文件系统给容器，并在只读的镜像层外面挂载一层可读写层；</li>
+<li>从宿主主机配置的网桥接口中桥接一个虚拟接口到容器中；</li>
+<li>从网桥的地址池配置一个IP地址给容器；</li>
+<li>执行用户指定的应用程序</li>
+<li>执行完毕后容器被自动终止</li>
+</ul>
+<p>启动一个终端，并允许用户进行交互：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//其中-t选项当Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上，-i则让容器的标准输入保持打开。</span><br><span class="line">[root@xxx /]# docker run -it ubuntu:latest /bin/bash</span><br><span class="line">root@21536661367e:/# pwd</span><br><span class="line">/</span><br><span class="line"></span><br><span class="line">//用户可以在交互模式下输入系统命令进行操作</span><br><span class="line">root@21536661367e:/# ls</span><br><span class="line">bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var</span><br><span class="line"></span><br><span class="line">//用户可以在交互模式下输入系统命令进行操作，使用ps可以看到系统只运行了bash应用，并没有运行其他无关的进程</span><br><span class="line">root@21536661367e:/# ps</span><br><span class="line">   PID TTY          TIME CMD</span><br><span class="line">     1 pts/0    00:00:00 bash</span><br><span class="line">    10 pts/0    00:00:00 ps</span><br><span class="line">    </span><br><span class="line">//用户可以输入exit或ctrl+d来退出容器</span><br><span class="line">root@21536661367e:/# exit</span><br><span class="line">exit</span><br><span class="line">[root@xxx /]#</span><br></pre></td></tr></table></figure>
+<p>对于所创建的bash容器，当使用exit命令退出之后，容器就自动处于退出（Exited）状态了。这是因为对Docker容器来说，当运行的应用退出后，容器也就没有必要继续运行了。<br>某些时候，执行<code>docker run</code>会出错，因为命令无法正常执行容器会直接退出，此时可以查看退出的错误代码。  </p>
+<ul>
+<li>125：Docker daemon执行出错，例如指定了不支持的Docker命令参数；</li>
+<li>126：所指定的命令无法执行，例如权限出错。</li>
+<li>127：容器内命令无法找到；</li>
+</ul>
+<p>命令执行出错后，会默认返回错误码。</p>
+<h3 id="4、守护态运行"><a href="#4、守护态运行" class="headerlink" title="4、守护态运行"></a>4、守护态运行</h3><p>更多的时候，需要让Docker容器在后台以守护态（Daemonized）形式运行。此时，可以通过添加-d参数来实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//-d参数以后台模式启动Docker，返回容器id</span><br><span class="line">[root@xxx ~]# docker run -d ubuntu:latest /bin/sh -c &quot;while true;do echo hello world;sleep 1;done&quot;</span><br><span class="line">5d4cfe5b4b6109fd8df8717fcd87790e7692f70d7e8e8d7590ba4c269f6dd717</span><br><span class="line"></span><br><span class="line">//通过docker ps查看运行的容器</span><br><span class="line">[root@xxx ~]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">5d4cfe5b4b61        ubuntu:latest       &quot;/bin/sh -c &apos;while t…&quot;   13 seconds ago      Up 12 seconds                           thirsty_lewin</span><br><span class="line"></span><br><span class="line">//使用docker logs命令获取容器输出信息</span><br><span class="line">[root@xxx ~]# docker logs 5d4c</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure>
+<h2 id="终止容器"><a href="#终止容器" class="headerlink" title="终止容器"></a>终止容器</h2><p>命令格式：<code>docker stop [OPTIONS] CONTAINER [CONTAINER...]</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Options:</span><br><span class="line">  -t, --time int   Seconds to wait for stop before killing it (default 10)</span><br></pre></td></tr></table></figure></p>
+<p>原理：首先向容器发送SIGTERM信号,等待一段超时时间（默认10秒）后，再发送SIGKILL信号来终止容器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//终止前</span><br><span class="line">[root@xxx ~]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">5d4cfe5b4b61        ubuntu:latest       &quot;/bin/sh -c &apos;while t…&quot;   16 minutes ago      Up 16 minutes                           thirsty_lewin</span><br><span class="line"></span><br><span class="line">//发送终止命令</span><br><span class="line">[root@xym ~]# docker stop 5d4c</span><br><span class="line">5d4c</span><br><span class="line"></span><br><span class="line">//终止后状态为Exited</span><br><span class="line">[root@xym ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                        PORTS               NAMES</span><br><span class="line">5d4cfe5b4b61        ubuntu:latest       &quot;/bin/sh -c &apos;while t…&quot;   18 minutes ago      Exited (137) 56 seconds ago                       thirsty_lewin</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>使用<code>docker kill</code>命令会直接发送SIGKILL信号来强行终止容器。</li>
+<li>当容器中指定的应用终结时，容器也会自动终止。</li>
+<li>使用<code>docker start</code>可以重新启动处于终止状态的容器。</li>
+<li>使用<code>docker restart</code>命令会将一个运行态的容器先终止，然后再重新启动</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//重新启动已终止的容器</span><br><span class="line">[root@xxx ~]# docker start 5d4c</span><br><span class="line">5d4c</span><br><span class="line"></span><br><span class="line">//查看运行的容器</span><br><span class="line">[root@xxx ~]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">5d4cfe5b4b61        ubuntu:latest       &quot;/bin/sh -c &apos;while t…&quot;   25 minutes ago      Up 6 seconds                            thirsty_lewin</span><br><span class="line"></span><br><span class="line">//发送SIGKILL信号来强行终止容器</span><br><span class="line">[root@xxx ~]# docker kill 5d4c</span><br><span class="line">5d4c</span><br><span class="line"></span><br><span class="line">//查看运行容器</span><br><span class="line">[root@xxx ~]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line"></span><br><span class="line">//重启容器</span><br><span class="line">[root@xxx ~]# docker restart 5d4c</span><br><span class="line">5d4c</span><br><span class="line"></span><br><span class="line">//查看运行容器</span><br><span class="line">[root@xxx ~]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">5d4cfe5b4b61        ubuntu:latest       &quot;/bin/sh -c &apos;while t…&quot;   25 minutes ago      Up 1 second                             thirsty_lewin</span><br></pre></td></tr></table></figure>
+<h2 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h2><p>在使用-d参数时，容器启动后会进入后台，用户无法看到容器中的信息，也无法操作。这个时候如果要进入容器进行操作，有三种方法：</p>
+<h3 id="1、使用attach命令"><a href="#1、使用attach命令" class="headerlink" title="1、使用attach命令"></a>1、使用attach命令</h3><p>命令格式：<code>docker attach [OPTIONS] CONTAINER</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Options:</span><br><span class="line">      --detach-keys string   指定退出attach模式的快捷键序列，默认是ctrl+q ctrl+p;</span><br><span class="line">      --no-stdin             是否关闭标准输入，默认是保持打开</span><br><span class="line">      --sig-proxy            是否代理收到的系统信号给应用进程，默认为true</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@xxx ~]# docker run -itd ubuntu /bin/bash</span><br><span class="line">3535fd6c5ccab3c4d4737c1385ac18c36bd190c129c70c664fbf8c62a1707e67</span><br><span class="line">[root@xxx ~]# docker attach 3535</span><br><span class="line">root@3535fd6c5cca:/# </span><br><span class="line">root@3535fd6c5cca:/# ls</span><br><span class="line">bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var</span><br></pre></td></tr></table></figure></p>
+<p>attach命令缺点：当多个窗口同时用attach命令连到同一个容器的时候，所有窗口都会同步显示。当某个窗口因命令阻塞时，其他窗口也无法执行操作了。</p>
+<h3 id="2、使用exec命令（exec命令用于从外部运行容器内部的命令）"><a href="#2、使用exec命令（exec命令用于从外部运行容器内部的命令）" class="headerlink" title="2、使用exec命令（exec命令用于从外部运行容器内部的命令）"></a>2、使用exec命令（exec命令用于从外部运行容器内部的命令）</h3><p>命令格式：<code>docker exec [OPTIONS] CONTAINER COMMAND [ARG...]</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Options:</span><br><span class="line">  -d, --detach               以后台模式运行命令</span><br><span class="line">      --detach-keys string   Override the key sequence for detaching a container</span><br><span class="line">  -e, --env list             设置环境变量</span><br><span class="line">  -i, --interactive          打开标准输入接受用户输入命令，默认为false</span><br><span class="line">      --privileged           Give extended privileges to the command</span><br><span class="line">  -t, --tty                  分配一个伪终端，默认为false</span><br><span class="line">  -u, --user string          执行命令的用户名或ID</span><br><span class="line">  -w, --workdir string       Working directory inside the container</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@xxx ~]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">5d4cfe5b4b61        ubuntu:latest       &quot;/bin/sh -c &apos;while t…&quot;   About an hour ago   Up About a minute                       thirsty_lewin</span><br><span class="line"></span><br><span class="line">//使用exec进入后台运行的镜像中</span><br><span class="line">[root@xym ~]# docker exec -it thirsty_lewin /bin/bash</span><br><span class="line">root@5d4cfe5b4b61:/#</span><br></pre></td></tr></table></figure></p>
+<p>通过以上可以看出，一个bash终端被打开了，在不影响容器内其他应用的前提下，用户可以很容易与容器进行交互。</p>
+<p>注意：通过指定<code>-it</code>参数来保持标准输入打开，并且分配一个伪终端。通过<code>exec</code>命令对容器执行操作是最为推荐的方式。</p>
+<h3 id="3、使用第三方nsenter工具"><a href="#3、使用第三方nsenter工具" class="headerlink" title="3、使用第三方nsenter工具"></a>3、使用第三方<code>nsenter</code>工具</h3><p>在<code>util-linux</code>软件包版本2.23+中包含<code>nsenter</code>工具，如果系统中的<code>util-linux</code>包没有该命令，可以按照下面方式从源码安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ cd /emp;curl https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.32/util-linux-2.32.tar.gz | tar -zxvf;</span><br><span class="line">cd util-linux-2.32;</span><br><span class="line"></span><br><span class="line">$ ./configure --without-ncurses</span><br><span class="line"></span><br><span class="line">$ make nsenter &amp;&amp; cp nsenter /usr/local/bin</span><br></pre></td></tr></table></figure>
+<p>为了使用<code>nsenter</code> 连接到容器，还需要找到容器PID，可以通过下面的命令获取：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//获取容器运行PID</span><br><span class="line">PID=$(docker inspect --format&quot;&#123;&#123;.State.Pid&#125;&#125;&quot; &lt;container&gt;)</span><br><span class="line"></span><br><span class="line">//通过PID，连接到容器：</span><br><span class="line">`nsenter --target $PID --mount --uts --ipc --net --pid`</span><br></pre></td></tr></table></figure>
+<p>下面使用完整的命令执行该操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//查看运行容器</span><br><span class="line">[root@xxx ~]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">5d4cfe5b4b61        ubuntu:latest       &quot;/bin/sh -c &apos;while t…&quot;   About an hour ago   Up 4 minutes                            thirsty_lewin</span><br><span class="line"></span><br><span class="line">//查看运行容器进程PID</span><br><span class="line">[root@xxx ~]# docker inspect --format &quot;&#123;&#123;.State.Pid&#125;&#125;&quot; thirsty_lewin</span><br><span class="line">18637</span><br><span class="line"></span><br><span class="line">//进入容器</span><br><span class="line">[root@xxx ~]# nsenter --target 18637 --mount --uts --ipc --net --pid</span><br><span class="line">mesg: ttyname failed: No such file or directory</span><br><span class="line"></span><br><span class="line">//查看用户</span><br><span class="line">root@5d4cfe5b4b61:~# w</span><br><span class="line"> 15:22:55 up 15:59,  0 users,  load average: 0.03, 0.04, 0.05</span><br><span class="line">USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br></pre></td></tr></table></figure>
+<h2 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h2><p>可以使用docker rm命令来删除处于终止或退出状态的容器。</p>
+<p>命令格式：<code>docker rm [OPTIONS] CONTAINER [CONTAINER...]</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  -f, --force     强制终止并删除一个运行中的容器</span><br><span class="line">  -l, --link      删除容器的连接但保留容器</span><br><span class="line">  -v, --volumes   删除容器挂载的数据卷</span><br><span class="line"></span><br><span class="line">//查看运行中的容器</span><br><span class="line">[root@xxx ~]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">5d4cfe5b4b61        ubuntu:latest       &quot;/bin/sh -c &apos;while t…&quot;   About an hour ago   Up 14 minutes                           thirsty_lewin</span><br><span class="line"></span><br><span class="line">//删除运行状态的容器</span><br><span class="line">[root@xxx ~]# docker rm 5d4c</span><br><span class="line">Error response from daemon: You cannot remove a running container 5d4cfe5b4b6109fd8df8717fcd87790e7692f70d7e8e8d7590ba4c269f6dd717. Stop the container before attempting removal or force remove</span><br><span class="line"></span><br><span class="line">//强制删除运行状态的容器</span><br><span class="line">[root@xym ~]# docker rm -f 5d4c</span><br><span class="line">5d4c</span><br></pre></td></tr></table></figure>
+<h2 id="导入和导出容器"><a href="#导入和导出容器" class="headerlink" title="导入和导出容器"></a>导入和导出容器</h2><p>某些时候，需要将容器从一个系统迁移到另外一个系统，此时可以使用docker的导入和导出功能。</p>
+<h3 id="1、导出容器"><a href="#1、导出容器" class="headerlink" title="1、导出容器"></a>1、导出容器</h3><p>导出容器是指导出一个已经创建的容器到一个文件，不管此时这个容器是否处于运行状态。<br>命令格式：<code>docker export [OPTIONS] CONTAINER</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Options:</span><br><span class="line">  -o, --output string  指定导出的tar归档文件，也可直接通过重定向来实现。</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">//显示所有容器</span><br><span class="line">[root@xxx ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                    PORTS               NAMES</span><br><span class="line">684d1d0dc403        ubuntu:latest       &quot;/bin/sh -c &apos;while t…&quot;   19 seconds ago      Up 18 seconds                                 vigorous_brahmagupta</span><br><span class="line">3fa47db4c105        ubuntu:latest       &quot;/bin/echo &apos;Hello Wo…&quot;   11 hours ago        Exited (0) 11 hours ago                       elated_goldwasser</span><br><span class="line"></span><br><span class="line">//将运行中的容器导出tar文件</span><br><span class="line">[root@xx ~]# docker export -o test_for_run.tar 684d</span><br><span class="line"></span><br><span class="line">//将已经退出的容器导出tar文件</span><br><span class="line">[root@xym ~]# docker export 3fa4 &gt; test_for_stop.tar</span><br></pre></td></tr></table></figure>
+<p>之后，可将导出的tar文件传输到其他机器上，然后再通过导入命令导入到系统中，从而实现容器的迁移。</p>
+<h3 id="2、导入容器"><a href="#2、导入容器" class="headerlink" title="2、导入容器"></a>2、导入容器</h3><p>导出的文件又可以使用<code>docker import</code>命令导入变成镜像。<br>命令格式：<code>docker import [OPTIONS] file|URL|- [REPOSITORY[:TAG]]</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Options:</span><br><span class="line">  -c, --change list      在导入的同时执行对容器进行修改的Dockerfile指令</span><br><span class="line">  -m, --message string   Set commit message for imported image</span><br><span class="line"></span><br><span class="line">//将tar文件导入系统中</span><br><span class="line">[root@xxx ~]# docker import test_for_run.tar xym/ubuntu:1.0</span><br><span class="line">sha256:f916030e78e9046defa752bfc32a99b96460e098d3ee1cab1a5048150255d27e</span><br><span class="line"></span><br><span class="line">[root@xxx ~]# docker images</span><br><span class="line">REPOSITORY                                        TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">xym/ubuntu                                        1.0                 f916030e78e9        2 seconds ago       85.8MB</span><br><span class="line">centos-7                                          import              be5e039acd03        19 hours ago        435MB</span><br></pre></td></tr></table></figure>
+<p>之前镜像章节中介绍过使用<code>docker load</code>命令来导入一个镜像文件，与<code>docker import</code>命令十分类似。</p>
+<p>实际上，既可以使用<code>docker load</code>命令来导入镜像存储文件到本地镜像库，也可以使用<code>docker import</code>命令来导入一个容器快照到本地镜像库。</p>
+<p>这二者的区别在于容器快照文件将丢弃所有历史记录和元数据信息（即仅保存容器当时的快照状态），而镜像存储文件将保存完整记录，体积也更大。此外，从容器快照文件导入时可以重新指定标签。</p>
 
       
     </div>
@@ -348,17 +409,17 @@
   
     
     <div class="copyright">
-        <p><span>本文標題:</span><a href="/2018/04/13/Docker-基本操作之容器/">Docker 基本操作之容器</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主頁">xym</a></p>
-        <p><span>發布時間:</span>2018-04-13, 19:42:56</p>
-        <p><span>最後更新:</span>2018-04-15, 01:30:12</p>
+        <p><span>本文标题:</span><a href="/2018/04/13/Docker-基本操作之容器/">Docker 基本操作之容器</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">xym</a></p>
+        <p><span>发布时间:</span>2018-04-13, 19:42:56</p>
+        <p><span>最后更新:</span>2018-04-15, 15:30:22</p>
         <p>
-            <span>原始鏈接:</span><a class="post-url" href="/2018/04/13/Docker-基本操作之容器/" title="Docker 基本操作之容器">http://xym-loveit.github.io/2018/04/13/Docker-基本操作之容器/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://xym-loveit.github.io/2018/04/13/Docker-基本操作之容器/　　作者: xym" title="點擊複製文章鏈接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/04/13/Docker-基本操作之容器/" title="Docker 基本操作之容器">http://xym-loveit.github.io/2018/04/13/Docker-基本操作之容器/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://xym-loveit.github.io/2018/04/13/Docker-基本操作之容器/　　作者: xym" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
-            <span>許可協議:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"姓名標示-非商業性-相同方式分享 4.0 國際"</a> 轉載請保留原文鏈接及作者。
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
         </p>
     </div>
 
@@ -379,9 +440,9 @@
 </article>
 
     <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目錄</strong>
+        <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建容器"><span class="toc-number">1.</span> <span class="toc-text">创建容器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、新建容器"><span class="toc-number">1.1.</span> <span class="toc-text">1、新建容器</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建容器"><span class="toc-number">1.</span> <span class="toc-text">创建容器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、新建容器"><span class="toc-number">1.1.</span> <span class="toc-text">1、新建容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、启动容器"><span class="toc-number">1.2.</span> <span class="toc-text">2、启动容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、新建并启动容器"><span class="toc-number">1.3.</span> <span class="toc-text">3、新建并启动容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、守护态运行"><span class="toc-number">1.4.</span> <span class="toc-text">4、守护态运行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#终止容器"><span class="toc-number">2.</span> <span class="toc-text">终止容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进入容器"><span class="toc-number">3.</span> <span class="toc-text">进入容器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、使用attach命令"><span class="toc-number">3.1.</span> <span class="toc-text">1、使用attach命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、使用exec命令（exec命令用于从外部运行容器内部的命令）"><span class="toc-number">3.2.</span> <span class="toc-text">2、使用exec命令（exec命令用于从外部运行容器内部的命令）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、使用第三方nsenter工具"><span class="toc-number">3.3.</span> <span class="toc-text">3、使用第三方nsenter工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除容器"><span class="toc-number">4.</span> <span class="toc-text">删除容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导入和导出容器"><span class="toc-number">5.</span> <span class="toc-text">导入和导出容器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、导出容器"><span class="toc-number">5.1.</span> <span class="toc-text">1、导出容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、导入容器"><span class="toc-number">5.2.</span> <span class="toc-text">2、导入容器</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -395,10 +456,10 @@
         }
     </style>
 
-    <input type="button" id="tocButton" value="隱藏目錄"  title="點擊按鈕隱藏或者顯示文章目錄">
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
     <script>
-        yiliaConfig.toc = ["隱藏目錄", "顯示目錄", !!"false"];
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
     </script>
 
 
@@ -459,7 +520,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/" title="回到主頁"><i class="fa fa-home"></i></a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
@@ -488,14 +549,14 @@
                 2017-2018 xym
             </div>
             <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank" title="快速、簡潔且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="簡而不減 Hexo 雙欄博客主題  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
             </div>
         </div>
         
             <div class="visit">
                 
                     <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" title="本站到訪數"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
                         </span>
                     </span>
                 
@@ -504,7 +565,7 @@
                 
                 
                     <span id="busuanzi_container_page_pv" style='display:none'>
-                        <span id="page-visit"  title="本頁閱讀量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
                         </span>
                     </span>
                 
@@ -537,9 +598,9 @@
 
 
 <div class="scroll" id="scroll">
-    <a href="#" title="返回頂部"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments" onclick="load$hide();" title="查看評論"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer" title="轉到底部"><i class="fa fa-arrow-down"></i></a>
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
 </div>
 <script>
     // Open in New Window
