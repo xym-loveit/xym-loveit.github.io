@@ -3,6 +3,27 @@
   
     
     <entry>
+      <title>Hexo 跳过指定文件的渲染</title>
+      <link href="/2018/04/16/Hexo-%E8%B7%B3%E8%BF%87%E6%8C%87%E5%AE%9A%E6%96%87%E4%BB%B6%E7%9A%84%E6%B8%B2%E6%9F%93/"/>
+      <url>/2018/04/16/Hexo-%E8%B7%B3%E8%BF%87%E6%8C%87%E5%AE%9A%E6%96%87%E4%BB%B6%E7%9A%84%E6%B8%B2%E6%9F%93/</url>
+      <content type="html"><![CDATA[<p>关于hexo的<code>_config.yml</code>配置，官方文档中：</p><blockquote><p>skip_render：跳过指定文件的渲染，您可使用 glob 表达式来匹配路径。</p></blockquote><p>但并没有说明具体该怎么配置，一番折腾后得以解决：</p><p>如果要跳过source文件夹下的<code>test.html</code>，可以这样配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">skip_render: test.html</span><br></pre></td></tr></table></figure></p><p>注意，千万不要手贱加上个<code>/</code>写成<code>/test.html</code>，这里只能填相对于source文件夹的相对路径。</p><p>如果要忽略source下的test文件夹下所有文件，可以这样配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">skip_render: test/*</span><br></pre></td></tr></table></figure></p><p>如果要忽略source下的test文件夹下<code>.html</code>文件，可以这样配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">skip_render: test/*.html</span><br></pre></td></tr></table></figure></p><p>如果要忽略source下的test文件夹下所有文件和目录，可以这样配置：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">skip_render: test/**</span><br></pre></td></tr></table></figure><p>如果要忽略多个路径的文件或目录，可以这样配置：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">skip_render:</span><br><span class="line">    - test.html</span><br><span class="line">    - test/*</span><br></pre></td></tr></table></figure><p><strong>Tips:</strong></p><p><a href="https://github.com/hexojs/hexo/issues/1146" target="_blank" rel="noopener">如何不处理source目录下某个子目录的所有文件，仅仅是将其copy到public目录中对应目录？</a></p>]]></content>
+      
+      <categories>
+          
+          <category> hexo笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hexo小技巧 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>Docker 数据管理</title>
       <link href="/2018/04/15/Docker-%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/"/>
       <url>/2018/04/15/Docker-%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/</url>
@@ -77,10 +98,6 @@
       
         <tags>
             
-            <tag> rm命令 </tag>
-            
-            <tag> import命令 </tag>
-            
             <tag> docker容器 </tag>
             
             <tag> create命令 </tag>
@@ -97,7 +114,11 @@
             
             <tag> exec命令 </tag>
             
+            <tag> rm命令 </tag>
+            
             <tag> export命令 </tag>
+            
+            <tag> import命令 </tag>
             
         </tags>
       
@@ -122,6 +143,10 @@
             
             <tag> pull命令 </tag>
             
+            <tag> rm命令 </tag>
+            
+            <tag> import命令 </tag>
+            
             <tag> docker镜像 </tag>
             
             <tag> images命令 </tag>
@@ -134,11 +159,7 @@
             
             <tag> rmi命令 </tag>
             
-            <tag> rm命令 </tag>
-            
             <tag> commit命令 </tag>
-            
-            <tag> import命令 </tag>
             
             <tag> save命令 </tag>
             
