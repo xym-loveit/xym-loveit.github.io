@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> -->
+<meta name="author" content="xym" />
+
+
+
+<meta name="description" content="Docker入门指南,端口映射和容器互联。">
+<meta name="keywords" content="docker容器端口映射,Pp命,link选项,容器互联原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 端口映射与容器互联">
+<meta property="og:url" content="http://xym-loveit.github.io/2018/04/16/Docker-端口映射与容器互联/index.html">
+<meta property="og:site_name" content="放肆的青春">
+<meta property="og:description" content="Docker入门指南,端口映射和容器互联。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-16T15:56:45.507Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker 端口映射与容器互联">
+<meta name="twitter:description" content="Docker入门指南,端口映射和容器互联。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="放肆的青春" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Docker 端口映射与容器互联 | 放肆的青春</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?e3f38299cead93945f64f5549341ae46";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">xym</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">要变得和大叔一样强</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:xym-loveit@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/xym-loveit" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/volumes-from选项/">--volumes-from选项</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v选项/">-v选项</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AbstractExecutorService/">AbstractExecutorService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ArrayBlockingQueue/">ArrayBlockingQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Callable/">Callable</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CountDownLatch/">CountDownLatch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CyclicBarrier/">CyclicBarrier</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EVAL及EVALSHA/">EVAL及EVALSHA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka-配置/">Eureka 配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Executor/">Executor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ExecutorService/">ExecutorService</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Executors/">Executors</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Future/">Future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FutureTask/">FutureTask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git命令/">Git命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix-配置/">Hystrix 配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java并发编程/">Java并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KEYS与ARGV/">KEYS与ARGV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lock/">Lock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lua脚本/">Lua脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pp命/">Pp命</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis任务队列/">Redis任务队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis优先级队列/">Redis优先级队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis发布订阅/">Redis发布订阅</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis排序/">Redis排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis管道概念/">Redis管道概念</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis键值存储详解/">Redis键值存储详解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon-配置/">Ribbon 配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SORT参数讲解/">SORT参数讲解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SORT排序/">SORT排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Semaphore/">Semaphore</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud-配置手册/">Spring Cloud 配置手册</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring-Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud常见问题/">SpringCloud常见问题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thread/">Thread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/">ThreadLocal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadPoolExecutor/">ThreadPoolExecutor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Turbine-配置/">Turbine 配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/attach命令/">attach命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/commit命令/">commit命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/create命令/">create命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker仓库/">docker仓库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker容器/">docker容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker容器端口映射/">docker容器端口映射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker数据管理/">docker数据管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker镜像/">docker镜像</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eureka配置/">eureka配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exec命令/">exec命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/export命令/">export命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo小技巧/">hexo小技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/history命令/">history命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/images命令/">images命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/import命令/">import命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inspect命令/">inspect命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java多线程/">java多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/link选项/">link选项</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/load命令/">load命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/login命令/">login命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pull命令/">pull命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/push命令/">push命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-trib-rb集群辅助工具/">redis-trib.rb集群辅助工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis一主多从模式/">redis一主多从模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis主从模式/">redis主从模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis事务/">redis事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis五种数据类型/">redis五种数据类型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis使用Lua脚本/">redis使用Lua脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis命令/">redis命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis命令重命名/">redis命令重命名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis哨兵监控/">redis哨兵监控</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis增量复制/">redis增量复制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制/">redis复制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制初始化/">redis复制初始化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis复制原理/">redis复制原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis多数据库/">redis多数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis安全/">redis安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis持久化/">redis持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis数据库密码/">redis数据库密码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis的AOF持久化/">redis的AOF持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis的RDB持久化/">redis的RDB持久化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis积压队列/">redis积压队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis管理工具/">redis管理工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis通信协议/">redis通信协议</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis配置/">redis配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis集群/">redis集群</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/restart命令/">restart命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rmi命令/">rmi命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rm命令/">rm命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/run命令/">run命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/save命令/">save命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search命令/">search命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/start命令/">start命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stop命令/">stop命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/synchronized/">synchronized</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tag命令/">tag命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/volatile/">volatile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/列表（list）/">列表（list）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/同步容器/">同步容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/哨兵的配置/">哨兵的配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/哨兵（sentinel）的实现原理/">哨兵（sentinel）的实现原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/字符串（string）/">字符串（string）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器互联原理/">容器互联原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常用工具/">常用工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序性能/">排序性能</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序缓存/">排序缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/散列表（hash）/">散列表（hash）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据卷备份/">数据卷备份</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据卷恢复/">数据卷恢复</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/时速云镜像仓库/">时速云镜像仓库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有序集合（zset）/">有序集合（zset）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/本地搭建私有仓库配置/">本地搭建私有仓库配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生存时间/">生存时间</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/缓存/">缓存</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/节点（node）的插槽（slot）分配/">节点（node）的插槽（slot）分配</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/访问频率限制/">访问频率限制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/进程/">进程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/键归属的插槽/">键归属的插槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阻塞队列/">阻塞队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集合/">集合</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集合（set）/">集合（set）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群故障恢复/">集群故障恢复</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/集群（cluster）插槽slot/">集群（cluster）插槽slot</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">一个行者</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">xym</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">xym</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">要变得和大叔一样强</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:xym-loveit@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/xym-loveit" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Docker-端口映射与容器互联" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/16/Docker-端口映射与容器互联/" class="article-date">
+      <time datetime="2018-04-16T08:11:59.000Z" itemprop="datePublished">2018-04-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Docker 端口映射与容器互联
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Docker系列/">Docker系列</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Pp命/">Pp命</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker容器端口映射/">docker容器端口映射</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/link选项/">link选项</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/容器互联原理/">容器互联原理</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>在实践中会经常碰到需要多个服务组件容器共同协作的情况，这往往需要多个容器之间能够互相访问到对方的服务。除了通过网络访问外，Docker还提供了两个很方便的功能来满足服务访问的基本需求：一是允许映射容器内应用的服务端口到本地宿主主机；另一个是互联机制实现多个容器间通过容器名来快速访问。</p>
+<h2 id="端口映射实现访问容器"><a href="#端口映射实现访问容器" class="headerlink" title="端口映射实现访问容器"></a>端口映射实现访问容器</h2><h3 id="1、从外部访问容器应用"><a href="#1、从外部访问容器应用" class="headerlink" title="1、从外部访问容器应用"></a>1、从外部访问容器应用</h3><p>在启动容器的时候，如果不指定对应的参数，在容器外部是无法通过网络来访问容器内的网络应用和服务的。当容器中运行一些网络应用，要让外部访问这些应用时，可以通过<code>-p</code>或<code>-P</code>参数来指定端口映射。当使用<code>-P</code>（大写的）标记时，Docker会随机映射一个端口到内部容器开放的网络端口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@xxx ~]# docker run -d -P training/webapp python app.py</span><br><span class="line">f2c1a06b94b49de281b403fa339d5975be5dd6fae662c664b300540c851c3565</span><br><span class="line"></span><br><span class="line">//ps命令后发现本地主机的32783被映射到了容器的5000端口。访问宿主主机的32783端口即可访问容器内的web应用</span><br><span class="line">[root@xxx ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                          PORTS                     NAMES</span><br><span class="line">f2c1a06b94b4        training/webapp     &quot;python app.py&quot;          3 seconds ago       Up 2 seconds                    0.0.0.0:32783-&gt;5000/tcp   inspiring_hawking</span><br><span class="line"></span><br><span class="line">//同样使用docker logs命令来查看应用信息</span><br><span class="line">[root@xxx ~]# docker logs -f  f2c</span><br><span class="line">Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)</span><br><span class="line">172.17.0.1 - - [14/Apr/2018 16:13:50] &quot;GET / HTTP/1.1&quot; 200 -</span><br></pre></td></tr></table></figure>
+<p><code>-p</code>（小写的）可以指定要映射的端口，并且，在一个指定端口上只可以绑定一个容器。支持的格式有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IP:HostPort:ContainerPort|IP::ContainerPort|HostPort:ContainerPort</span><br></pre></td></tr></table></figure>
+<h3 id="2、映射所有接口地址"><a href="#2、映射所有接口地址" class="headerlink" title="2、映射所有接口地址"></a>2、映射所有接口地址</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//使用HostPort:ContainerPort格式将本地的5000端口映射到容器的5000端口</span><br><span class="line">[root@xxx ~]# docker run -d -p 5000:5000 training/webapp python app.py</span><br><span class="line">22c0bc271d46033c16f9ebdbc60ebf78938a1a0710bcede98afd15f887a92968</span><br><span class="line"></span><br><span class="line">//查看容器，注意端口映射栏</span><br><span class="line">[root@xxx ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS                    NAMES</span><br><span class="line">22c0bc271d46        training/webapp     &quot;python app.py&quot;          8 seconds ago       Up 7 seconds                0.0.0.0:5000-&gt;5000/tcp   confident_saha</span><br><span class="line"></span><br><span class="line">//多次使用-p标记可以绑定多个端口</span><br><span class="line">[root@xxx ~]# docker run -d -p 5000:5000 -p 8080:80  training/webapp python app.py</span><br><span class="line">c18177c0e1ec3a40c175cec0b7c165d8e0ff9576087c1734293e890357152919</span><br><span class="line"></span><br><span class="line">//查看容器，注意端口映射栏</span><br><span class="line">[root@xxx ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS                                          NAMES</span><br><span class="line">c18177c0e1ec        training/webapp     &quot;python app.py&quot;          3 seconds ago       Up 2 seconds                0.0.0.0:5000-&gt;5000/tcp, 0.0.0.0:8080-&gt;80/tcp   suspicious_swartz</span><br></pre></td></tr></table></figure>
+<h3 id="3、映射到指定地址的指定端口"><a href="#3、映射到指定地址的指定端口" class="headerlink" title="3、映射到指定地址的指定端口"></a>3、映射到指定地址的指定端口</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//只有自己访问自己</span><br><span class="line">[root@xxx ~]# docker run -d -p 127.0.0.1:5000:5000 training/webapp python app.py </span><br><span class="line">4da1f3ed9ee27026b9929e2b96ebd422e2bf6ab212b07ab8fbb8339c322fef70</span><br><span class="line"></span><br><span class="line">[root@xxx ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS                      NAMES</span><br><span class="line">4da1f3ed9ee2        training/webapp     &quot;python app.py&quot;          4 seconds ago       Up 4 seconds                127.0.0.1:5000-&gt;5000/tcp   affectionate_elion</span><br></pre></td></tr></table></figure>
+<h3 id="4、映射到指定地址的任意端口"><a href="#4、映射到指定地址的任意端口" class="headerlink" title="4、映射到指定地址的任意端口"></a>4、映射到指定地址的任意端口</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">//使用IP::ContainerPort绑定localhost的任意端口到容器的5000端口，本地主机会自动分配一个端口</span><br><span class="line">[root@xxx ~]# docker run -d -p 127.0.0.1::5000 training/webapp python app.py</span><br><span class="line">ed9497ef017e2e90fac7e783c92ccde2f59c14f62d429190cb24c0dfa43eeefb</span><br><span class="line"></span><br><span class="line">[root@xxx ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                         PORTS                       NAMES</span><br><span class="line">ed9497ef017e        training/webapp     &quot;python app.py&quot;          5 seconds ago       Up 4 seconds                   127.0.0.1:32768-&gt;5000/tcp   wonderful_yonath</span><br><span class="line"></span><br><span class="line">//还可以使用udp标记来指定udp端口</span><br><span class="line">[root@xxx ~]# docker run -d -p 5000:5000/udp training/webapp python app.py</span><br><span class="line">4880a7d119f226591ad1b99ad0324d55d8e2caa98a399c9f426e6757fc7491c5</span><br><span class="line">[root@xym ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                         PORTS                              NAMES</span><br><span class="line">4880a7d119f2        training/webapp     &quot;python app.py&quot;          3 seconds ago       Up 3 seconds                   5000/tcp, 0.0.0.0:5000-&gt;5000/udp   gracious_williams</span><br><span class="line">b5257d2e</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">### 5、查看映射端口配置</span><br><span class="line"></span><br><span class="line">使用`docker port`命令来查看当前映射的端口配置，也可以查看到绑定的地址：</span><br></pre></td></tr></table></figure>
+<p>[root@xxx ~]# docker port priceless_franklin 5000<br>0.0.0.0:5000</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 互联机制实现便捷互访</span><br><span class="line"></span><br><span class="line">容器的互联（linking）是一种让多个容器中应用进行快速交互的方式。它会在源和接受容器之间创建连接关系，接受容器可以通过容器名快速访问到源容器，而不用指定具体的IP地址。</span><br><span class="line"></span><br><span class="line">### 1、自定义容器命名</span><br><span class="line"></span><br><span class="line">连接系统依据容器名称来执行。因此，首先需要定义好一个好记的容器名字。虽然当创建容器的时候，系统默认会分配一个名字，但自定义容器名字有两个好处：</span><br><span class="line"></span><br><span class="line">* 自定义的名字比较好记，比如一个web应用容器，我们可以给它起个名字叫web ，一目了然。</span><br><span class="line">* 当要连接其他容器时，即便重启，也可以使用容器名而不用改变，比如连接web容器到db容器。</span><br></pre></td></tr></table></figure>
+<p>//使用–name参数自定义容器名称<br>[root@xxx ~]# docker run -d -p 5000:5000 –name web training/webapp python app.py<br>757d2ee95be01e2c509426c52bf5b4176ff7199eb654b5854ddf0e9b8412c044</p>
+<p>//查看运行容器，注意NAMES栏<br>[root@xxx ~]# docker ps -l<br>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES<br>757d2ee95be0        training/webapp     “python app.py”     5 seconds ago       Up 4 seconds        0.0.0.0:5000-&gt;5000/tcp   web</p>
+<p>//还可使用inspect –format “{{.Name}}“获取容器名字<br>[root@xxx ~]# docker inspect –format “{{.Name}}“ 757d2ee95be<br>/web</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在执行`docker run`的时候如果添加了`--rm`标记，则容器在终止后会立即删除。注意`--rm`和`-d`参数不能同时使用。</span><br><span class="line"></span><br><span class="line">### 2、容器互联</span><br><span class="line"></span><br><span class="line">使用`--link`参数可以让容器之间安全地进行交互。</span><br></pre></td></tr></table></figure>
+<p>//创建一个db容器<br>[root@xxx ~]# docker run -d –name db training/postgres<br>Unable to find image ‘training/postgres:latest’ locally<br>latest: Pulling from training/postgres<br>a3ed95caeb02: Pull complete<br>6e71c809542e: Pull complete<br>2978d9af87ba: Pull complete<br>e1bca35b062f: Pull complete<br>500b6decf741: Pull complete<br>74b14ef2151f: Pull complete<br>7afd5ed3826e: Pull complete<br>3c69bb244f5e: Pull complete<br>d86f9ec5aedf: Pull complete<br>010fabf20157: Pull complete<br>Digest: sha256:a945dc6dcfbc8d009c3d972931608344b76c2870ce796da00a827bd50791907e<br>Status: Downloaded newer image for training/postgres:latest<br>3b48a3a82a86a52244527112a4a03e98e951c8edcdaedb3b63bc1a0775ac0315</p>
+<p>//删除原来的web容器<br>[root@xxx ~]# docker rm -f web<br>web</p>
+<p>//重建web容器，并让它连接到db容器,–link参数的格式为–link name:alias，其中name是要连接的容器名称，alias是这个连接的别名<br>[root@xxx ~]# docker run -d -P –name web –link db:db training/webapp python app.py<br>ca82ea2a2e5ad9b407d5c80fcfd6cd01f7e03be46864e5058b539075e858c626</p>
+<p>//查看运行容器<br>[root@xxx ~]# docker ps<br>CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                     NAMES<br>ca82ea2a2e5a        training/webapp     “python app.py”          22 seconds ago       Up 21 seconds       0.0.0.0:32784-&gt;5000/tcp   web<br>3b48a3a82a86        training/postgres   “su postgres -c ‘/us…”   About a minute ago   Up About a minute   5432/tcp                  db</p>
+<p>//查看接受容器(web)连接信息<br>[root@xxx ~]# docaker inspect –format “{{.HostConfig.Links}}“ web<br>[/db:/web/db]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Docker相当于在两个互联的容器之间创建了一个虚机通道，而且不用映射他们的端口在宿主主机上。在启动db容器的时候并没有使用`-p`和`-P`标记，从而避免了暴露数据库服务端口到外部网路上。</span><br><span class="line"></span><br><span class="line">Docker通过两种方式为容器公开连接信息：</span><br><span class="line"></span><br><span class="line">* 更新环境变量</span><br><span class="line">* 更新`/etc/hosts`文件</span><br><span class="line"></span><br><span class="line">使用env命令来查看web容器的环境变量：</span><br></pre></td></tr></table></figure>
+<p>[root@xxx ~]# docker run –rm –name web2 –link db:db training/webapp env<br>PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin<br>HOSTNAME=6f8232ea8d36<br>DB_PORT=tcp://172.17.0.3:5432<br>DB_PORT_5432_TCP=tcp://172.17.0.3:5432<br>DB_PORT_5432_TCP_ADDR=172.17.0.3<br>DB_PORT_5432_TCP_PORT=5432<br>DB_PORT_5432_TCP_PROTO=tcp<br>DB_NAME=/web2/db<br>DB_ENV_PG_VERSION=9.3<br>HOME=/root</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">其中`DB_`开头的环境变量时提供web容器连接db容器使用的，前缀采用大写的连接别名。除了环境变量之外，Docker还添加host信息到子容器的`/etc/hosts`文件，下面是子容器web的hosts文件：</span><br></pre></td></tr></table></figure>
+<p>//创建容器，并进入bash<br>[root@xxx ~]# docker run -it –rm –link db:db training/webapp /bin/bash</p>
+<p>//查看hosts配置<br>root@d64fd0fa99f0:/opt/webapp# cat /etc/hosts<br>172.17.0.3    db 3b48a3a82a86<br>172.17.0.4    d64fd0fa99f0</p>
+<p>//查看db容器，发现其将容器id作为主机名<br>root@3b48a3a82a86:/# cat /etc/hosts<br>127.0.0.1    localhost<br>172.17.0.3    3b48a3a82a86</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这里有两个hosts信息，第一个是db容器的IP、主机名和容器id，第二个是web容器，web容器使用自己的id作为默认主机名。</span><br></pre></td></tr></table></figure>
+<p>//安装ping命令<br>root@d64fd0fa99f0:/opt/webapp# apt-get install inetutils-ping<br>Unpacking inetutils-ping (2:1.9.2-1) …<br>Setting up inetutils-ping (2:1.9.2-1) …</p>
+<p>//执行ping命令，测试与db容器的连通性<br>root@d64fd0fa99f0:/opt/webapp# ping db<br>PING db (172.17.0.3): 56 data bytes<br>64 bytes from 172.17.0.3: icmp_seq=0 ttl=64 time=0.267 ms<br>64 bytes from 172.17.0.3: icmp_seq=1 ttl=64 time=0.314 ms<br>64 bytes from 172.17.0.3: icmp_seq=2 ttl=64 time=0.260 ms<br>64 bytes from 172.17.0.3: icmp_seq=3 ttl=64 time=0.131 ms</p>
+<p><code>`</code></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/04/16/Docker-端口映射与容器互联/">Docker 端口映射与容器互联</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">xym</a></p>
+        <p><span>发布时间:</span>2018-04-16, 16:11:59</p>
+        <p><span>最后更新:</span>2018-04-16, 23:56:45</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/04/16/Docker-端口映射与容器互联/" title="Docker 端口映射与容器互联">http://xym-loveit.github.io/2018/04/16/Docker-端口映射与容器互联/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://xym-loveit.github.io/2018/04/16/Docker-端口映射与容器互联/　　作者: xym" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/04/16/Hexo-跳过指定文件的渲染/">
+                    Hexo 跳过指定文件的渲染
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#端口映射实现访问容器"><span class="toc-number">1.</span> <span class="toc-text">端口映射实现访问容器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、从外部访问容器应用"><span class="toc-number">1.1.</span> <span class="toc-text">1、从外部访问容器应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、映射所有接口地址"><span class="toc-number">1.2.</span> <span class="toc-text">2、映射所有接口地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、映射到指定地址的指定端口"><span class="toc-number">1.3.</span> <span class="toc-text">3、映射到指定地址的指定端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、映射到指定地址的任意端口"><span class="toc-number">1.4.</span> <span class="toc-text">4、映射到指定地址的任意端口</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Docker 端口映射与容器互联　| 放肆的青春　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://xym-loveit.github.io/2018/04/16/Docker-端口映射与容器互联/';
+            this.page.identifier = '2018/04/16/Docker-端口映射与容器互联/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//xym-loveit.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/04/16/Hexo-跳过指定文件的渲染/" title="下一篇: Hexo 跳过指定文件的渲染">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/04/16/Docker-端口映射与容器互联/">Docker 端口映射与容器互联</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/16/Hexo-跳过指定文件的渲染/">Hexo 跳过指定文件的渲染</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/15/Docker-数据管理/">Docker 数据管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/15/Docker-基本操作之仓库/">Docker 基本操作之仓库</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/13/Docker-基本操作之容器/">Docker 基本操作之容器</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/13/Docker-基本操作之镜像/">Docker 基本操作之镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/11/Spring-Cloud常见问题总结/">Spring Cloud常见问题总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/08/Eureka配置参数/">Eureka配置参数</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/29/常用工具/">常用工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/09/redis入门指南之管理/">redis入门指南之管理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/05/redis入门指南之集群/">redis入门指南之集群</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/redis入门指南之哨兵/">redis入门指南之哨兵</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/redis入门指南之复制/">redis入门指南之复制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/redis入门指南之持久化/">redis入门指南之持久化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/redis入门指南之Lua脚本/">redis入门指南之Lua脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/26/redis入门指南之提高篇III/">redis入门指南之提高篇III</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/26/redis入门指南之提高篇II/">redis入门指南之提高篇II</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/redis入门指南之提高篇I/">redis入门指南之提高篇I</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/redis入门指南-命令阶段III/">redis入门指南-命令阶段III</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-命令阶段II/">redis入门指南-命令阶段II</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-命令阶段I/">redis入门指南-命令阶段I</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/redis入门指南-准备阶段/">redis入门指南-准备阶段</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/04/常用-Git-命令清单/">常用 Git 命令清单</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/03/Git-常用命令/">Git 常用命令整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：Callable、Future和FutureTask/">Java并发编程：Callable、Future和FutureTask</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：CountDownLatch、CyclicBarrier和Semaphore/">Java并发编程：CountDownLatch、CyclicBarrier和Semaphore</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：线程池的使用/">Java并发编程：线程池的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：阻塞队列/">Java并发编程：阻塞队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：ConcurrentModificationException异常原因和解决方法/">Java并发编程：ConcurrentModificationException异常原因和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：同步容器/">Java并发编程：同步容器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：深入剖析ThreadLocal/">Java并发编程：深入剖析ThreadLocal</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/Java并发编程：volatile关键字解析/">Java并发编程：volatile关键字解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：Lock/">Java并发编程：Lock</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：synchronized/">Java并发编程：synchronized</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：Thread类的使用/">Java并发编程：Thread类的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/30/Java并发编程：如何创建线程/">Java并发编程:如何创建线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/Java多线程基础：进程和线程之由来/">Java多线程基础：进程和线程之由来</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/第一篇/">第一篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/hello-world/">Hello World</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2018 xym
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
