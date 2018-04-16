@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xym-loveit.github.io/"/>
-  <updated>2018-04-16T16:06:58.474Z</updated>
+  <updated>2018-04-16T16:09:18.975Z</updated>
   <id>http://xym-loveit.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://xym-loveit.github.io/2018/04/17/Hexo%E5%9C%A8%E9%81%87%E5%88%B0%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E6%97%B6%E5%87%BA%E7%8E%B0%E8%A7%A3%E6%9E%90%E6%8A%A5%E9%94%99/"/>
     <id>http://xym-loveit.github.io/2018/04/17/Hexo在遇到特殊符号时出现解析报错/</id>
     <published>2018-04-16T16:00:35.000Z</published>
-    <updated>2018-04-16T16:06:58.474Z</updated>
+    <updated>2018-04-16T16:09:18.975Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="hexo-在遇到-““-符号时出现解析报错"><a href="#hexo-在遇到-““-符号时出现解析报错" class="headerlink" title="hexo 在遇到 ““ 符号时出现解析报错"></a>hexo 在遇到 “{{“ 符号时出现解析报错</h2><p>最近在更新一篇文章后，无论是 hexo g 生成，还是 hexo s 预览都会报解析错误， 大致如下，后面还有很长的信息，就不贴了：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FATAL Something&apos;s wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.html</span><br><span class="line">Template render error: unexpected token: .</span><br><span class="line">    at Object._prettifyError (D:\workspace\IdeaProjects\myHexo\node_modules\nunjucks\src\lib.js:35:11)</span><br><span class="line">    at Template.render (D:\workspace\IdeaProjects\myHexo\node_modules\nunjucks\src\environment.js:526:21)</span><br></pre></td></tr></table></figure><p>而把那篇文章移除后一切又是正常的。从错误上来看基本可以判断是模板解析错误，从 unexpected token: . 又看不出来具体是哪里出错，一直找不到原因。</p><p>今天查找资料发现有人遇到和我类似的问题，但报的是 <code>unexpected token: }}</code> 的错误。搜索一下我那篇文章，果然有好几处带有 <code>}}</code> 符号。尝试着把几处符号删除，果然正常了。看来问题真的出在 }} 上面。</p><p>直接说解决方案吧，参考别人的解决方法是在 }} 中间加一个空格，但因为我的是有部分教程含义的文章，所以并不想这样误导人。于是去 github 上找解决方案。</p><p>github 上给出的方法是在需要显示 }} 符号的地方加上 <code>{% raw %}{% endraw %}</code> 标签，标记这部分不需要解析。例如文章中可能会出现 <code></code> 的片段，写成 <code>{{ something }}</code> 就可以了。</p><p>虽然有点麻烦，但也算临时解决了这个问题，这是个已知 bug ，希望后续的版本能修复吧，毕竟使用太多 hexo 专属的标签对博客以后的迁移、改版什么的来说还是很麻烦的。</p><p>本文链接: <a href="https://icewing.cc/post/hexo-bug-of-quot.html" target="_blank" rel="noopener">https://icewing.cc/post/hexo-bug-of-quot.html</a></p>]]></content>
+    <content type="html"><![CDATA[<h2 id="hexo-在遇到-““-符号时出现解析报错"><a href="#hexo-在遇到-““-符号时出现解析报错" class="headerlink" title="hexo 在遇到 ““ 符号时出现解析报错"></a>hexo 在遇到 “{{“ 符号时出现解析报错</h2><p>最近在更新一篇文章后，无论是 hexo g 生成，还是 hexo s 预览都会报解析错误， 大致如下，后面还有很长的信息，就不贴了：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FATAL Something&apos;s wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.html</span><br><span class="line">Template render error: unexpected token: .</span><br><span class="line">    at Object._prettifyError (D:\workspace\IdeaProjects\myHexo\node_modules\nunjucks\src\lib.js:35:11)</span><br><span class="line">    at Template.render (D:\workspace\IdeaProjects\myHexo\node_modules\nunjucks\src\environment.js:526:21)</span><br></pre></td></tr></table></figure><p>而把那篇文章移除后一切又是正常的。从错误上来看基本可以判断是模板解析错误，从 unexpected token: . 又看不出来具体是哪里出错，一直找不到原因。</p><p>今天查找资料发现有人遇到和我类似的问题，但报的是 <code>unexpected token: }}</code> 的错误。搜索一下我那篇文章，果然有好几处带有 <code>}}</code> 符号。尝试着把几处符号删除，果然正常了。看来问题真的出在 }} 上面。</p><p>直接说解决方案吧，参考别人的解决方法是在 }} 中间加一个空格，但因为我的是有部分教程含义的文章，所以并不想这样误导人。于是去 github 上找解决方案。</p><p>github 上给出的方法是在需要显示 }} 符号的地方加上 <code>{% raw %}{% endraw %}</code> 标签，标记这部分不需要解析。例如文章中可能会出现 <code></code> 的片段，写成 <code>{% raw %}{{ something }}{% endraw %}</code> 就可以了。</p><p>虽然有点麻烦，但也算临时解决了这个问题，这是个已知 bug ，希望后续的版本能修复吧，毕竟使用太多 hexo 专属的标签对博客以后的迁移、改版什么的来说还是很麻烦的。</p><p>本文链接: <a href="https://icewing.cc/post/hexo-bug-of-quot.html" target="_blank" rel="noopener">https://icewing.cc/post/hexo-bug-of-quot.html</a></p>]]></content>
     
     <summary type="html">
     

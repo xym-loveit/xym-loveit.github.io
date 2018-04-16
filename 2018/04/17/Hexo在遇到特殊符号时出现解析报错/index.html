@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="放肆的青春">
 <meta property="og:description" content="Hexo使用解析问题">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-16T16:06:58.474Z">
+<meta property="og:updated_time" content="2018-04-16T16:09:18.975Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo在遇到特殊符号时出现解析报错">
 <meta name="twitter:description" content="Hexo使用解析问题">
@@ -327,7 +327,7 @@
 <p>而把那篇文章移除后一切又是正常的。从错误上来看基本可以判断是模板解析错误，从 unexpected token: . 又看不出来具体是哪里出错，一直找不到原因。</p>
 <p>今天查找资料发现有人遇到和我类似的问题，但报的是 <code>unexpected token: }}</code> 的错误。搜索一下我那篇文章，果然有好几处带有 <code>}}</code> 符号。尝试着把几处符号删除，果然正常了。看来问题真的出在 }} 上面。</p>
 <p>直接说解决方案吧，参考别人的解决方法是在 }} 中间加一个空格，但因为我的是有部分教程含义的文章，所以并不想这样误导人。于是去 github 上找解决方案。</p>
-<p>github 上给出的方法是在需要显示 }} 符号的地方加上 <code>{% raw %}{% endraw %}</code> 标签，标记这部分不需要解析。例如文章中可能会出现 <code></code> 的片段，写成 <code>{{ something }}</code> 就可以了。</p>
+<p>github 上给出的方法是在需要显示 }} 符号的地方加上 <code>{% raw %}{% endraw %}</code> 标签，标记这部分不需要解析。例如文章中可能会出现 <code></code> 的片段，写成 <code>{% raw %}{{ something }}{% endraw %}</code> 就可以了。</p>
 <p>虽然有点麻烦，但也算临时解决了这个问题，这是个已知 bug ，希望后续的版本能修复吧，毕竟使用太多 hexo 专属的标签对博客以后的迁移、改版什么的来说还是很麻烦的。</p>
 <p>本文链接: <a href="https://icewing.cc/post/hexo-bug-of-quot.html" target="_blank" rel="noopener">https://icewing.cc/post/hexo-bug-of-quot.html</a></p>
 
@@ -341,7 +341,7 @@
         <p><span>本文标题:</span><a href="/2018/04/17/Hexo在遇到特殊符号时出现解析报错/">Hexo在遇到特殊符号时出现解析报错</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">xym</a></p>
         <p><span>发布时间:</span>2018-04-17, 00:00:35</p>
-        <p><span>最后更新:</span>2018-04-17, 00:06:58</p>
+        <p><span>最后更新:</span>2018-04-17, 00:09:18</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/04/17/Hexo在遇到特殊符号时出现解析报错/" title="Hexo在遇到特殊符号时出现解析报错">http://xym-loveit.github.io/2018/04/17/Hexo在遇到特殊符号时出现解析报错/</a>
             <span class="copy-path" data-clipboard-text="原文: http://xym-loveit.github.io/2018/04/17/Hexo在遇到特殊符号时出现解析报错/　　作者: xym" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
