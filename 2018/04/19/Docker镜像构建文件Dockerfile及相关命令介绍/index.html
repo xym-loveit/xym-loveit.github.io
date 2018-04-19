@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="放肆的青春">
 <meta property="og:description" content="Dockerfile镜像构建文件命令详解，方便查阅。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-19T08:38:29.314Z">
+<meta property="og:updated_time" content="2018-04-19T08:41:24.476Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker镜像构建文件Dockerfile及相关命令介绍">
 <meta name="twitter:description" content="Dockerfile镜像构建文件命令详解，方便查阅。">
@@ -445,6 +445,9 @@
 <h3 id="SHELL"><a href="#SHELL" class="headerlink" title="SHELL"></a>SHELL</h3><p><code>SHELL</code>用于设置执行命令（<code>shell</code>式）所使用的的默认shell类型：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHELL [&quot;executable&quot;, &quot;parameters&quot;]</span><br></pre></td></tr></table></figure></p>
 <p><code>SHELL</code>在Windows环境下比较有用，Windows下通常会有cmd和powershell两种shell，可能还会有sh。这时就可以通过SHELL来指定所使用的shell类型：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">FROM microsoft/windowsservercore</span><br><span class="line"></span><br><span class="line"># Executed as cmd /S /C echo default</span><br><span class="line">RUN echo default</span><br><span class="line"></span><br><span class="line"># Executed as cmd /S /C powershell -command Write-Host default</span><br><span class="line">RUN powershell -command Write-Host default</span><br><span class="line"></span><br><span class="line"># Executed as powershell -command Write-Host hello</span><br><span class="line">SHELL [&quot;powershell&quot;, &quot;-command&quot;]</span><br><span class="line">RUN Write-Host hello</span><br><span class="line"></span><br><span class="line"># Executed as cmd /S /C echo hello</span><br><span class="line">SHELL [&quot;cmd&quot;, &quot;/S&quot;&quot;, &quot;/C&quot;]</span><br><span class="line">RUN echo hello</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>原文链接：<a href="https://itbilu.com/linux/docker/VyhM5wPuz.html" target="_blank" rel="noopener">https://itbilu.com/linux/docker/VyhM5wPuz.html</a></p>
+</blockquote>
 
       
     </div>
@@ -456,7 +459,7 @@
         <p><span>本文标题:</span><a href="/2018/04/19/Docker镜像构建文件Dockerfile及相关命令介绍/">Docker镜像构建文件Dockerfile及相关命令介绍</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">xym</a></p>
         <p><span>发布时间:</span>2018-04-19, 15:22:20</p>
-        <p><span>最后更新:</span>2018-04-19, 16:38:29</p>
+        <p><span>最后更新:</span>2018-04-19, 16:41:24</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/04/19/Docker镜像构建文件Dockerfile及相关命令介绍/" title="Docker镜像构建文件Dockerfile及相关命令介绍">http://xym-loveit.github.io/2018/04/19/Docker镜像构建文件Dockerfile及相关命令介绍/</a>
             <span class="copy-path" data-clipboard-text="原文: http://xym-loveit.github.io/2018/04/19/Docker镜像构建文件Dockerfile及相关命令介绍/　　作者: xym" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
