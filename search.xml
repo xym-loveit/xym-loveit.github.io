@@ -259,13 +259,13 @@
       
         <tags>
             
-            <tag> search命令 </tag>
-            
-            <tag> pull命令 </tag>
-            
             <tag> rm命令 </tag>
             
             <tag> import命令 </tag>
+            
+            <tag> search命令 </tag>
+            
+            <tag> pull命令 </tag>
             
             <tag> docker镜像 </tag>
             
