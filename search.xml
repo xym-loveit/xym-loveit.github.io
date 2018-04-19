@@ -3,6 +3,29 @@
   
     
     <entry>
+      <title>Docker 配置加速器</title>
+      <link href="/2018/04/19/Docker-%E9%85%8D%E7%BD%AE%E5%8A%A0%E9%80%9F%E5%99%A8/"/>
+      <url>/2018/04/19/Docker-%E9%85%8D%E7%BD%AE%E5%8A%A0%E9%80%9F%E5%99%A8/</url>
+      <content type="html"><![CDATA[<p>在国内使用Docker Hub有个很大的问题就是速度太慢，pull一个image要很久，幸亏国内有个组织解决了这个问题——DaoCloud。在<a href="http://www.daocloud.io/#" target="_blank" rel="noopener">DaoCloud</a>上注册一个帐号，找到它的加速器页面，根据提示进行操作即可。</p><p>进入<a href="http://www.daocloud.io/mirror#accelerator-doc" target="_blank" rel="noopener">加速器</a>页面</p><p><img src="http://op7wplti1.bkt.clouddn.com/daocloud_%E5%8A%A0%E9%80%9F%E5%99%A8.png" alt="daocloud加速器"></p><p><img src="http://op7wplti1.bkt.clouddn.com/%E5%8A%A0%E9%80%9F%E9%85%8D%E7%BD%AE.png" alt="daocloud配置"></p>]]></content>
+      
+      <categories>
+          
+          <category> Docker系列 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Docker加速器配置 </tag>
+            
+            <tag> daocloud加速器 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>Hexo在遇到特殊符号时出现解析报错</title>
       <link href="/2018/04/17/Hexo%E5%9C%A8%E9%81%87%E5%88%B0%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E6%97%B6%E5%87%BA%E7%8E%B0%E8%A7%A3%E6%9E%90%E6%8A%A5%E9%94%99/"/>
       <url>/2018/04/17/Hexo%E5%9C%A8%E9%81%87%E5%88%B0%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E6%97%B6%E5%87%BA%E7%8E%B0%E8%A7%A3%E6%9E%90%E6%8A%A5%E9%94%99/</url>
