@@ -16,23 +16,20 @@
 
 
 
-<meta name="description" content="在Java中，可以使用synchronized关键字来标记一个方法或者代码块，当某个线程调用该对象的synchronized方法或者访问synchronized代码块时，这个线程便获得了该对象的锁，其他线程暂时无法访问这个方法，只有等待这个方法执行完毕或者代码块执行完毕，这个线程才会释放该对象的锁，其他线程才能执行这个方法或者代码块">
-<meta name="keywords" content="java多线程,synchronized">
+<meta name="description" content="Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile来快速创建自定义的镜像。 基本结构Dockerfile由一行行命令语句组成，并且支持以#开头的注释行。一般而言，Dockerfile分为四部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令。12345678910#一个nginx dockerfile例子#基础镜像FROM ubuntu#维护者信息MAINT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java并发编程：synchronized">
-<meta property="og:url" content="http://xym-loveit.github.io/2017/04/30/Java并发编程：synchronized/index.html">
+<meta property="og:title" content="使用Dockerfile创建镜像">
+<meta property="og:url" content="http://xym-loveit.github.io/2018/04/20/使用Dockerfile创建镜像/index.html">
 <meta property="og:site_name" content="放肆的青春">
-<meta property="og:description" content="在Java中，可以使用synchronized关键字来标记一个方法或者代码块，当某个线程调用该对象的synchronized方法或者访问synchronized代码块时，这个线程便获得了该对象的锁，其他线程暂时无法访问这个方法，只有等待这个方法执行完毕或者代码块执行完毕，这个线程才会释放该对象的锁，其他线程才能执行这个方法或者代码块">
+<meta property="og:description" content="Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile来快速创建自定义的镜像。 基本结构Dockerfile由一行行命令语句组成，并且支持以#开头的注释行。一般而言，Dockerfile分为四部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令。12345678910#一个nginx dockerfile例子#基础镜像FROM ubuntu#维护者信息MAINT">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://op7wplti1.bkt.clouddn.com/191740073939985.jpg">
-<meta property="og:image" content="http://op7wplti1.bkt.clouddn.com/191742096284061.jpg">
-<meta property="og:image" content="http://op7wplti1.bkt.clouddn.com/192113596129599.jpg">
-<meta property="og:image" content="http://op7wplti1.bkt.clouddn.com/192052201909119.jpg">
-<meta property="og:updated_time" content="2018-03-29T01:27:48.626Z">
+<meta property="og:image" content="http://op7wplti1.bkt.clouddn.com/1900654235_8b1-i_epub.jpg">
+<meta property="og:image" content="http://op7wplti1.bkt.clouddn.com/1900654235_8b1x-i_epub.jpg">
+<meta property="og:updated_time" content="2018-04-20T07:22:00.500Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java并发编程：synchronized">
-<meta name="twitter:description" content="在Java中，可以使用synchronized关键字来标记一个方法或者代码块，当某个线程调用该对象的synchronized方法或者访问synchronized代码块时，这个线程便获得了该对象的锁，其他线程暂时无法访问这个方法，只有等待这个方法执行完毕或者代码块执行完毕，这个线程才会释放该对象的锁，其他线程才能执行这个方法或者代码块">
-<meta name="twitter:image" content="http://op7wplti1.bkt.clouddn.com/191740073939985.jpg">
+<meta name="twitter:title" content="使用Dockerfile创建镜像">
+<meta name="twitter:description" content="Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile来快速创建自定义的镜像。 基本结构Dockerfile由一行行命令语句组成，并且支持以#开头的注释行。一般而言，Dockerfile分为四部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令。12345678910#一个nginx dockerfile例子#基础镜像FROM ubuntu#维护者信息MAINT">
+<meta name="twitter:image" content="http://op7wplti1.bkt.clouddn.com/1900654235_8b1-i_epub.jpg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -64,7 +61,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Java并发编程：synchronized | 放肆的青春</title>
+<title>使用Dockerfile创建镜像 | 放肆的青春</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -283,11 +280,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-Java并发编程：synchronized" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-使用Dockerfile创建镜像" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/04/30/Java并发编程：synchronized/" class="article-date">
-      <time datetime="2017-04-30T13:12:42.000Z" itemprop="datePublished">2017-04-30</time>
+      <a href="/2018/04/20/使用Dockerfile创建镜像/" class="article-date">
+      <time datetime="2018-04-20T02:18:05.000Z" itemprop="datePublished">2018-04-20</time>
 </a>
 
 
@@ -302,7 +299,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Java并发编程：synchronized
+      使用Dockerfile创建镜像
     </h1>
   
 
@@ -310,16 +307,8 @@
       
       <div class="article-info article-info-post">
         
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Java并发编程系列/">Java并发编程系列</a>
-    </div>
-
 
         
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java多线程/">java多线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/synchronized/">synchronized</a></li></ul>
-    </div>
-
         <div class="clearfix"></div>
       </div>
       
@@ -327,190 +316,63 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>虽然多线程编程极大地提高了效率，但是也会带来一定的隐患。比如说两个线程同时往一个数据库表中插入不重复的数据，就可能会导致数据库中插入了相同的数据。今天我们就来一起讨论下线程安全问题，以及Java中提供了什么机制来解决线程安全问题。</p>
-<p>　　以下是本文的目录大纲：</p>
-<p>　　一.什么时候会出现线程安全问题？</p>
-<p>　　二.如何解决线程安全问题？</p>
-<p>　　三.synchronized同步方法或者同步块</p>
-<p>　　若有不正之处，请多多谅解并欢迎批评指正。</p>
-<p>　　请尊重作者劳动成果，转载请标明原文链接：</p>
-<p>　　<a href="http://www.cnblogs.com/dolphin0520/p/3923737.html" target="_blank" rel="noopener">http://www.cnblogs.com/dolphin0520/p/3923737.html</a></p>
-<h2 id="一-什么时候会出现线程安全问题？"><a href="#一-什么时候会出现线程安全问题？" class="headerlink" title="一.什么时候会出现线程安全问题？"></a>一.什么时候会出现线程安全问题？</h2><p>　　在单线程中不会出现线程安全问题，而在多线程编程中，有可能会出现同时访问同一个资源的情况，这种资源可以是各种类型的的资源：一个变量、一个对象、一个文件、一个数据库表等，而当多个线程同时访问同一个资源的时候，就会存在一个问题：</p>
-<p>　　由于每个线程执行的过程是不可控的，所以很可能导致最终的结果与实际上的愿望相违背或者直接导致程序出错。</p>
-<p>　　举个简单的例子：</p>
-<p>　　现在有两个线程分别从网络上读取数据，然后插入一张数据库表中，要求不能插入重复的数据。</p>
-<p>　　那么必然在插入数据的过程中存在两个操作：</p>
-<p>　　1）检查数据库中是否存在该条数据；</p>
-<p>　　2）如果存在，则不插入；如果不存在，则插入到数据库中。</p>
-<p>　　假如两个线程分别用thread-1和thread-2表示，某一时刻，thread-1和thread-2都读取到了数据X，那么可能会发生这种情况：</p>
-<p>　　thread-1去检查数据库中是否存在数据X，然后thread-2也接着去检查数据库中是否存在数据X。</p>
-<p>　　结果两个线程检查的结果都是数据库中不存在数据X，那么两个线程都分别将数据X插入数据库表当中。</p>
-<p>　　这个就是线程安全问题，即多个线程同时访问一个资源时，会导致程序运行结果并不是想看到的结果。</p>
-<p>　　这里面，这个资源被称为：临界资源（也有称为共享资源）。</p>
-<p>　　也就是说，当多个线程同时访问临界资源（一个对象，对象中的属性，一个文件，一个数据库等）时，就可能会产生线程安全问题。</p>
-<p>　　不过，当多个线程执行一个方法，方法内部的局部变量并不是临界资源，因为方法是在栈上执行的，而Java栈是线程私有的，因此不会产生线程安全问题。</p>
-<h2 id="二-如何解决线程安全问题？"><a href="#二-如何解决线程安全问题？" class="headerlink" title="二.如何解决线程安全问题？"></a>二.如何解决线程安全问题？</h2><p>　　那么一般来说，是如何解决线程安全问题的呢？</p>
-<p>　　基本上所有的并发模式在解决线程安全问题时，都采用“序列化访问临界资源”的方案，即在同一时刻，只能有一个线程访问临界资源，也称作同步互斥访问。</p>
-<p>　　通常来说，是在访问临界资源的代码前面加上一个锁，当访问完临界资源后释放锁，让其他线程继续访问。</p>
-<p>　　在Java中，提供了两种方式来实现同步互斥访问：synchronized和Lock。</p>
-<p>　　本文主要讲述synchronized的使用方法，Lock的使用方法在下一篇博文中讲述。</p>
-<h2 id="三-synchronized同步方法或者同步块"><a href="#三-synchronized同步方法或者同步块" class="headerlink" title="三.synchronized同步方法或者同步块"></a>三.synchronized同步方法或者同步块</h2><p>　　在了解synchronized关键字的使用方法之前，我们先来看一个概念：互斥锁，顾名思义：能到达到互斥访问目的的锁。</p>
-<p>　　举个简单的例子：如果对临界资源加上互斥锁，当一个线程在访问该临界资源时，其他线程便只能等待。</p>
-<p>　　在Java中，每一个对象都拥有一个锁标记（monitor），也称为监视器，多线程同时访问某个对象时，线程只有获取了该对象的锁才能访问。</p>
-<p>　　在Java中，可以使用synchronized关键字来标记一个方法或者代码块，当某个线程调用该对象的synchronized方法或者访问synchronized代码块时，这个线程便获得了该对象的锁，其他线程暂时无法访问这个方法，只有等待这个方法执行完毕或者代码块执行完毕，这个线程才会释放该对象的锁，其他线程才能执行这个方法或者代码块。</p>
-<p>　　下面通过几个简单的例子来说明synchronized关键字的使用：</p>
-<p>　　1.synchronized方法</p>
-<p>　　下面这段代码中两个线程分别调用insertData对象插入数据：</p>
-<pre><code>public class Test {
-
-    public static void main(String[] args)  {
-        final InsertData insertData = new InsertData();
-
-        new Thread() {
-            public void run() {
-                insertData.insert(Thread.currentThread());
-            };
-        }.start();
-
-
-        new Thread() {
-            public void run() {
-                insertData.insert(Thread.currentThread());
-            };
-        }.start();
-    }  
-}
-
-class InsertData {
-    private ArrayList&lt;Integer&gt; arrayList = new ArrayList&lt;Integer&gt;();
-
-    public void insert(Thread thread){
-        for(int i=0;i&lt;5;i++){
-            System.out.println(thread.getName()+&quot;在插入数据&quot;+i);
-            arrayList.add(i);
-        }
-    }
-}
-</code></pre><p>　　此时程序的输出结果为：<br><img src="http://op7wplti1.bkt.clouddn.com/191740073939985.jpg" alt="synTest1">
-　　</p>
-<p>　　说明两个线程在同时执行insert方法。</p>
-<p>　　而如果在insert方法前面加上关键字synchronized的话，运行结果为：<br>    class InsertData {<br>        private ArrayList<integer> arrayList = new ArrayList<integer>();</integer></integer></p>
-<pre><code>    public synchronized void insert(Thread thread){
-        for(int i=0;i&lt;5;i++){
-            System.out.println(thread.getName()+&quot;在插入数据&quot;+i);
-            arrayList.add(i);
-        }
-    }
-}
-</code></pre><p>　　<br><img src="http://op7wplti1.bkt.clouddn.com/191742096284061.jpg" alt="synTest2"></p>
-<p>　　从上输出结果说明，Thread-1插入数据是等Thread-0插入完数据之后才进行的。说明Thread-0和Thread-1是顺序执行insert方法的。</p>
-<p>　　这就是synchronized方法。</p>
-<p>　　不过有几点需要注意：</p>
-<p>　　1）当一个线程正在访问一个对象的synchronized方法，那么其他线程不能访问该对象的其他synchronized方法。这个原因很简单，因为一个对象只有一把锁，当一个线程获取了该对象的锁之后，其他线程无法获取该对象的锁，所以无法访问该对象的其他synchronized方法。</p>
-<p>　　2）当一个线程正在访问一个对象的synchronized方法，那么其他线程能访问该对象的非synchronized方法。这个原因很简单，访问非synchronized方法不需要获得该对象的锁，假如一个方法没用synchronized关键字修饰，说明它不会使用到临界资源，那么其他线程是可以访问这个方法的，</p>
-<p>　　3）如果一个线程A需要访问对象object1的synchronized方法fun1，另外一个线程B需要访问对象object2的synchronized方法fun1，即使object1和object2是同一类型），也不会产生线程安全问题，因为他们访问的是不同的对象，所以不存在互斥问题。</p>
-<p>　　2.synchronized代码块</p>
-<p>　　synchronized代码块类似于以下这种形式：<br>    synchronized(synObject) {</p>
-<pre><code>}
-</code></pre><p>　　当在某个线程中执行这段代码块，该线程会获取对象synObject的锁，从而使得其他线程无法同时访问该代码块。</p>
-<p>　　synObject可以是this，代表获取当前对象的锁，也可以是类中的一个属性，代表获取该属性的锁。</p>
-<p>　　比如上面的insert方法可以改成以下两种形式：</p>
-<pre><code>class InsertData {
-    private ArrayList&lt;Integer&gt; arrayList = new ArrayList&lt;Integer&gt;();
-
-    public void insert(Thread thread){
-        synchronized (this) {
-            for(int i=0;i&lt;100;i++){
-                System.out.println(thread.getName()+&quot;在插入数据&quot;+i);
-                arrayList.add(i);
-            }
-        }
-    }
-}
-
-class InsertData {
-    private ArrayList&lt;Integer&gt; arrayList = new ArrayList&lt;Integer&gt;();
-    private Object object = new Object();
-
-    public void insert(Thread thread){
-        synchronized (object) {
-            for(int i=0;i&lt;100;i++){
-                System.out.println(thread.getName()+&quot;在插入数据&quot;+i);
-                arrayList.add(i);
-            }
-        }
-    }
-}
-</code></pre><p>　　从上面可以看出，synchronized代码块使用起来比synchronized方法要灵活得多。因为也许一个方法中只有一部分代码只需要同步，如果此时对整个方法用synchronized进行同步，会影响程序执行效率。而使用synchronized代码块就可以避免这个问题，synchronized代码块可以实现只对需要同步的地方进行同步。</p>
-<p>　　另外，每个类也会有一个锁，它可以用来控制对static数据成员的并发访问。</p>
-<p>　　并且如果一个线程执行一个对象的非static synchronized方法，另外一个线程需要执行这个对象所属类的static synchronized方法，此时不会发生互斥现象，因为访问static synchronized方法占用的是类锁，而访问非static synchronized方法占用的是对象锁，所以不存在互斥现象。</p>
-<p>看下面这段代码就明白了：</p>
-<pre><code>public class Test {
-
-    public static void main(String[] args)  {
-        final InsertData insertData = new InsertData();
-        new Thread(){
-            @Override
-            public void run() {
-                insertData.insert();
-            }
-        }.start(); 
-        new Thread(){
-            @Override
-            public void run() {
-                insertData.insert1();
-            }
-        }.start();
-    }  
-}
-
-class InsertData { 
-    public synchronized void insert(){
-        System.out.println(&quot;执行insert&quot;);
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println(&quot;执行insert完毕&quot;);
-    }
-
-    public synchronized static void insert1() {
-        System.out.println(&quot;执行insert1&quot;);
-        System.out.println(&quot;执行insert1完毕&quot;);
-    }
-}
-</code></pre><p>　　执行结果;<br><img src="http://op7wplti1.bkt.clouddn.com/192113596129599.jpg" alt="syncTest3">
-　　</p>
-<p>　　第一个线程里面执行的是insert方法，不会导致第二个线程执行insert1方法发生阻塞现象。</p>
-<p>　　下面我们看一下synchronized关键字到底做了什么事情，我们来反编译它的字节码看一下，下面这段代码反编译后的字节码为：</p>
-<pre><code>public class InsertData {
-    private Object object = new Object();
-
-    public void insert(Thread thread){
-        synchronized (object) {
-
-        }
-    }
-
-    public synchronized void insert1(Thread thread){
-
-    }
-
-    public void insert2(Thread thread){
-
-    }
-}  
-</code></pre><p><img src="http://op7wplti1.bkt.clouddn.com/192052201909119.jpg" alt="fanbianyi"></p>
-<p>　　从反编译获得的字节码可以看出，synchronized代码块实际上多了monitorenter和monitorexit两条指令。monitorenter指令执行时会让对象的锁计数加1，而monitorexit指令执行时会让对象的锁计数减1，其实这个与操作系统里面的PV操作很像，操作系统里面的PV操作就是用来控制多个线程对临界资源的访问。对于synchronized方法，执行中的线程识别该方法的 method_info 结构是否有 ACC_SYNCHRONIZED 标记设置，然后它自动获取对象的锁，调用方法，最后释放锁。如果有异常发生，线程自动释放锁。</p>
-<p>　　</p>
-<p>　　<strong>有一点要注意：对于synchronized方法或者synchronized代码块，当出现异常时，JVM会自动释放当前线程占用的锁，因此不会由于异常导致出现死锁现象。</strong></p>
-<p>　　参考资料：</p>
-<p>　　《Java编程思想》</p>
-<p>　　<a href="http://ifeve.com/synchronized-blocks/" target="_blank" rel="noopener">http://ifeve.com/synchronized-blocks/</a></p>
-<p>　　<a href="http://ifeve.com/java-synchronized/" target="_blank" rel="noopener">http://ifeve.com/java-synchronized/</a></p>
-<p>　　<a href="http://blog.csdn.net/ns_code/article/details/17199201" target="_blank" rel="noopener">http://blog.csdn.net/ns_code/article/details/17199201</a></p>
-
+        <p><code>Dockerfile</code>是一个文本格式的配置文件，用户可以使用<code>Dockerfile</code>来快速创建自定义的镜像。</p>
+<h2 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h2><p><code>Dockerfile</code>由一行行命令语句组成，并且支持以<code>#</code>开头的注释行。<br>一般而言，<code>Dockerfile</code>分为四部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#一个nginx dockerfile例子</span><br><span class="line">#基础镜像</span><br><span class="line">FROM ubuntu</span><br><span class="line">#维护者信息</span><br><span class="line">MAINTAINER xym xym@126.com</span><br><span class="line">#镜像操作指令</span><br><span class="line">RUN apt-get update &amp;&amp; apt-get install -y nginx</span><br><span class="line">RUN echo &quot;daemon off;&quot; &gt; /etc/nginx/nginx.conf</span><br><span class="line">#容器启动时执行指令</span><br><span class="line">CMD /usr/sbin/nginx</span><br></pre></td></tr></table></figure></p>
+<p>其中一开始必须指明所基于的镜像名称，接下来一般是说明维护信息。后面则是镜像操作指令，例如RUN指令，RUN指令将对镜像执行跟随的命令。每运行一条RUN指令，镜像就添加新的一层，并提交。最后是CMD指令，用来指定运行容器时的操作命令。</p>
+<h2 id="指令说明"><a href="#指令说明" class="headerlink" title="指令说明"></a>指令说明</h2><p>指令的一般格式为<code>INSTRUCTION arguments</code>，指令包括<code>FROM</code>、<code>MAINTAINER</code>、<code>RUN</code>等。</p>
+<p><img src="http://op7wplti1.bkt.clouddn.com/1900654235_8b1-i_epub.jpg" alt="http://op7wplti1.bkt.clouddn.com/1900654235_8b1-i_epub.jpg"></p>
+<p><img src="http://op7wplti1.bkt.clouddn.com/1900654235_8b1x-i_epub.jpg" alt="http://op7wplti1.bkt.clouddn.com/1900654235_8b1x-i_epub.jpg"></p>
+<h3 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h3><p>指定所创建镜像的基础镜像，如果本地不存在，则默认会去<code>Docker Hub</code>下载指定镜像。</p>
+<p>命令格式：<code>FROM &lt;image&gt;</code> or <code>FROM &lt;image&gt;:&lt;tag&gt;</code> or <code>FROM &lt;image&gt;@&lt;digest&gt;</code></p>
+<p>任何<code>Dockerfile</code>中的第一条指令必须为FROM指令。并且，如果在同一个<code>Dockerfile</code>中创建多个镜像，可以使用多个FROM指令（每个镜像一次）。 </p>
+<h3 id="MAINTAINER"><a href="#MAINTAINER" class="headerlink" title="MAINTAINER"></a>MAINTAINER</h3><p>指定维护者信息，格式为 <code>MAINTAINER &lt;name&gt;</code>。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAINTAINER  image_creator@docker.com</span><br></pre></td></tr></table></figure></p>
+<p>该信息会写入生成镜像的Author属性域中，可以使用 <code>docker inspect imageName/imageId</code>查看。 </p>
+<h3 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h3><p>运行指定命令，格式为：<code>RUN &lt;command&gt;</code> 或 <code>RUN [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</code>。注意，后一个指令会被解析为<code>json</code>数组，因此必须使用双引号。</p>
+<p>前者默认将在<code>shell</code>终端中运行命令，即<code>/bin/sh-c</code>;后者则使用<code>exec</code>执行，不会启动shell环境。<br>指定使用其他终端类型可以使用第二种方式实现，例如：<code>RUN [&quot;bin/bash&quot;,&quot;-c&quot;,&quot;echo hello&quot;]</code>。</p>
+<p>每条RUN指令将在当前镜像的基础上执行指定指令，并提交为新的镜像。当命令较长时可以使用”\”来换行。</p>
+<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><p>CMD指令用来指定启动容器时默认执行的命令。它支持三种格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//使用exec执行，是推荐的使用方式</span><br><span class="line">CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</span><br><span class="line"></span><br><span class="line">//在/bin/sh中执行，提供给需要交互的应用</span><br><span class="line">CMD command param1 param2</span><br><span class="line"></span><br><span class="line">//提供给ENTRYPOINT的默认参数</span><br><span class="line">CMD [&quot;param1&quot;,&quot;param2&quot;]</span><br></pre></td></tr></table></figure></p>
+<p>每个<code>Dockerfile</code>只能有一条CMD命令，如果指定了多条命令，只有最后一条会被执行。<br>如果用户启动容器时手动指定了运行的命令（作为run的参数），则会覆盖掉CMD指定的命令。</p>
+<h3 id="LABEL"><a href="#LABEL" class="headerlink" title="LABEL"></a>LABEL</h3><p>LABEL指令用来指定生成镜像的元数据标签信息。<br>命令格式：<code>LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt;...</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LABEL author=&quot;xym&quot; author_email=xxx@126.com</span><br></pre></td></tr></table></figure></p>
+<h3 id="EXPOSE"><a href="#EXPOSE" class="headerlink" title="EXPOSE"></a>EXPOSE</h3><p>声明镜像内的服务所监听的端口。</p>
+<p>命令格式：<code>EXPOSE &lt;port&gt;[&lt;port&gt;...]</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPOSE 22 80 8443</span><br></pre></td></tr></table></figure></p>
+<p>该命令只是起到声明作用，并不会自动完成端口映射。在启动容器时需要使用<code>-P</code>，Docker主机会自动分配一个宿主机的临时端口转发到指定的端口；使用<code>-p</code>，则可以具体指定哪个宿主机的本地端口会映射过来。</p>
+<h3 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h3><p>指定环境变量，在镜像生成过程中会被后续RUN指令使用，在镜像启动的容器中也会存在。</p>
+<p>命令格式：<code>ENV &lt;key&gt; &lt;value&gt;</code> or <code>ENV &lt;key&gt;=&lt;value&gt;</code></p>
+<p>指令指定的环境变量在运行中可以被覆盖掉，如<code>docker run --env &lt;key&gt;=&lt;value&gt; built_image</code></p>
+<h3 id="ADD"><a href="#ADD" class="headerlink" title="ADD"></a>ADD</h3><p>该命令将复制指定的<code>&lt;src&gt;</code>路径下的内容到容器中的<code>&lt;dest&gt;</code>路径下。</p>
+<p>命令格式：<code>ADD &lt;src&gt; &lt;dest&gt;</code></p>
+<p>其中<code>&lt;src&gt;</code>可以是<code>Dockerfile</code>所在目录的一个相对路径（文件或目录），也可以是一个URL，还可以是一个tar文件（如果为<code>tar</code>文件，会自动解压到<code>&lt;dest&gt;</code>路径下）。<code>&lt;dest&gt;</code>可以是镜像内的路径，或者相对于工作目录（<code>WORKDIR</code>）的相对路径。</p>
+<p>路径支持正则格式：<code>ADD *.c /code/</code></p>
+<h3 id="COPY"><a href="#COPY" class="headerlink" title="COPY"></a>COPY</h3><p>格式为<code>COPY &lt;src&gt; &lt;dest&gt;</code></p>
+<p>复制本地主机的<code>&lt;src&gt;</code>（为<code>Dockerfile</code>所在目录的相对路径、文件或者目录）下的内容到镜像中的<code>&lt;dest&gt;</code>下。目标路径不存在时，会自动创建。路径同样支持正则表达式。当使用本地目录为源目录时，推荐使用<code>COPY</code>。</p>
+<h3 id="ENTRYPOINT"><a href="#ENTRYPOINT" class="headerlink" title="ENTRYPOINT"></a>ENTRYPOINT</h3><p>指定镜像的默认入口命令，该入口命令会在启动容器时作为根命令执行，所有传入值作为该命令的参数。<br>支持两种格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENTRYPOINT [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]（exec调用执行）</span><br><span class="line">ENTRYPOINT command param1 param2（shell中执行）</span><br></pre></td></tr></table></figure></p>
+<p>此时，<code>CMD</code>指令指定值将作为根命令的参数。<br>每个Dockerfile中只能有一个<code>ENTRYPOINT</code>，当指定多个时，只有最后一个有效。在运行时，可以被<code>--entrypoint</code>参数覆盖掉，如<code>docker run --entrypoint</code></p>
+<h3 id="VOLUME"><a href="#VOLUME" class="headerlink" title="VOLUME"></a>VOLUME</h3><p>创建一个数据卷挂载点。格式为<code>VOLUME [&quot;/data&quot;]</code>，可以从本地主机或其他容器挂载数据卷，一般用来存放数据库和需要保存的数据等。</p>
+<h3 id="USER"><a href="#USER" class="headerlink" title="USER"></a>USER</h3><p>指定运行容器时的用户名和UID，后续的RUN等指令也会使用指定的用户身份。<br>格式为：<code>USER daemon</code></p>
+<p>当服务不需要管理员权限时，可以通过该命令指定运行用户，并且可以在之前创建所需要的用户。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RUN groupadd -r postgres &amp;&amp; useradd -r -g postgres postgres</span><br></pre></td></tr></table></figure></p>
+<p>要临时获取管理员权限可以使用<code>gosu</code>或<code>sudo</code></p>
+<h3 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h3><p>为后续的<code>RUN/CMD/ENTRYPOINT</code>指令配置工作目录。</p>
+<p>格式为：<code>WORKDIR /path/to/workdir</code><br>可以使用多个<code>WORKDIR</code>指令，后续命令如果参数是相对路径，后续命令如果是相对路径，则会基于之前命令指定的路径。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">WORKDIR /a</span><br><span class="line">WORKDIR b</span><br><span class="line">WORKDIR c</span><br><span class="line">RUN pwd</span><br></pre></td></tr></table></figure></p>
+<p>则最终路径为<code>/a/b/c</code></p>
+<h3 id="ARG"><a href="#ARG" class="headerlink" title="ARG"></a>ARG</h3><p>指定一些镜像内使用的的参数（例如版本号信息等），这些参数在执行<code>docker build</code>命令时以<code>--build-arg&lt;varname&gt;=&lt;value&gt;</code>格式传入。格式为<code>ARG &lt;name&gt;=[&lt;default value&gt;]</code>，则可以用<code>docker build --build-arg &lt;name&gt;=&lt;value&gt; .</code>来指定参数值。</p>
+<h3 id="ONBUILD"><a href="#ONBUILD" class="headerlink" title="ONBUILD"></a>ONBUILD</h3><p>配置当所创建的镜像作为其他镜像的基础镜像时，所执行的创建操作指令。格式为：<code>ONBUILD [INSTRUCTION]</code></p>
+<p>例如：Dockerfile使用了如下的内容创建了镜像<code>image-A</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[...]</span><br><span class="line">ONBUILD ADD . /app/src</span><br><span class="line">ONBUILD RUN /usr/local/bin/python-build --dir /app/src</span><br><span class="line">[...]</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line">如果基于`image-A`创建新的镜像时，新的Dockerfile中使用`FROM image-A`指定基础镜像，会自动执行`ONBUILD`指令的内容，等价于在后面添加了两条指令：</span><br></pre></td></tr></table></figure></p>
+<p>FROM image-A</p>
+<p>#自动执行onbuild指定的命令<br>ADD . /app/src<br>RUN /usr/local/bin/python-build –dir /app/src</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">使用`ONBUILD`指令的镜像，推荐在标签中注明，例如：`ruby:1.9-onbuild`</span><br><span class="line"></span><br><span class="line">### STOPSIGNAL</span><br><span class="line">指定所创建镜像启动的容器接受退出的信号值，例如：  </span><br><span class="line">`STOPSIGNAL signal`</span><br><span class="line"></span><br><span class="line">### HEALTHCHECK</span><br><span class="line">配置所启动容器如何进行健康检查（如何判断健康与否），自Docker1.12开始支持。</span><br><span class="line"></span><br><span class="line">格式有两种：</span><br><span class="line"></span><br><span class="line">`HEALTHCHECK [OPTIONS] CMD command`</span><br><span class="line"></span><br><span class="line">根据所执行命令返回值是否为0来判断；</span><br><span class="line">`HEALTHCHECK NONE`禁止基础镜像中的健康检查。</span><br><span class="line"></span><br><span class="line">OPTIONS支持：</span><br><span class="line"></span><br><span class="line">* --interval=DURATION（默认为30s）：过多久检查一次；</span><br><span class="line">* --timeout=DURATION（默认为30s）：每次检查等待结果的超时；</span><br><span class="line">* --retries=N（默认为3）：如果失败了，重试几次才最终确定失败。</span><br><span class="line"></span><br><span class="line">### SHELL</span><br><span class="line">指定其他命令使用`shell`时的默认shell类型。默认值为`[&quot;/bin/sh&quot;,&quot;-c&quot;]`</span><br><span class="line"></span><br><span class="line">注意：对于`Windows`系统，建议在Dockerfile开头添加`#escape=`来指定转义信息。</span><br><span class="line"></span><br><span class="line">## 创建镜像</span><br><span class="line">编写完成`Dockerfile`之后，可以通过`docker build`命令来创建镜像。基本格式为`docker build [选项] 内容路径`，该命令将读取指定路径下（包括子目录）的Dockerfile，并将该路径下的所有内容发送给Docker服务端，由服务端来创建镜像。因此除非生成镜像需要，否则一般建议放置Dockerfile的目录为空目录。有两点经验：</span><br><span class="line"></span><br><span class="line">* 如果使用非内容路径下的Dockerfile，可以通过-f选项来指定其路径</span><br><span class="line">* 要指定生成镜像的标签信息，可以使用-t选项</span><br><span class="line"></span><br><span class="line">例如，指定Dockerfile所在路径为`/tmp/docker_builder/`,并且希望生成镜像标签为`build_repo/first_image`,可以使用下面命令：</span><br></pre></td></tr></table></figure>
+<p>docker build -t build_repo/first_image /tmp/docker_builder/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## 使用.dockerignore文件</span><br><span class="line">可以通过`.dockerignore`文件（每一行添加一条匹配模式）来让`Docker`忽略匹配模式路径下的目录和文件。例如：</span><br></pre></td></tr></table></figure>
+<h1 id="comment"><a href="#comment" class="headerlink" title="comment"></a>comment</h1><p><em>/temp</em><br><em>/</em>/temp<em><br>tmp?<br>~</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 编写Dockerfile的指导原则</span><br><span class="line">* 精简镜像用途：尽量让每个镜像的用途都比较集中、单一，避免构造大而复杂，多功能的镜像；</span><br><span class="line">* 选用合适的基础镜像：过大的基础镜像会造成生成臃肿的镜像，一般推荐较为小巧的`debian`镜像；</span><br><span class="line">* 提供足够清晰的命令注释和维护者信息：Dockerfile也是一种代码，需要考虑方便后续扩展和他人使用；</span><br><span class="line">* 正确使用版本：使用明确的版本号信息，如：1.0，2.0而非latest，将避免内容不一致可能引发的惨案；</span><br><span class="line">* 减少镜像层数：如果希望所生成镜像的层数尽量少，则要尽量合并指令，例如多个RUN指令可以合并为一条；</span><br><span class="line">* 及时删除临时文件和缓存文件：特别是在执行apt-get指令后，/var/cache/apt/下面会缓存一些安装包；</span><br><span class="line">* 提高生成速度：如合理使用缓存，减少内容目录下的文件，或使用`.dockerignore`文件指定等。</span><br><span class="line">* 调整合理的指令顺序：在开启缓存的情况下，内容不变的指令尽量放在前面，这样可以尽量复用</span><br><span class="line">* 减少外部源的干扰：如果确实要从外部引入数据，需要指定持久地址，并带有版本信息，让他人可以重复而不出错</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 优良的镜像</span><br><span class="line"></span><br><span class="line">### BUSYBOX</span><br><span class="line">BusyBox是一个集成了100多个最常见的`Liunx`命令和工具（如：cat/echo/grep/mount/telnet等）的精简工具箱。它只有几MB的大小，很方便进行各种快速验证，被誉为“Linux系统的瑞士军刀”。BusyBox可以运行于多款POSIX环境的操作系统中，如Liunx（包括Andrid）、Hurd、FreeBSD等。</span><br></pre></td></tr></table></figure>
+<p>//查询busybox镜像<br>docker search busybox</p>
+<p>//下载busybox镜像<br>docker pull busybox</p>
+<p>//使用busybox创建容器<br>docker run -it –name my_busybox busybox</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### Alpine</span><br><span class="line">Alpine操作系统是一个面向安全的轻型Linux发行版。Alpine是由非商业组织维护的支持广泛场景的Linux发行版，它特别为资深/重度Liunx用户而优化，关注安全、性能和资源效能。Alpine镜像适用于更多常用场景，并且是一个优秀的可以适用于生产的基础环境。</span><br></pre></td></tr></table></figure>
+<p>//查询busybox镜像<br>docker search alpine</p>
+<p>//下载busybox镜像<br>docker pull alpine</p>
+<p>//使用busybox创建容器<br>docker run -it –name my_alpine alpine</p>
+<p><code>`</code></p>
+<h3 id="Debian-Ubuntu"><a href="#Debian-Ubuntu" class="headerlink" title="Debian/Ubuntu"></a>Debian/Ubuntu</h3><h3 id="CentOS-Fedora"><a href="#CentOS-Fedora" class="headerlink" title="CentOS/Fedora"></a>CentOS/Fedora</h3>
       
     </div>
     
@@ -518,13 +380,13 @@ class InsertData {
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/04/30/Java并发编程：synchronized/">Java并发编程：synchronized</a></p>
+        <p><span>本文标题:</span><a href="/2018/04/20/使用Dockerfile创建镜像/">使用Dockerfile创建镜像</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">xym</a></p>
-        <p><span>发布时间:</span>2017-04-30, 21:12:42</p>
-        <p><span>最后更新:</span>2018-03-29, 09:27:48</p>
+        <p><span>发布时间:</span>2018-04-20, 10:18:05</p>
+        <p><span>最后更新:</span>2018-04-20, 15:22:00</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/04/30/Java并发编程：synchronized/" title="Java并发编程：synchronized">http://xym-loveit.github.io/2017/04/30/Java并发编程：synchronized/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://xym-loveit.github.io/2017/04/30/Java并发编程：synchronized/　　作者: xym" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/04/20/使用Dockerfile创建镜像/" title="使用Dockerfile创建镜像">http://xym-loveit.github.io/2018/04/20/使用Dockerfile创建镜像/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://xym-loveit.github.io/2018/04/20/使用Dockerfile创建镜像/　　作者: xym" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -536,16 +398,10 @@ class InsertData {
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2017/04/30/Java并发编程：Lock/">
-                    Java并发编程：Lock
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2017/04/30/Java并发编程：Thread类的使用/">
-                    Java并发编程：Thread类的使用
+                <a href="/2018/04/19/Docker镜像构建文件Dockerfile及相关命令介绍/">
+                    Docker镜像构建文件Dockerfile及相关命令介绍
                 </a>
             </div>
         
@@ -557,7 +413,7 @@ class InsertData {
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一-什么时候会出现线程安全问题？"><span class="toc-number">1.</span> <span class="toc-text">一.什么时候会出现线程安全问题？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二-如何解决线程安全问题？"><span class="toc-number">2.</span> <span class="toc-text">二.如何解决线程安全问题？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三-synchronized同步方法或者同步块"><span class="toc-number">3.</span> <span class="toc-text">三.synchronized同步方法或者同步块</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本结构"><span class="toc-number">1.</span> <span class="toc-text">基本结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指令说明"><span class="toc-number">2.</span> <span class="toc-text">指令说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FROM"><span class="toc-number">2.1.</span> <span class="toc-text">FROM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MAINTAINER"><span class="toc-number">2.2.</span> <span class="toc-text">MAINTAINER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RUN"><span class="toc-number">2.3.</span> <span class="toc-text">RUN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CMD"><span class="toc-number">2.4.</span> <span class="toc-text">CMD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LABEL"><span class="toc-number">2.5.</span> <span class="toc-text">LABEL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EXPOSE"><span class="toc-number">2.6.</span> <span class="toc-text">EXPOSE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENV"><span class="toc-number">2.7.</span> <span class="toc-text">ENV</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ADD"><span class="toc-number">2.8.</span> <span class="toc-text">ADD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#COPY"><span class="toc-number">2.9.</span> <span class="toc-text">COPY</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENTRYPOINT"><span class="toc-number">2.10.</span> <span class="toc-text">ENTRYPOINT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VOLUME"><span class="toc-number">2.11.</span> <span class="toc-text">VOLUME</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USER"><span class="toc-number">2.12.</span> <span class="toc-text">USER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WORKDIR"><span class="toc-number">2.13.</span> <span class="toc-text">WORKDIR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ARG"><span class="toc-number">2.14.</span> <span class="toc-text">ARG</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ONBUILD"><span class="toc-number">2.15.</span> <span class="toc-text">ONBUILD</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#comment"><span class="toc-number"></span> <span class="toc-text">comment</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Debian-Ubuntu"><span class="toc-number">0.1.</span> <span class="toc-text">Debian/Ubuntu</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CentOS-Fedora"><span class="toc-number">0.2.</span> <span class="toc-text">CentOS/Fedora</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -593,7 +449,7 @@ class InsertData {
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"Java并发编程：synchronized　| 放肆的青春　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"使用Dockerfile创建镜像　| 放肆的青春　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -612,8 +468,8 @@ class InsertData {
     <div id="disqus_thread"></div>
     <script>
         var disqus_config = function(){
-            this.page.url = 'http://xym-loveit.github.io/2017/04/30/Java并发编程：synchronized/';
-            this.page.identifier = '2017/04/30/Java并发编程：synchronized/';
+            this.page.url = 'http://xym-loveit.github.io/2018/04/20/使用Dockerfile创建镜像/';
+            this.page.identifier = '2018/04/20/使用Dockerfile创建镜像/';
         };
         var loadComment = function(){
             var d = document, s = d.createElement('script');
@@ -635,15 +491,13 @@ class InsertData {
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/04/30/Java并发编程：Lock/" title="上一篇: Java并发编程：Lock">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2017/04/30/Java并发编程：Thread类的使用/" title="下一篇: Java并发编程：Thread类的使用">
+            <a href="/2018/04/19/Docker镜像构建文件Dockerfile及相关命令介绍/" title="下一篇: Docker镜像构建文件Dockerfile及相关命令介绍">
                 <i class="fa fa-angle-right"></i>
             </a>
         
