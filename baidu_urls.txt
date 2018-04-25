@@ -1,3 +1,4 @@
+http://xym-loveit.github.io/2018/04/25/使用-Docker-安装-Jenkins/
 http://xym-loveit.github.io/2018/04/20/为Docker镜像添加SSH服务/
 http://xym-loveit.github.io/2018/04/20/使用Dockerfile创建镜像/
 http://xym-loveit.github.io/2018/04/19/Docker镜像构建文件Dockerfile及相关命令介绍/

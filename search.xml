@@ -3,6 +3,29 @@
   
     
     <entry>
+      <title>使用 Docker 安装 Jenkins</title>
+      <link href="/2018/04/25/%E4%BD%BF%E7%94%A8-Docker-%E5%AE%89%E8%A3%85-Jenkins/"/>
+      <url>/2018/04/25/%E4%BD%BF%E7%94%A8-Docker-%E5%AE%89%E8%A3%85-Jenkins/</url>
+      <content type="html"><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote><p>jenkins是一个用Java编写的开源自动化服务器,它是Hudson的一个分支project ; 它是一个持续集成软件(continuous integration),它以节点为单位,连接整个工作流, 通过各种类型插件支持构成具有个性化要求的项目持续集成, 通过各种各样的插件(plugin)来实现各个节点的功能, 它们共同完成持续集成(自动部署)/自动测试或者持续交付等工作.</p></blockquote><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>1、直接从 DockerHub 上pull 镜像：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull jenkins</span><br></pre></td></tr></table></figure></p><p>2、由于 Jenkins 容器运行后，会自动在宿主计算机中挂在一个数据卷 <code>var/jenkins_home</code>，我们在主机中可以新建一个数据卷的文件夹，这里注意的是，有权限问题，不然会启动失败，有点坑这里，卡了半天，给宿主的这个挂载卷目录中加上下面的权限的就好了，改成为uid 1000的用户，具体参考阿里云<a href="https://yq.aliyun.com/articles/53990" target="_blank" rel="noopener">谈谈 Docker Volume 之权限管理（一）</a>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R 1000 /var/jenkins_home</span><br></pre></td></tr></table></figure></p><p>3、启动容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 7322:8080 -p 50000:50000 -v /var/jenkins_home/:/var/jenkins_home/  --name my_jenkins -d jenkins</span><br></pre></td></tr></table></figure></p><ul><li>8080 端口是访问 jenkins 网页的端口，如果你想在 80 端口访问，就改成 -p 80:8080</li><li>50000 端口与 slave 有关，主要作为master的jenkins用来连接slave的。</li></ul><p>可以更改挂载卷的目录，不过记得也要设置目录权限的问题。</p><p>使用 <code>docker ps</code> 查看运行的容器。</p><h2 id="配置和使用"><a href="#配置和使用" class="headerlink" title="配置和使用"></a>配置和使用</h2><p>1、使用 host + port 访问 jenkins，会进入第一个页面：</p><p><img src="http://op7wplti1.bkt.clouddn.com/install_Jenkins.png" alt="Jenkins安装"></p><p>因为我们将目录<code>/var/jenkins_home</code>已经挂载在宿主主机，可以直接去这个目录查看密码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> cat /var/jenkins_home/secrets/initialAdminPassword</span><br><span class="line">c49d4a7883e1410685c45092a6fabeac</span><br></pre></td></tr></table></figure></p><p>2、进入后就开始安装插件的过程，然后等待安装完成。</p><p>3、然后跳出一个页面设置账号和密码，这样就安装完成，后面学习使用 jenkins 运用到工作中。</p>]]></content>
+      
+      <categories>
+          
+          <category> Docker系列 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Docker安装Jenkins </tag>
+            
+            <tag> Jenkins </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>为Docker镜像添加SSH服务</title>
       <link href="/2018/04/20/%E4%B8%BADocker%E9%95%9C%E5%83%8F%E6%B7%BB%E5%8A%A0SSH%E6%9C%8D%E5%8A%A1/"/>
       <url>/2018/04/20/%E4%B8%BADocker%E9%95%9C%E5%83%8F%E6%B7%BB%E5%8A%A0SSH%E6%9C%8D%E5%8A%A1/</url>
@@ -231,13 +254,13 @@
       
         <tags>
             
-            <tag> pull命令 </tag>
-            
-            <tag> search命令 </tag>
-            
             <tag> docker仓库 </tag>
             
             <tag> login命令 </tag>
+            
+            <tag> search命令 </tag>
+            
+            <tag> pull命令 </tag>
             
             <tag> 本地搭建私有仓库配置 </tag>
             
@@ -262,10 +285,6 @@
       
         <tags>
             
-            <tag> rm命令 </tag>
-            
-            <tag> import命令 </tag>
-            
             <tag> docker容器 </tag>
             
             <tag> create命令 </tag>
@@ -282,7 +301,11 @@
             
             <tag> exec命令 </tag>
             
+            <tag> rm命令 </tag>
+            
             <tag> export命令 </tag>
+            
+            <tag> import命令 </tag>
             
         </tags>
       
@@ -303,9 +326,15 @@
       
         <tags>
             
-            <tag> docker镜像 </tag>
+            <tag> rm命令 </tag>
+            
+            <tag> import命令 </tag>
+            
+            <tag> search命令 </tag>
             
             <tag> pull命令 </tag>
+            
+            <tag> docker镜像 </tag>
             
             <tag> images命令 </tag>
             
@@ -315,15 +344,9 @@
             
             <tag> history命令 </tag>
             
-            <tag> search命令 </tag>
-            
             <tag> rmi命令 </tag>
             
-            <tag> rm命令 </tag>
-            
             <tag> commit命令 </tag>
-            
-            <tag> import命令 </tag>
             
             <tag> save命令 </tag>
             
@@ -969,9 +992,9 @@
             
             <tag> java多线程 </tag>
             
-            <tag> 同步容器 </tag>
-            
             <tag> 集合 </tag>
+            
+            <tag> 同步容器 </tag>
             
         </tags>
       
