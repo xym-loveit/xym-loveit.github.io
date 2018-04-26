@@ -4,6 +4,36 @@
 
     
   <url>
+    <loc>http://xym-loveit.github.io/2018/04/26/Docker%E5%9F%BA%E7%A1%80-docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</loc>
+    <lastmod>2018-04-26T03:48:29.475Z</lastmod>
+    <data>
+        <display>
+        <title>Docker基础-docker常用命令</title>
+        <pubTime>2018-04-26T03:20:12.000Z</pubTime>
+        
+        <tag>docker容器管理</tag>
+         
+        <tag>docker容器状态</tag>
+         
+        <tag>docker镜像管理</tag>
+         
+        <tag>docker网络管理</tag>
+         
+        <tag>docker容器卷管理</tag>
+         
+        <tag>docker数据备份及恢复</tag>
+         
+         
+           
+             
+              <breadCrumb title="Docker系列" url="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xym-loveit.github.io/2018/04/25/%E4%BD%BF%E7%94%A8-Docker-%E5%AE%89%E8%A3%85-Jenkins/</loc>
     <lastmod>2018-04-25T03:25:56.906Z</lastmod>
     <data>
@@ -309,13 +339,13 @@
         <title>Docker 基本操作之镜像</title>
         <pubTime>2018-04-13T01:24:54.000Z</pubTime>
         
-        <tag>rm命令</tag>
-         
-        <tag>import命令</tag>
-         
         <tag>search命令</tag>
          
         <tag>pull命令</tag>
+         
+        <tag>rm命令</tag>
+         
+        <tag>import命令</tag>
          
         <tag>docker镜像</tag>
          
