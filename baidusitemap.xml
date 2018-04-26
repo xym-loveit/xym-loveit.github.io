@@ -4,6 +4,152 @@
 
     
   <url>
+    <loc>http://xym-loveit.github.io/2018/03/29/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2018-04-26T14:55:44.161Z</lastmod>
+    <data>
+        <display>
+        <title>常用工具</title>
+        <pubTime>2018-03-29T01:43:38.000Z</pubTime>
+        
+        <tag>常用工具</tag>
+         
+         
+           
+             
+              <breadCrumb title="常用工具" url="http://xym-loveit.github.io/categories/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xym-loveit.github.io/2018/04/26/Docker%E5%9F%BA%E7%A1%80-docker-compose%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2018-04-26T08:47:34.889Z</lastmod>
+    <data>
+        <display>
+        <title>Docker基础-docker compose网络</title>
+        <pubTime>2018-04-26T08:46:31.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Docker系列" url="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xym-loveit.github.io/2018/04/26/Docker%E5%9F%BA%E7%A1%80-docker-%E5%AE%B9%E5%99%A8%E6%97%A5%E5%BF%97%E5%91%BD%E5%90%8D/</loc>
+    <lastmod>2018-04-26T08:37:34.165Z</lastmod>
+    <data>
+        <display>
+        <title>Docker基础-docker 容器日志命名</title>
+        <pubTime>2018-04-26T08:22:19.000Z</pubTime>
+        
+        <tag>docker容器日志</tag>
+         
+         
+           
+             
+              <breadCrumb title="Docker系列" url="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xym-loveit.github.io/2018/04/26/Docker%E5%9F%BA%E7%A1%80-docker-limit%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6/</loc>
+    <lastmod>2018-04-26T08:21:00.975Z</lastmod>
+    <data>
+        <display>
+        <title>Docker基础-docker limit资源限制</title>
+        <pubTime>2018-04-26T07:57:00.000Z</pubTime>
+        
+        <tag>Docker资源限制</tag>
+         
+        <tag>Docker limit</tag>
+         
+        <tag>Memory limit</tag>
+         
+        <tag>CPU limit</tag>
+         
+        <tag>IO limit</tag>
+         
+         
+           
+             
+              <breadCrumb title="Docker系列" url="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xym-loveit.github.io/2018/04/26/Docker%E5%9F%BA%E7%A1%80-%E5%BD%93docker-daemon%E5%81%9C%E6%AD%A2%E6%97%B6%E4%BE%9D%E7%84%B6%E4%BF%9D%E6%8C%81%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8C/</loc>
+    <lastmod>2018-04-26T07:53:11.270Z</lastmod>
+    <data>
+        <display>
+        <title>Docker基础-当docker daemon停止时依然保持容器运行</title>
+        <pubTime>2018-04-26T07:45:28.000Z</pubTime>
+        
+        <tag>live restore配置</tag>
+         
+         
+           
+             
+              <breadCrumb title="Docker系列" url="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xym-loveit.github.io/2018/04/26/Docker%E5%9F%BA%E7%A1%80-docker-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%9C%A8compose%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2018-04-26T07:43:18.060Z</lastmod>
+    <data>
+        <display>
+        <title>Docker基础-docker 环境变量在compose文件中的使用</title>
+        <pubTime>2018-04-26T07:30:25.000Z</pubTime>
+        
+        <tag>compose的环境变量</tag>
+         
+         
+           
+             
+              <breadCrumb title="Docker系列" url="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xym-loveit.github.io/2018/04/26/Docker%E5%9F%BA%E7%A1%80-docker%E5%9C%A8%E5%90%84%E4%B8%AA%E5%B9%B3%E5%8F%B0%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2018-04-26T07:07:15.457Z</lastmod>
+    <data>
+        <display>
+        <title>Docker基础-docker在各个平台的基本配置</title>
+        <pubTime>2018-04-26T06:13:36.000Z</pubTime>
+        
+        <tag>docker daemon配置</tag>
+         
+         
+           
+             
+              <breadCrumb title="Docker系列" url="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xym-loveit.github.io/2018/04/26/Docker%E5%9F%BA%E7%A1%80-docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</loc>
     <lastmod>2018-04-26T03:58:22.803Z</lastmod>
     <data>
@@ -423,26 +569,6 @@
            
              
               <breadCrumb title="eureka配置" url="http://xym-loveit.github.io/categories/eureka%E9%85%8D%E7%BD%AE/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xym-loveit.github.io/2018/03/29/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2018-03-29T03:09:43.791Z</lastmod>
-    <data>
-        <display>
-        <title>常用工具</title>
-        <pubTime>2018-03-29T01:43:38.000Z</pubTime>
-        
-        <tag>常用工具</tag>
-         
-         
-           
-             
-              <breadCrumb title="常用工具" url="http://xym-loveit.github.io/categories/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/"/>
           
         </display>
     </data>
