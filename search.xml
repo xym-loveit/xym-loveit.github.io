@@ -450,10 +450,6 @@
       
         <tags>
             
-            <tag> rm命令 </tag>
-            
-            <tag> import命令 </tag>
-            
             <tag> docker容器 </tag>
             
             <tag> create命令 </tag>
@@ -470,7 +466,11 @@
             
             <tag> exec命令 </tag>
             
+            <tag> rm命令 </tag>
+            
             <tag> export命令 </tag>
+            
+            <tag> import命令 </tag>
             
         </tags>
       
@@ -495,6 +495,10 @@
             
             <tag> pull命令 </tag>
             
+            <tag> rm命令 </tag>
+            
+            <tag> import命令 </tag>
+            
             <tag> docker镜像 </tag>
             
             <tag> images命令 </tag>
@@ -507,11 +511,7 @@
             
             <tag> rmi命令 </tag>
             
-            <tag> rm命令 </tag>
-            
             <tag> commit命令 </tag>
-            
-            <tag> import命令 </tag>
             
             <tag> save命令 </tag>
             
