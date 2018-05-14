@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xym-loveit.github.io/"/>
-  <updated>2018-04-26T16:37:46.772Z</updated>
+  <updated>2018-05-14T04:35:08.868Z</updated>
   <id>http://xym-loveit.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>我珍藏的神兵利器</title>
+    <link href="http://xym-loveit.github.io/2018/05/14/%E6%88%91%E7%8F%8D%E8%97%8F%E7%9A%84%E7%A5%9E%E5%85%B5%E5%88%A9%E5%99%A8/"/>
+    <id>http://xym-loveit.github.io/2018/05/14/我珍藏的神兵利器/</id>
+    <published>2018-05-14T03:26:28.000Z</published>
+    <updated>2018-05-14T04:35:08.868Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>工欲善其事必先利其器。<br>我一直都在不断挑选和优化自己的兵器，以追求着最高效率。<br>此篇分享下我的私家珍藏的各种神兵利器。如果有朋友能推荐更好的，那就不枉此篇。<br>分为Windows软件和开发工具两类。</p></blockquote><h2 id="windows软件"><a href="#windows软件" class="headerlink" title="windows软件"></a>windows软件</h2><h3 id="快速启动：WOX"><a href="#快速启动：WOX" class="headerlink" title="快速启动：WOX"></a>快速启动：WOX</h3><p>快速启动应用+文件搜索+各种实用插件（计算器、翻译、网页快速访问等）。我的最爱，没有它我几乎半残。<br>一开始从用<code>altrun</code> 然后试过<code>Listary</code> ，发现WOX 后，最为顺手，效率提升100%。</p><h3 id="搜索工具：everything"><a href="#搜索工具：everything" class="headerlink" title="搜索工具：everything"></a>搜索工具：everything</h3><p>秒找电脑里的各种文件。与<code>WOX</code>完美集成。</p><h3 id="下载：IDM"><a href="#下载：IDM" class="headerlink" title="下载：IDM"></a>下载：IDM</h3><p>多线程下载HTTP类文件下载利器，杠杠的。Chrome 内的下载都托管给了IDM，可下载百度云离线文件，突破下载速度限制。<br>做不到的BT下载，使用迅雷下载或者<code>Aria2</code>来配合处理即可。</p><h3 id="截图：snipaste"><a href="#截图：snipaste" class="headerlink" title="截图：snipaste"></a>截图：snipaste</h3><p>开源、免费的国产截图神器。给我最大的感受是截图更方便，且比QQ截图工具清晰很多。</p><h3 id="预览工具：QuickLook"><a href="#预览工具：QuickLook" class="headerlink" title="预览工具：QuickLook"></a>预览工具：QuickLook</h3><p>按下空格即可快速预览文件，微软商店内的免费应用。<br>之前用的<code>seer</code>，发现<code>QuickLook</code>后，果断抛弃。</p><h3 id="剪切板工具：Ditto"><a href="#剪切板工具：Ditto" class="headerlink" title="剪切板工具：Ditto"></a>剪切板工具：Ditto</h3><p>再也不用担心刚才复制的内容找不到了。</p><h3 id="结构化笔记：workflowy"><a href="#结构化笔记：workflowy" class="headerlink" title="结构化笔记：workflowy"></a>结构化笔记：workflowy</h3><p><code>Make lists,not war.</code>我常用于记录工作中的各种待办事项。</p><p><img src="http://op7wplti1.bkt.clouddn.com/20180501224450.png" alt="workflowy"></p><h3 id="Markdown写作工具：Typora"><a href="#Markdown写作工具：Typora" class="headerlink" title="Markdown写作工具：Typora"></a>Markdown写作工具：Typora</h3><p>最好用的Markdown写作工具，所见即所得。</p><h3 id="贴图工具：PicGo"><a href="#贴图工具：PicGo" class="headerlink" title="贴图工具：PicGo"></a>贴图工具：PicGo</h3><p>支持多种图床，功能强大。</p><p><img src="http://op7wplti1.bkt.clouddn.com/20180501225020.png" alt="PicGo"></p><h3 id="看图工具：2345看图王"><a href="#看图工具：2345看图王" class="headerlink" title="看图工具：2345看图王"></a>看图工具：2345看图王</h3><p>虽然名字土鳖，国产软件，一贯的有流氓行为。但是看图是真好用，我能忍.</p><h3 id="压缩软件：BandZIP"><a href="#压缩软件：BandZIP" class="headerlink" title="压缩软件：BandZIP"></a>压缩软件：BandZIP</h3><h3 id="播放器：Splash"><a href="#播放器：Splash" class="headerlink" title="播放器：Splash"></a>播放器：Splash</h3><h3 id="录屏工具：LICEcap"><a href="#录屏工具：LICEcap" class="headerlink" title="录屏工具：LICEcap"></a>录屏工具：LICEcap</h3><p>比GifCam更好用。</p><h3 id="Chrome插件"><a href="#Chrome插件" class="headerlink" title="Chrome插件"></a>Chrome插件</h3><ul><li>1、Surfingkeys</li></ul><p>在Chrome上，可以摆脱掉烦人的鼠标了。Vimium 升级版，我的最爱。</p><ul><li>2、Tampermonkey</li></ul><p>一千个司机眼中有一千个油猴。<br>强大的脚本让你可以做很多很爽的事情。比如开车、百度网盘破解直接下载、VIP视频在线解析破解去广告等。</p><ul><li>3、沙拉查词-网页划词翻译</li></ul><p>全能网页划词翻译，开放源码、功能丰富、超多词典、清爽快速、支持个性化设置</p><p>详细信息删除。</p><p>找了很久才找到的划词翻译软件，而且双击Ctrl还可以弹出查询翻译页面。用起来很爽。</p><ul><li>4、掘金<br>新标签页托管给掘金，快速获得专业内容。掘金已成为一种习惯。</li></ul><p><img src="http://op7wplti1.bkt.clouddn.com/20180501221014.png" alt="掘金"></p><ul><li>5、Imagus<br>鼠标悬浮停留在图片上，自动弹出放大图片，不用再在新链接中打开看大图了。</li></ul><p>*6、oneTab<br>标签页打开太多的时候，占用内存而且怕关掉后回头找不到？oneTab完美解决这个问题。<br>主要是用来缩减窗口，保存浏览记录。<br>为了省内存？Chrome越来越吃内存？加内存条才是根本的解决办法。</p><ul><li><p>7、AutoPagerize<br>专门需要Google、百度，点击下一页很烦。AutoPagerize让我不再需要点下一页。</p></li><li><p>8、谷歌访问助手<br>如果你只要访问个谷歌或者上谷歌商店的话，不需要突破围墙的话，装这个插件可以满足基本使用了。免费而且速度还行。<br>在我的酸酸乳被严打封锁期间，我是靠着这个插件熬下来的，且行且珍惜。良民万岁。</p></li><li><p>9、Proxy SwitchyOmega<br>HTTP、SOCKS5代理插件，轻松快捷地管理和切换多个代理设置。用过段时间，挺好用的。</p></li><li><p>10、LastPass<br>省掉很多记密码的烦恼。</p></li><li><p>11、Insight.io for Github<br>IDE like code intelligence and code search for GitHub by Insight.io.<br>Github内看代码更方便，带高亮、跳转。</p></li><li><p>12、GitZip for github<br>It can make the sub-directories and files of github repository as zip and download it.<br>不想Clone整个项目，只想下载单个文件或者单个文件夹时，用这个。</p></li><li><p>13、Clear Cache<br>一键清除缓存，可以少点很多步。</p></li><li><p>14、User-Agent Switcher for Chrome<br>Chrome可以转换为别的浏览器进行访问，如IE、Safari、360甚至iOS、 Android等移动浏览器，方便用户进行测试。</p></li></ul><p><img src="http://op7wplti1.bkt.clouddn.com/20180501223907.png" alt="User-Agent Switcher for Chrome"></p><ul><li><p>15、Adblock Plus<br>网页去广告，不用uBlock Origin 的原因是它太强力，有时候把我博客的评论部分都杀掉了。</p></li><li><p>16、微博图床<br>一键将页面中的图片上传到微博，微博是个好图床。我一般用微博图床来拿HTTPS图片。</p></li><li><p>17、扩展管理器（Extension Manager）<br>一键管理所有扩展，快速开启/禁用、批量闪电管理，智能排序，右键卸载、锁定、选项配置，角标提醒，大小布局随心配。快捷、简单、安全。<br>当插件越来越多的时候，就需要个插件管理器了。这个管理器很方便，颜值不错。</p></li><li><p>18、IDM Integration Module<br>接管Chrome下载，使用IDM下载。一般在安装IDM的时候会自动安装Chrome的扩展。</p></li><li><p>19、惠惠购物助手<br>每逢剁手节的时候，都要打开这个看看历史价。</p></li><li><p>20、有道云网页剪报<br>一键保存网页内容，保存到有道云笔记里，我有时候将这个作为类似书签使用。</p></li></ul><h2 id="开发相关"><a href="#开发相关" class="headerlink" title="开发相关"></a>开发相关</h2><h3 id="IDE：IntelliJ-IDEA"><a href="#IDE：IntelliJ-IDEA" class="headerlink" title="IDE：IntelliJ IDEA"></a>IDE：IntelliJ IDEA</h3><p>用了有些年头了，高效、顺滑。也是因为从IDEA开始，让我意识到工具的重要性，在折腾工具的这条路上越走越远。</p><h3 id="IDEA插件私家珍藏"><a href="#IDEA插件私家珍藏" class="headerlink" title="IDEA插件私家珍藏"></a>IDEA插件私家珍藏</h3><ul><li><p>1、JRebel for IntelliJ<br>热部署插件，Java WEB 开发必备，节省生命。</p></li><li><p>2、Custom Postfix Templates<br>我的最爱。可以自定义Postfix模板，千言万语，不如一图。</p></li></ul><p><img src="http://op7wplti1.bkt.clouddn.com/201805012320_804.gif" alt="Custom Postfix Templates"></p><ul><li><p>3、Lombok Plugin<br>使用注解自动生成代码，码奴解放者。</p></li><li><p>4、RestfulToolkit<br>Java WEB开发必备，再也不用全局搜索RequestMapping了。</p></li></ul><p><img src="http://op7wplti1.bkt.clouddn.com/201805062124_169.gif" alt="RestfulToolkit1"></p><p><img src="http://op7wplti1.bkt.clouddn.com/201805062306_300.png" alt="RestfulToolkit2"></p><ul><li>5、Translation<br>翻译插件，很好用。</li></ul><p><img src="http://op7wplti1.bkt.clouddn.com/201805062310_661.png" alt="Translation"></p><ul><li>6、Grep Console<br>高亮log不同级别日志，看日志的时候一目了然。</li></ul><p><img src="http://op7wplti1.bkt.clouddn.com/201805062137_973.png" alt="Grep Console"></p><ul><li>7、GenerateSerialVersionUID<br><code>alt + Insert</code> 生成serialVersionUID</li></ul><p><img src="http://op7wplti1.bkt.clouddn.com/201805062139_237.gif" alt="GenerateSerialVersionUID"></p><ul><li><p>8、Git Flow Integration<br>Git Flow插件，与IDEA集成。</p></li><li><p>9、GsonFormat<br>JSON报文 –&gt; Java POJO 快速转换。</p></li></ul><p><img src="http://op7wplti1.bkt.clouddn.com/screenshot_15729.png" alt="GsonFormat"></p><ul><li><p>10、Material Theme UI<br>UI主题，有三款配色，看个人喜好。</p></li><li><p>11、String Manipulation<br>字符串格式风格快捷转换：大小写、驼峰、连接串等。</p></li><li><p>12、Alibaba Java Coding Guidelines<br>阿里巴巴Java开发规约扫描插件。</p></li><li><p>13、FindBugs<br>找到代码中潜在的问题。</p></li><li><p>14、Rainbow Brackets<br>彩虹括号。自动给代码块内花括号和括号加色，让视野更加注意在代码上。</p></li></ul><p><img src="http://op7wplti1.bkt.clouddn.com/201805062209_38.png" alt="Rainbow Brackets"></p><ul><li>15、Maven Helper<br>Maven插件，安装后可查看依赖以及冲突，一目了然。</li></ul><h3 id="文本编辑器：Sublime"><a href="#文本编辑器：Sublime" class="headerlink" title="文本编辑器：Sublime"></a>文本编辑器：Sublime</h3><p>对比Atom，Sublime主要是打开速度更快，感觉更清爽。</p><h3 id="数据库客户端：DataGrip"><a href="#数据库客户端：DataGrip" class="headerlink" title="数据库客户端：DataGrip"></a>数据库客户端：DataGrip</h3><p>一个客户端全搞定主流数据库。不用再装Navicat、plsql了。<br>ps:DataGrip其实只是IDEA里一个集成功能，被单独抽离出来成了一个独立产品。</p><h3 id="SSH客户端：MobaXterm"><a href="#SSH客户端：MobaXterm" class="headerlink" title="SSH客户端：MobaXterm"></a>SSH客户端：MobaXterm</h3><p>集成SSH、SFTP、FTP等，一个全搞定。还可分屏等功能，好用。</p><p><img src="http://op7wplti1.bkt.clouddn.com/201805062245_647.png" alt="MobaXterm"></p><h3 id="终端工具：Cmder"><a href="#终端工具：Cmder" class="headerlink" title="终端工具：Cmder"></a>终端工具：Cmder</h3><p>丢弃掉Windows自带cmd窗口吧。</p><p><img src="http://op7wplti1.bkt.clouddn.com/201805062247_127.png" alt="Cmder"></p><h3 id="API工具：Postman"><a href="#API工具：Postman" class="headerlink" title="API工具：Postman"></a>API工具：Postman</h3><p>强大的API调试、Http请求的工具 。可自动同步个人请求记录。</p><h3 id="API管理平台"><a href="#API管理平台" class="headerlink" title="API管理平台"></a>API管理平台</h3><ul><li>Hitchhiker</li><li>eoLinker</li><li>apidocjs</li></ul><blockquote><p>本文引用自：<a href="https://www.liutf.com/posts/3720794851.html" target="_blank" rel="noopener">https://www.liutf.com/posts/3720794851.html</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      常用工具整理，方便使用
+    
+    </summary>
+    
+      <category term="常用工具" scheme="http://xym-loveit.github.io/categories/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="常用工具整理" scheme="http://xym-loveit.github.io/tags/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%95%B4%E7%90%86/"/>
+    
+  </entry>
   
   <entry>
     <title>Docker基础-docker compose网络</title>
@@ -452,13 +474,13 @@
       <category term="Docker系列" scheme="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
     
     
-      <category term="docker仓库" scheme="http://xym-loveit.github.io/tags/docker%E4%BB%93%E5%BA%93/"/>
-    
-      <category term="login命令" scheme="http://xym-loveit.github.io/tags/login%E5%91%BD%E4%BB%A4/"/>
+      <category term="pull命令" scheme="http://xym-loveit.github.io/tags/pull%E5%91%BD%E4%BB%A4/"/>
     
       <category term="search命令" scheme="http://xym-loveit.github.io/tags/search%E5%91%BD%E4%BB%A4/"/>
     
-      <category term="pull命令" scheme="http://xym-loveit.github.io/tags/pull%E5%91%BD%E4%BB%A4/"/>
+      <category term="docker仓库" scheme="http://xym-loveit.github.io/tags/docker%E4%BB%93%E5%BA%93/"/>
+    
+      <category term="login命令" scheme="http://xym-loveit.github.io/tags/login%E5%91%BD%E4%BB%A4/"/>
     
       <category term="本地搭建私有仓库配置" scheme="http://xym-loveit.github.io/tags/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E9%85%8D%E7%BD%AE/"/>
     
@@ -484,6 +506,10 @@
       <category term="Docker系列" scheme="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
     
     
+      <category term="rm命令" scheme="http://xym-loveit.github.io/tags/rm%E5%91%BD%E4%BB%A4/"/>
+    
+      <category term="import命令" scheme="http://xym-loveit.github.io/tags/import%E5%91%BD%E4%BB%A4/"/>
+    
       <category term="docker容器" scheme="http://xym-loveit.github.io/tags/docker%E5%AE%B9%E5%99%A8/"/>
     
       <category term="create命令" scheme="http://xym-loveit.github.io/tags/create%E5%91%BD%E4%BB%A4/"/>
@@ -500,11 +526,7 @@
     
       <category term="exec命令" scheme="http://xym-loveit.github.io/tags/exec%E5%91%BD%E4%BB%A4/"/>
     
-      <category term="rm命令" scheme="http://xym-loveit.github.io/tags/rm%E5%91%BD%E4%BB%A4/"/>
-    
       <category term="export命令" scheme="http://xym-loveit.github.io/tags/export%E5%91%BD%E4%BB%A4/"/>
-    
-      <category term="import命令" scheme="http://xym-loveit.github.io/tags/import%E5%91%BD%E4%BB%A4/"/>
     
   </entry>
   
@@ -526,15 +548,9 @@
       <category term="Docker系列" scheme="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
     
     
-      <category term="search命令" scheme="http://xym-loveit.github.io/tags/search%E5%91%BD%E4%BB%A4/"/>
+      <category term="docker镜像" scheme="http://xym-loveit.github.io/tags/docker%E9%95%9C%E5%83%8F/"/>
     
       <category term="pull命令" scheme="http://xym-loveit.github.io/tags/pull%E5%91%BD%E4%BB%A4/"/>
-    
-      <category term="rm命令" scheme="http://xym-loveit.github.io/tags/rm%E5%91%BD%E4%BB%A4/"/>
-    
-      <category term="import命令" scheme="http://xym-loveit.github.io/tags/import%E5%91%BD%E4%BB%A4/"/>
-    
-      <category term="docker镜像" scheme="http://xym-loveit.github.io/tags/docker%E9%95%9C%E5%83%8F/"/>
     
       <category term="images命令" scheme="http://xym-loveit.github.io/tags/images%E5%91%BD%E4%BB%A4/"/>
     
@@ -544,49 +560,21 @@
     
       <category term="history命令" scheme="http://xym-loveit.github.io/tags/history%E5%91%BD%E4%BB%A4/"/>
     
+      <category term="search命令" scheme="http://xym-loveit.github.io/tags/search%E5%91%BD%E4%BB%A4/"/>
+    
       <category term="rmi命令" scheme="http://xym-loveit.github.io/tags/rmi%E5%91%BD%E4%BB%A4/"/>
     
+      <category term="rm命令" scheme="http://xym-loveit.github.io/tags/rm%E5%91%BD%E4%BB%A4/"/>
+    
       <category term="commit命令" scheme="http://xym-loveit.github.io/tags/commit%E5%91%BD%E4%BB%A4/"/>
+    
+      <category term="import命令" scheme="http://xym-loveit.github.io/tags/import%E5%91%BD%E4%BB%A4/"/>
     
       <category term="save命令" scheme="http://xym-loveit.github.io/tags/save%E5%91%BD%E4%BB%A4/"/>
     
       <category term="load命令" scheme="http://xym-loveit.github.io/tags/load%E5%91%BD%E4%BB%A4/"/>
     
       <category term="push命令" scheme="http://xym-loveit.github.io/tags/push%E5%91%BD%E4%BB%A4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring Cloud常见问题总结</title>
-    <link href="http://xym-loveit.github.io/2018/04/11/Spring-Cloud%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/"/>
-    <id>http://xym-loveit.github.io/2018/04/11/Spring-Cloud常见问题总结/</id>
-    <published>2018-04-11T13:01:13.000Z</published>
-    <updated>2018-04-11T16:08:27.080Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="Eureka常见问题"><a href="#Eureka常见问题" class="headerlink" title="Eureka常见问题"></a>Eureka常见问题</h2><h3 id="Eureka注册服务慢"><a href="#Eureka注册服务慢" class="headerlink" title="Eureka注册服务慢"></a>Eureka注册服务慢</h3><p>默认情况下，服务注册到Eureka Server的过程慢。在开发或测试时，常常希望能够加速这一过程，从而提升工作效率。Spring Cloud官方详细描述了该问题的原因并提供了解决方案：  </p><blockquote><p>简单翻译：服务注册涉及到周期性心跳，默认30秒一次（通过客户端配置ServiceUrl）。只有当实例、服务端和客户端的本地缓存中的元数据都相同时，服务才能被其他客户端发现（所以可能需要3次心跳）。可以使用参数<code>eureka.instance.leaseRenewalntervalInSeconds</code>修改时间间隔，从而加快客户端连接到其他服务的过程。在生产环境中最好坚持使用默认值，因为在服务器内部有一些计算，他们会对续约作出假设。</p></blockquote><p>综上，要想解决服务注册慢的问题，只须将<code>eureka.instance.leaseRenewalIntervalInSeconds</code>设定一个更小的值。该配置用于设置Eureka Client向Eureka Server发送心跳的时间间隔，默认30秒。在生产环境中，建议坚持使用默认值。</p><blockquote><p>原文来自：<a href="https://cloud.spring.io/spring-cloud-netflix/multi/multi__service_discovery_eureka_clients.html#_why_is_it_so_slow_to_register_a_service" target="_blank" rel="noopener">https://cloud.spring.io/spring-cloud-netflix/multi/multi__service_discovery_eureka_clients.html#_why_is_it_so_slow_to_register_a_service</a></p></blockquote><h3 id="已停止的微服务节点注销慢或不注销"><a href="#已停止的微服务节点注销慢或不注销" class="headerlink" title="已停止的微服务节点注销慢或不注销"></a>已停止的微服务节点注销慢或不注销</h3><p>在开发环境下，常常希望Eureka Server能迅速有效地注销已停止的微服务实例，然而，由于Eureka Server清理无效节点周期长（默认90秒），以及自我保护模式等原因，可能会遇到微服务注销慢甚至不注销的问题。解决方案如下：  </p><ul><li><p>Eureka Server 端：<br>配置关闭自我保护，并按需配置Eureka Server清理无效节点的时间间隔。  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">eureka.server.enable-self-preservation</span><br><span class="line">#设为false，关闭自我保护，从而保证会注销微服务</span><br><span class="line">eureka.server.eviction-interval-timer-in-ms</span><br><span class="line">#清理间隔（单位毫秒，默认为60*1000）</span><br></pre></td></tr></table></figure></li><li><p>Eureka Client 端<br>配置开启健康检查，并按需配置续约更新时间和到期时间。  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">eureka.client.healthcheck.enabled</span><br><span class="line">#设置为true,开启健康检查（需要spring-boot-starter-actuator依赖）</span><br><span class="line">eureka.instance.lease-renewal-interval-in-seconds</span><br><span class="line">#续约更新时间间隔（默认30秒）</span><br><span class="line">eureka.instance.lease-expiration-duration-in-seconds</span><br><span class="line">#续约到期时间（默认90秒）</span><br></pre></td></tr></table></figure></li></ul><p>值得注意的是，这些配置仅建议在开发或测试时使用，生产环境建议坚持使用默认值。</p><p><strong>示例</strong></p><ul><li><p>Eureka Server配置：  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  server:</span><br><span class="line">    enable-self-preservation: false</span><br><span class="line">    eviction-interval-timer-in-ms: 4000</span><br></pre></td></tr></table></figure></li><li><p>Eureka Client配置：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    healthcheck:</span><br><span class="line">      enabled: true</span><br><span class="line">  instance:</span><br><span class="line">    lease-expiration-duration-in-seconds: 30</span><br><span class="line">    lease-renewal-interval-in-seconds: 10</span><br></pre></td></tr></table></figure></li></ul><blockquote><p>修改Eureka的续约频率可能会打破Eureka的自我保护特性，详见：<a href="https://github.com/spring-cloud/spring-cloud-netflix/issues/373" target="_blank" rel="noopener">https://github.com/spring-cloud/spring-cloud-netflix/issues/373</a>。这意味着在生产环境中，如果想要使用Eureka的自我保护特性，应该坚持使用默认配置。</p></blockquote><h3 id="如何自定义微服务的Instance-ID。"><a href="#如何自定义微服务的Instance-ID。" class="headerlink" title="如何自定义微服务的Instance ID。"></a>如何自定义微服务的Instance ID。</h3><p>Instance ID用于唯一标识注册到Eureka Server上的微服务实例。在Eureka Server首页可以直观地看到各个微服务的Instance ID。如下图： </p><p><img src="" alt=""></p><p>在Spring Cloud中，服务的Instance ID的默认值是<code>${spring.cloud.client.hostname}:${spring.application.name}:${server.port}</code>。如果想要自定义这部分内容，只须在微服务中配置<code>eureka.instance.instance-id</code>属性即可，例如：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: microservice-provider-user</span><br><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    #将Instance ID设置成 IP:端口的形式 </span><br><span class="line">    instance-id: $&#123;spring.cloud.client.ipAddress&#125;:$&#123;server.port&#125;</span><br></pre></td></tr></table></figure><p>这样，就可将微服务<code>microservice-provider-user</code>的Instance ID设为IP:端口的形式。这样设置后，效果下图所示：  </p><p><img src="" alt=""></p><blockquote><p>Spring Cloud初始化Instance ID的相关代码：<br>org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration<br>org.springframework.cloud.commons.util.IdUtils.getDefaultInstanceId(PropertyResolver resolver);<br>org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean.getInstanceId()</p></blockquote><h3 id="Eureka的UNKNOWN问题总结"><a href="#Eureka的UNKNOWN问题总结" class="headerlink" title="Eureka的UNKNOWN问题总结"></a>Eureka的UNKNOWN问题总结</h3><p>注册信息unknown，是新手常会遇到的问题。如下图，有二种UNKNOWN的情况，一种是应用名称UNKNOWN,另一种是应用状态UNKNOWN。下面分别说明这二种情况。</p><p><img src="" alt=""></p><p><strong>应用名称UNKNOWN</strong></p><p>应用名称UNKNOWN显然不合适，首先微服务的名称不够语义化，无法直接观看出这是哪个服务；更重要的是，我们常常使用应用名称消费对应微服务接口。<br>一般来说，有二种情况会导致该问题的发生：  </p><ul><li>未配置<code>spring.application.name</code>或者<code>eureka.instance.appname</code>属性。如果这两个属性均不配置，就会导致应用名称UNKNOWN的问题。</li><li>某些版本的SpringFox会导致该问题，例如SpringFox2.6.0。建议使用SpringFox2.6.1或更新版本</li></ul><p><strong>微服务实例状态UNKNOWN</strong></p><p>微服务实例的状态UNKNOWN同样很麻烦。一般来讲，只会请求状态是UP的微服务。该问题一般由健康检查导致。<code>eureka.client.healthcheck.enabled=true</code>必须设置在<code>application.yml</code>中，而不能设置在<code>bootstrap.yml</code>中，否则一些场景下会导致应用状态UNKNOWN的问题。</p><blockquote><p>SpringFox是一款基于Spring和Swagger的开源的API文档框架，前身是swagger-springmvc。官网：<a href="http://springfox.github.io/springfox/" target="_blank" rel="noopener">http://springfox.github.io/springfox/</a>。</p></blockquote><h2 id="Hystrix-Feign整合Hystrix后首次请求失败"><a href="#Hystrix-Feign整合Hystrix后首次请求失败" class="headerlink" title="Hystrix/Feign整合Hystrix后首次请求失败"></a>Hystrix/Feign整合Hystrix后首次请求失败</h2><p>某些场景下，Feign或Ribbon整合Hystrix后，会出现首次调用失败的问题。</p><h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>Hystrix默认的超时时间是1秒，如果在1秒内得不到响应，就会进入<code>fallback</code>逻辑。由于Spring的懒加载机制，首次请求往往会比较慢，因此在某些机器（特别是低端的机器）上，首次请求需要的时间可能就会大于1秒。</p><h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><ul><li>方法一：延长Hystrix的超时时间，示例：<br><code>hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000</code>该配置让Hystrix的超时时间改为5秒 </li><li>方法二：禁用Hystrix的超时，示例：<br><code>hystrix.command.default.execution.timeout.enabled: false</code></li><li>方法三：对于Feign，还可为Feign禁用Hystrix，示例：<br><code>feign.hystrix.enabled: false</code><br>这样即可为Feign全局禁用Hystrix支持，该方式比较极端，一般不建议使用。</li></ul><h2 id="Turbine集合数据不完整"><a href="#Turbine集合数据不完整" class="headerlink" title="Turbine集合数据不完整"></a>Turbine集合数据不完整</h2><p>在某些版本的Spring Cloud（例如Brixton SR5）中，Turbine会发生该问题。该问题直观体现是：使用Turbine聚合了多个微服务，但在Hystrix Dashboard上只能看到部分微服务的监控数据。</p><p>例如Turbine配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">turbine:</span><br><span class="line">  app-config: microservice-consumer-movie,microservice-consumer-movie-feign-hystrix-fallback-stream</span><br><span class="line">  cluster-name-expression: &quot;&apos;default&apos;&quot;</span><br></pre></td></tr></table></figure></p><p>Turbine理应聚合<code>microservice-consumer-movie</code>和<code>microservice-consumer-movie-feign-hystrix-fallback-stream</code>这两个微服务的监控数据，然而打开Hystrix Dashboard时，会发现Hystrix Dashboard只显示部分微服务的监控数据。</p><h3 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h3><p>当Turbine集合的微服务部署在同一台主机时，就会出现该问题。</p><ul><li><p>方法一：为各个微服务配置不同的<code>hostname</code>。并将<code>preferIpAddress</code>设为false或者不设置。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http://discovery:8761/eureka/</span><br><span class="line">  instance:</span><br><span class="line">    hostname: ribbon #配置hostname</span><br></pre></td></tr></table></figure></li><li><p>方法二：设置<code>turbine.combine-host-port=true</code>。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">turbine:</span><br><span class="line">  app-config: microservice-consumer-movie,microservice-consumer-movie-feign-hystrix-fallback-stream</span><br><span class="line">  cluster-name-expression: &quot;&apos;default&apos;&quot;</span><br><span class="line">  combine-host-port: true</span><br></pre></td></tr></table></figure></li><li><p>方法三：升级Spring Cloud到Camden或更新版本。当然，也可单独升级Spring Cloud Netflix到1.2或更新版本（一般不建议单独升级Spring Cloud Netflix，因为可能会跟Spring Cloud其他组件冲突）。这是因为老版本中的<code>combine-host-port</code>默认值是false。Spring Cloud已经意识到该问题，所以在新的版本中将该属性的默认值修改为true。该方案和方法二本质上是一致的。</p></li></ul><p>相关代码:  </p><blockquote><p>org.springframework.cloud.netflix.turbine.TurbineProperties.combineHostPort<br>org.springframework.cloud.netflix.turbine.CommonsInstanceDiscovery.getInstance(String hostname, String port, String cluster, Boolean status)<br>相关issue：<a href="https://github.com/spring-cloud/spring-cloud-netflix/issues/1087" target="_blank" rel="noopener">https://github.com/spring-cloud/spring-cloud-netflix/issues/1087</a></p></blockquote><h2 id="Spring-Cloud各组件配置属性"><a href="#Spring-Cloud各组件配置属性" class="headerlink" title="Spring Cloud各组件配置属性"></a>Spring Cloud各组件配置属性</h2><p>Spring Cloud中的大部门问题都可以使用配置属性的方式来解决。下面将配置的地址罗列出来，方便查阅。</p><h3 id="Spring-Cloud的配置"><a href="#Spring-Cloud的配置" class="headerlink" title="Spring Cloud的配置"></a>Spring Cloud的配置</h3><p>Spring Cloud的所有组件配置都在其官方文档的附录，地址如下：  </p><p><a href="http://cloud.spring.io/spring-cloud-static/Camden.SR7/#_appendix_compendium_of_configuration_properties" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/Camden.SR7/#_appendix_compendium_of_configuration_properties</a></p><h3 id="原生配置"><a href="#原生配置" class="headerlink" title="原生配置"></a>原生配置</h3><p>Spring Cloud 整合了很多类库，例如：<code>Eureka</code>、<code>Ribbon</code>、<code>Feign</code>等。这些组件自身也有一些配置属性，如下：  </p><ul><li>Eureka的配置：<a href="https://github.com/Netflix/eureka/wiki/Configuring-Eureka" target="_blank" rel="noopener">https://github.com/Netflix/eureka/wiki/Configuring-Eureka</a></li><li>Ribbon的配置：<a href="https://github.com/Netflix/ribbon/wiki/Programmers-Guide" target="_blank" rel="noopener">https://github.com/Netflix/ribbon/wiki/Programmers-Guide</a></li><li>Hystrix的配置：<a href="https://github.com/Netflix/Hystrix/wiki/Configuration" target="_blank" rel="noopener">https://github.com/Netflix/Hystrix/wiki/Configuration</a></li><li>Turbine的配置：<a href="https://github.com/Netflix/Turbine/wiki/Configuration-(1.x" target="_blank" rel="noopener">https://github.com/Netflix/Turbine/wiki/Configuration-(1.x)</a>)</li></ul><h2 id="Spring-Cloud定位问题的思路"><a href="#Spring-Cloud定位问题的思路" class="headerlink" title="Spring Cloud定位问题的思路"></a>Spring Cloud定位问题的思路</h2><h3 id="1、排查配置问题"><a href="#1、排查配置问题" class="headerlink" title="1、排查配置问题"></a>1、排查配置问题</h3><p>排查配置有无问题，举几个例说明。</p><ul><li>YAML缩进是否正确<ul><li>项目启动报错，错误指向yml文件</li></ul></li><li>配置属性是否正确<ul><li>可以借助IDE提示功能来排查，当IDE不提示或给出警告时，应格外注意。  </li></ul></li><li><p>配置属性的位置是否正确</p><ul><li>应当配置在<code>Eureka Client</code>项目上的属性，配置在了<code>Eureka Server</code>项目上</li><li>应当写在<code>bootstrap.yml</code>中的属性，写在了<code>application.yml</code>中，如：<code>spring.cloud.config.uri=http://localhost:8080</code>     </li><li>应当写在<code>application.yml</code>的属性，写在了<code>bootstrap.yml</code>中，如：<code>eureka.client.healthcheck.enabled-true</code><h3 id="2、排查环境问题"><a href="#2、排查环境问题" class="headerlink" title="2、排查环境问题"></a>2、排查环境问题</h3>如确认配置无误，即可考虑运行环境是否存在问题。</li></ul></li><li><p>环境变量</p><ul><li>当前使用的<code>spring boot maven</code>插件版本需要jdk8支持,在jdk7下报错，需要指定插件版本号，添加<code>&lt;version&gt;</code>配置</li></ul></li><li>依赖下载是否完整<ul><li>启动前使用<code>mvn clean package</code>,确认依赖完整性。</li></ul></li><li>网络问题<ul><li>微服务之间通过网络保持通信，因此，网络常常是排查问题的关键。当问题发生时候，可优先排查网络问题。</li></ul></li></ul><h3 id="3、排查代码问题"><a href="#3、排查代码问题" class="headerlink" title="3、排查代码问题"></a>3、排查代码问题</h3><p>经过以上步骤，依然没有定位到问题，那么可能是编写代码出了问题。很多时候，常常因为少了某个注解，或是依赖缺失，而导致了各种异常。许多场景下，设置合理的日志级别，会对问题的定位有奇效。</p><h3 id="4、排查Spring-Cloud自身问题"><a href="#4、排查Spring-Cloud自身问题" class="headerlink" title="4、排查Spring Cloud自身问题"></a>4、排查Spring Cloud自身问题</h3><p>如果确定不是自身问题，就可以debug一下Spring Cloud的代码。同时，可在github等平台给项目提交issue，然后参考官方回复，尝试规避相应问题。</p><p><strong>可参考资源：</strong></p><blockquote><p>各项自身的github，例如：Eureka的Github：<a href="https://github.com/netflix/eureka" target="_blank" rel="noopener">https://github.com/netflix/eureka</a><br>Spring Cloud对应的项目Github，例如Eureka项目在 Spring Cloud Netflix中：<a href="https://github.com/spring-cloud/spring-cloud-netflix" target="_blank" rel="noopener">https://github.com/spring-cloud/spring-cloud-netflix</a></p></blockquote><blockquote><p>Spring Cloud的StackOverflow：<a href="https://stackoverflow.com/questions/tagged/spring-cloud" target="_blank" rel="noopener">https://stackoverflow.com/questions/tagged/spring-cloud</a><br>Spring Cloud的 Gitter<a href="https://gitter.im/spring-cloud/spring-cloud" target="_blank" rel="noopener">https://gitter.im/spring-cloud/spring-cloud</a><br>Spring Cloud中国社区 <a href="http://www.spring4all.com" target="_blank" rel="noopener">http://www.spring4all.com</a></p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      在使用SpringCloud的过程中，可能会遇到一些问题。本文对常见问题做一些总结。
-    
-    </summary>
-    
-      <category term="Spring-Cloud系列" scheme="http://xym-loveit.github.io/categories/Spring-Cloud%E7%B3%BB%E5%88%97/"/>
-    
-    
-      <category term="Spring-Cloud" scheme="http://xym-loveit.github.io/tags/Spring-Cloud/"/>
-    
-      <category term="SpringCloud常见问题" scheme="http://xym-loveit.github.io/tags/SpringCloud%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/"/>
-    
-      <category term="Eureka 配置" scheme="http://xym-loveit.github.io/tags/Eureka-%E9%85%8D%E7%BD%AE/"/>
-    
-      <category term="Ribbon 配置" scheme="http://xym-loveit.github.io/tags/Ribbon-%E9%85%8D%E7%BD%AE/"/>
-    
-      <category term="Hystrix 配置" scheme="http://xym-loveit.github.io/tags/Hystrix-%E9%85%8D%E7%BD%AE/"/>
-    
-      <category term="Turbine 配置" scheme="http://xym-loveit.github.io/tags/Turbine-%E9%85%8D%E7%BD%AE/"/>
-    
-      <category term="Spring Cloud 配置手册" scheme="http://xym-loveit.github.io/tags/Spring-Cloud-%E9%85%8D%E7%BD%AE%E6%89%8B%E5%86%8C/"/>
     
   </entry>
   
