@@ -3,6 +3,7 @@
 
 
     
+    
   <url>
     <loc>http://xym-loveit.github.io/2018/05/14/%E6%88%91%E7%8F%8D%E8%97%8F%E7%9A%84%E7%A5%9E%E5%85%B5%E5%88%A9%E5%99%A8/</loc>
     <lastmod>2018-05-14T04:35:08.868Z</lastmod>
@@ -22,7 +23,6 @@
     </data>
     </url>
 
-    
     
   <url>
     <loc>http://xym-loveit.github.io/2018/03/29/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/</loc>
@@ -344,10 +344,6 @@
         <title>Docker 基本操作之容器</title>
         <pubTime>2018-04-13T11:42:56.000Z</pubTime>
         
-        <tag>rm命令</tag>
-         
-        <tag>import命令</tag>
-         
         <tag>docker容器</tag>
          
         <tag>create命令</tag>
@@ -364,7 +360,11 @@
          
         <tag>exec命令</tag>
          
+        <tag>rm命令</tag>
+         
         <tag>export命令</tag>
+         
+        <tag>import命令</tag>
          
          
            
@@ -478,13 +478,13 @@
         <title>Docker 基本操作之仓库</title>
         <pubTime>2018-04-15T07:43:29.000Z</pubTime>
         
-        <tag>pull命令</tag>
-         
-        <tag>search命令</tag>
-         
         <tag>docker仓库</tag>
          
         <tag>login命令</tag>
+         
+        <tag>search命令</tag>
+         
+        <tag>pull命令</tag>
          
         <tag>本地搭建私有仓库配置</tag>
          
@@ -508,9 +508,15 @@
         <title>Docker 基本操作之镜像</title>
         <pubTime>2018-04-13T01:24:54.000Z</pubTime>
         
-        <tag>docker镜像</tag>
+        <tag>rm命令</tag>
+         
+        <tag>import命令</tag>
+         
+        <tag>search命令</tag>
          
         <tag>pull命令</tag>
+         
+        <tag>docker镜像</tag>
          
         <tag>images命令</tag>
          
@@ -520,15 +526,9 @@
          
         <tag>history命令</tag>
          
-        <tag>search命令</tag>
-         
         <tag>rmi命令</tag>
          
-        <tag>rm命令</tag>
-         
         <tag>commit命令</tag>
-         
-        <tag>import命令</tag>
          
         <tag>save命令</tag>
          
