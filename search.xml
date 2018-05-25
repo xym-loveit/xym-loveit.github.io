@@ -17,7 +17,11 @@
       
         <tags>
             
-            <tag> MyBatis-Generate Mybatis-Plus MyBatis-PageHelper </tag>
+            <tag> MyBatis-Generate </tag>
+            
+            <tag> Mybatis-Plus </tag>
+            
+            <tag> MyBatis-PageHelper </tag>
             
         </tags>
       
@@ -461,13 +465,13 @@
       
         <tags>
             
-            <tag> pull命令 </tag>
-            
-            <tag> search命令 </tag>
-            
             <tag> docker仓库 </tag>
             
             <tag> login命令 </tag>
+            
+            <tag> search命令 </tag>
+            
+            <tag> pull命令 </tag>
             
             <tag> 本地搭建私有仓库配置 </tag>
             
@@ -533,13 +537,15 @@
       
         <tags>
             
+            <tag> search命令 </tag>
+            
+            <tag> pull命令 </tag>
+            
             <tag> rm命令 </tag>
             
             <tag> import命令 </tag>
             
             <tag> docker镜像 </tag>
-            
-            <tag> pull命令 </tag>
             
             <tag> images命令 </tag>
             
@@ -548,8 +554,6 @@
             <tag> inspect命令 </tag>
             
             <tag> history命令 </tag>
-            
-            <tag> search命令 </tag>
             
             <tag> rmi命令 </tag>
             
