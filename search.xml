@@ -19,7 +19,7 @@
             
             <tag> MyBatis-Generate </tag>
             
-            <tag> Mybatis-Plus </tag>
+            <tag> Mybatis Plus </tag>
             
             <tag> MyBatis-PageHelper </tag>
             
@@ -1203,9 +1203,9 @@
             
             <tag> java多线程 </tag>
             
-            <tag> 集合 </tag>
-            
             <tag> 同步容器 </tag>
+            
+            <tag> 集合 </tag>
             
         </tags>
       
