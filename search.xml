@@ -486,13 +486,13 @@
       
         <tags>
             
-            <tag> pull命令 </tag>
-            
-            <tag> search命令 </tag>
-            
             <tag> docker仓库 </tag>
             
             <tag> login命令 </tag>
+            
+            <tag> search命令 </tag>
+            
+            <tag> pull命令 </tag>
             
             <tag> 本地搭建私有仓库配置 </tag>
             
@@ -558,9 +558,11 @@
       
         <tags>
             
-            <tag> docker镜像 </tag>
+            <tag> search命令 </tag>
             
             <tag> pull命令 </tag>
+            
+            <tag> docker镜像 </tag>
             
             <tag> images命令 </tag>
             
@@ -569,8 +571,6 @@
             <tag> inspect命令 </tag>
             
             <tag> history命令 </tag>
-            
-            <tag> search命令 </tag>
             
             <tag> rmi命令 </tag>
             
