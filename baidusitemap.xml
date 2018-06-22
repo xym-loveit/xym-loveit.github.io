@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://xym-loveit.github.io/2018/06/22/IntelliJ-IDEA%E4%B8%AA%E4%BA%BA%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2018-06-22T09:25:08.004Z</lastmod>
+    <data>
+        <display>
+        <title>IntelliJ IDEA个人常用配置</title>
+        <pubTime>2018-06-22T08:12:09.000Z</pubTime>
+        
+        <tag>常用工具</tag>
+         
+         
+           
+             
+              <breadCrumb title="常用工具" url="http://xym-loveit.github.io/categories/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xym-loveit.github.io/2018/05/25/Intellij-IDEA-2017%E9%9B%86%E6%88%90MyBatis%E4%B8%89%E5%89%91%E5%AE%A2/</loc>
     <lastmod>2018-05-25T09:17:16.753Z</lastmod>
     <data>
@@ -1134,9 +1154,9 @@
         
         <tag>java多线程</tag>
          
-        <tag>同步容器</tag>
-         
         <tag>集合</tag>
+         
+        <tag>同步容器</tag>
          
          
            
