@@ -1,3 +1,4 @@
+http://xym-loveit.github.io/2018/10/19/Mysql数据类型/
 http://xym-loveit.github.io/2018/06/22/IntelliJ-IDEA个人常用配置/
 http://xym-loveit.github.io/2018/05/25/Intellij-IDEA-2017集成MyBatis三剑客/
 http://xym-loveit.github.io/2018/05/14/我珍藏的神兵利器/
