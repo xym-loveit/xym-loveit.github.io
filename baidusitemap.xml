@@ -62,6 +62,26 @@
 
     
   <url>
+    <loc>http://xym-loveit.github.io/2018/04/20/%E4%BD%BF%E7%94%A8Dockerfile%E5%88%9B%E5%BB%BA%E9%95%9C%E5%83%8F/</loc>
+    <lastmod>2025-11-05T15:35:57.777Z</lastmod>
+    <data>
+        <display>
+        <title>使用Dockerfile创建镜像</title>
+        <pubTime>2018-04-20T02:18:05.000Z</pubTime>
+        
+        <tag>Dockerfile命令</tag>
+         
+         
+           
+             
+              <breadCrumb title="Docker系列" url="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://xym-loveit.github.io/2017/05/04/%E5%B8%B8%E7%94%A8-Git-%E5%91%BD%E4%BB%A4%E6%B8%85%E5%8D%95/</loc>
     <lastmod>2025-11-05T15:35:57.777Z</lastmod>
     <data>
@@ -77,26 +97,6 @@
            
              
               <breadCrumb title="Git命令" url="http://xym-loveit.github.io/categories/Git%E5%91%BD%E4%BB%A4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://xym-loveit.github.io/2018/04/20/%E4%BD%BF%E7%94%A8Dockerfile%E5%88%9B%E5%BB%BA%E9%95%9C%E5%83%8F/</loc>
-    <lastmod>2025-11-05T15:35:57.777Z</lastmod>
-    <data>
-        <display>
-        <title>使用Dockerfile创建镜像</title>
-        <pubTime>2018-04-20T02:18:05.000Z</pubTime>
-        
-        <tag>Dockerfile命令</tag>
-         
-         
-           
-             
-              <breadCrumb title="Docker系列" url="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
           
         </display>
     </data>
@@ -1137,26 +1137,6 @@
 
     
   <url>
-    <loc>http://xym-loveit.github.io/2018/04/26/Docker%E5%9F%BA%E7%A1%80-docker-%E5%AE%B9%E5%99%A8%E6%97%A5%E5%BF%97%E5%91%BD%E5%90%8D/</loc>
-    <lastmod>2025-11-05T15:35:57.735Z</lastmod>
-    <data>
-        <display>
-        <title>Docker基础-docker 容器日志命名</title>
-        <pubTime>2018-04-26T08:22:19.000Z</pubTime>
-        
-        <tag>docker容器日志</tag>
-         
-         
-           
-             
-              <breadCrumb title="Docker系列" url="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://xym-loveit.github.io/2018/04/26/Docker%E5%9F%BA%E7%A1%80-docker-limit%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6/</loc>
     <lastmod>2025-11-05T15:35:57.735Z</lastmod>
     <data>
@@ -1173,6 +1153,26 @@
         <tag>CPU limit</tag>
          
         <tag>IO limit</tag>
+         
+         
+           
+             
+              <breadCrumb title="Docker系列" url="http://xym-loveit.github.io/categories/Docker%E7%B3%BB%E5%88%97/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xym-loveit.github.io/2018/04/26/Docker%E5%9F%BA%E7%A1%80-docker-%E5%AE%B9%E5%99%A8%E6%97%A5%E5%BF%97%E5%91%BD%E5%90%8D/</loc>
+    <lastmod>2025-11-05T15:35:57.735Z</lastmod>
+    <data>
+        <display>
+        <title>Docker基础-docker 容器日志命名</title>
+        <pubTime>2018-04-26T08:22:19.000Z</pubTime>
+        
+        <tag>docker容器日志</tag>
          
          
            
@@ -1292,6 +1292,10 @@
          
         <tag>pull命令</tag>
          
+        <tag>rm命令</tag>
+         
+        <tag>import命令</tag>
+         
         <tag>docker镜像</tag>
          
         <tag>images命令</tag>
@@ -1304,11 +1308,7 @@
          
         <tag>rmi命令</tag>
          
-        <tag>rm命令</tag>
-         
         <tag>commit命令</tag>
-         
-        <tag>import命令</tag>
          
         <tag>save命令</tag>
          
@@ -1334,10 +1334,6 @@
         <title>Docker 基本操作之容器</title>
         <pubTime>2018-04-13T11:42:56.000Z</pubTime>
         
-        <tag>rm命令</tag>
-         
-        <tag>import命令</tag>
-         
         <tag>docker容器</tag>
          
         <tag>create命令</tag>
@@ -1354,7 +1350,11 @@
          
         <tag>exec命令</tag>
          
+        <tag>rm命令</tag>
+         
         <tag>export命令</tag>
+         
+        <tag>import命令</tag>
          
          
            
