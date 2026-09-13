@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奥数天平交替问题模拟器</title>
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #06b6d4;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 992px) {
+            .container {
+                grid-template-columns: 350px 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-bottom: 16px;
+            color: #0f172a;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 8px;
+        }
+
+        .input-group {
+            margin-bottom: 14px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #475569;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #4338ca;
+        }
+
+        .btn-secondary {
+            background-color: #64748b;
+        }
+        .btn-secondary:hover {
+            background-color: #475569;
+        }
+
+        .control-btns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        /* 天平动画核心区域 */
+        .stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            position: relative;
+            background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f1f5f9 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .target-badge {
+            position: absolute;
+            top: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+            z-index: 10;
+        }
+
+        /* 天平主体 */
+        .balance-container {
+            position: relative;
+            width: 500px;
+            height: 300px;
+            margin-top: 40px;
+        }
+
+        /* 天平底座 */
+        .balance-base {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 20px;
+            background-color: #475569;
+            border-radius: 4px;
+        }
+
+        /* 天平立柱 */
+        .balance-pillar {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 160px;
+            background-color: #64748b;
+        }
+
+        /* 天平支点销 */
+        .balance-pivot {
+            position: absolute;
+            top: 170px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px;
+            height: 24px;
+            background-color: #334155;
+            border-radius: 50%;
+            z-index: 5;
+        }
+
+        /* 天平横梁 */
+        .balance-beam {
+            position: absolute;
+            top: 165px;
+            left: 50%;
+            width: 400px;
+            height: 12px;
+            background-color: #475569;
+            border-radius: 6px;
+            transform-origin: center center;
+            transform: translate(-50%, -50%) rotate(0deg);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5px;
+        }
+
+        /* 托盘挂线与托盘组合 */
+        .pan-wrapper {
+            position: absolute;
+            top: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .pan-wrapper.left-pan {
+            left: 5px;
+            transform-origin: top center;
+        }
+
+        .pan-wrapper.right-pan {
+            right: 5px;
+            transform-origin: top center;
+        }
+
+        /* 挂线 */
+        .pan-string {
+            width: 2px;
+            height: 70px;
+            background-color: #94a3b8;
+        }
+
+        /* 托盘主体 */
+        .pan {
+            width: 110px;
+            height: 12px;
+            background-color: #cbd5e1;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            position: relative;
+            border-top: 2px solid #94a3b8;
+        }
+
+        /* 托盘上方的重量物体/数字显示 */
+        .weight-display {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100px;
+        }
+
+        .character-name {
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 2px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: white;
+        }
+        .left-pan .character-name { background-color: #ef4444; }
+        .right-pan .character-name { background-color: #3b82f6; }
+
+        .weight-box {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-width: 50px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        /* 飞跃的巧克力元素 */
+        .chocolate-flyer {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background-color: #78350f;
+            border: 2px solid #b45309;
+            border-radius: 4px;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* 脚本和台词区域 */
+        .output-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .output-layout {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .panel-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .log-box {
+            background-color: #0f172a;
+            color: #38bdf8;
+            padding: 16px;
+            border-radius: 12px;
+            height: 250px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .script-box {
+            background-color: #fffbeb;
+            color: #78350f;
+            padding: 16px;
+            border-radius: 12px;
+            height: 250px;
+            overflow-y: auto;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            border: 1px solid #fef3c7;
+        }
+
+        .script-line {
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #fde68a;
+        }
+        .script-line.active {
+            background-color: #fef08a;
+            font-weight: bold;
+            border-radius: 4px;
+            padding: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="margin-bottom: 20px; color: #1e293b; font-size: 1.75rem;">🎬 奥数周期问题高级动画教具</h1>
+
+    <div class="container">
+        <!-- 控制面板 -->
+        <div class="card">
+            <h2>配置参数 (建模)</h2>
+            <div class="input-group">
+                <label>小芳原有块数 (左盘)</label>
+                <input type="number" id="startA" value="80">
+            </div>
+            <div class="input-group">
+                <label>小红原有块数 (右盘)</label>
+                <input type="number" id="startB" value="32">
+            </div>
+            <div class="input-group">
+                <label>小芳每次给小红几块</label>
+                <input type="number" id="giveA" value="6">
+            </div>
+            <div class="input-group">
+                <label>小红每次还小芳几块</label>
+                <input type="number" id="returnB" value="3">
+            </div>
+
+            <button id="btnInit">⚡ 初始化/重置天平</button>
+            
+            <div class="control-btns">
+                <button id="btnNext" class="btn-secondary" disabled>单步推进 ➔</button>
+                <button id="btnAuto" class="btn-secondary" style="background-color: #0284c7;" disabled>自动播放 ▶</button>
+            </div>
+            <div id="statusReport" style="margin-top: 15px; font-weight: bold; text-align: center; color: var(--primary-color);"></div>
+        </div>
+
+        <!-- 动画主舞台 -->
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <h2>视觉表现 (物理实体天平)</h2>
+            
+            <div class="stage">
+                <div class="target-badge" id="targetBadge">目标平分线：-- 块</div>
+                
+                <div class="balance-container">
+                    <!-- 飞跃的巧克力 -->
+                    <div class="chocolate-flyer" id="choc"></div>
+                    
+                    <!-- 支点柱子座 -->
+                    <div class="balance-pillar"></div>
+                    <div class="balance-base"></div>
+                    <div class="balance-pivot"></div>
+                    
+                    <!-- 天平横梁与托盘主体 -->
+                    <div class="balance-beam" id="beam">
+                        
+                        <!-- 左托盘组合 -->
+                        <div class="pan-wrapper left-pan" id="leftWrapper">
+                            <div class="pan-string"></div>
+                            <div class="weight-display">
+                                <span class="character-name">小芳</span>
+                                <div class="weight-box" id="valA">80</div>
+                            </div>
+                            <div class="pan"></div>
+                        </div>
+                        
+                        <!-- 右托盘组合 -->
+                        <div class="pan-wrapper right-pan" id="rightWrapper">
+                            <div class="pan-string"></div>
+                            <div class="weight-display">
+                                <span class="character-name">小红</span>
+                                <div class="weight-box" id="valB">32</div>
+                            </div>
+                            <div class="pan"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- 数据与台词双输出区域 -->
+            <div class="output-layout">
+                <div>
+                    <div class="panel-title">💻 数学轨迹日志 (Data Log)</div>
+                    <div class="log-box" id="logBox">点击初始化开始生成数据...</div>
+                </div>
+                <div>
+                    <div class="panel-title">🎙️ 视频配音旁白脚本 (Voiceover Script)</div>
+                    <div class="script-box" id="scriptBox">等待启动...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 核心状态变量
+        let state = {
+            initA: 80, initB: 32, giveA: 6, returnB: 3,
+            currA: 80, currB: 32, target: 56,
+            step: 0, history: [], timer: null, maxAngle: 15
+        };
+
+        // DOM 元素引用
+        const beam = document.getElementById('beam');
+        const leftWrapper = document.getElementById('leftWrapper');
+        const rightWrapper = document.getElementById('rightWrapper');
+        const valA = document.getElementById('valA');
+        const valB = document.getElementById('valB');
+        const targetBadge = document.getElementById('targetBadge');
+        const choc = document.getElementById('choc');
+        const logBox = document.getElementById('logBox');
+        const scriptBox = document.getElementById('scriptBox');
+        const statusReport = document.getElementById('statusReport');
+
+        const btnInit = document.getElementById('btnInit');
+        const btnNext = document.getElementById('btnNext');
+        const btnAuto = document.getElementById('btnAuto');
+
+        // 初始化/计算所有轨迹数据
+        function initSimulation() {
+            if(state.timer) clearInterval(state.timer);
+            
+            state.initA = parseInt(document.getElementById('startA').value) || 0;
+            state.initB = parseInt(document.getElementById('startB').value) || 0;
+            state.giveA = parseInt(document.getElementById('giveA').value) || 0;
+            state.returnB = parseInt(document.getElementById('returnB').value) || 0;
+            
+            let total = state.initA + state.initB;
+            if (total % 2 !== 0) {
+                alert("抱歉！两人的巧克力总数加起来必须是偶数，才能做到完全平分！请重新输入。");
+                return;
+            }
+            
+            state.target = total / 2;
+            state.currA = state.initA;
+            state.currB = state.initB;
+            state.step = 0;
+            state.history = [];
+            
+            targetBadge.innerText = `目标平衡数：${state.target} 块`;
+            statusReport.innerText = "就绪，等待演示...";
+            
+            // 预先演算生成全部轨迹
+            let tA = state.initA;
+            let tB = state.initB;
+            let s = 0;
+            
+            state.history.push({ step: 0, a: tA, b: tB, desc: "初始状态", voice: `小朋友们看，今天小芳手里有 ${tA} 块巧克力，小红手里有 ${tB} 块。两边重量相差很大，所以我们的平衡天平现在严重偏向了小芳这一侧！我们今天的终点线是让两个人都拿到平衡数：${state.target} 块。` });
+
+            let limit = 200; // 防死循环
+            while(tA !== state.target && limit > 0) {
+                s++;
+                limit--;
+                if (s % 2 !== 0) {
+                    tA -= state.giveA;
+                    tB += state.giveA;
+                    state.history.push({
+                        step: s, a: tA, b: tB, 
+                        desc: `第 ${s} 次：小芳给小红 ${state.giveA} 块`,
+                        voice: `第 ${s} 次交换开始！轮到小芳出手，她数出 ${state.giveA} 块巧克力丢进右边小红的盘子里！现在小芳手里的数字减少到了 ${tA}，小红增加到了 ${tB}。看！天平动了！`
+                    });
+                } else {
+                    tA += state.returnB;
+                    tB -= state.returnB;
+                    state.history.push({
+                        step: s, a: tA, b: tB,
+                        desc: `第 ${s} 次：小红还小芳 ${state.returnB} 块`,
+                        voice: `第 ${s} 次交换！小红往回还了 ${state.returnB} 块巧克力。小芳手里变成 ${tA} 块，小红剩下 ${tB} 块。这一来一回啊，实际上小芳只净给出了 ${state.giveA - state.returnB} 块。`
+                    });
+                }
+                if(tA === state.target) {
+                    state.history[state.history.length-1].voice += ` 哇！太不可思议了！看两边的数字，小芳和小红在这一瞬间同时变成了 ${state.target} 块！天平完美配平了！后面小红再也不需要还回来了，游戏通关！我们一共用了 ${s} 次！`;
+                    break;
+                }
+            }
+            
+            // 更新渲染初始界面
+            updateUI(0);
+            renderLogsAndScripts();
+            
+            btnNext.disabled = false;
+            btnAuto.disabled = false;
+        }
+
+        // 渲染UI以及天平物理倾斜度
+        function updateUI(historyIndex) {
+            const h = state.history[historyIndex];
+            valA.innerText = h.a;
+            valB.innerText = h.b;
+            
+            // 天平倾斜计算：根据两边重量差进行角度映射
+            let diff = h.a - h.b;
+            let maxDiff = Math.abs(state.initA - state.initB) || 1;
+            let angle = (diff / maxDiff) * state.maxAngle;
+            if (angle > state.maxAngle) angle = state.maxAngle;
+            if (angle < -state.maxAngle) angle = -state.maxAngle;
+            
+            // 物理特效：如果已经平分，角度归零
+            if (h.a === state.target) angle = 0;
+            
+            // 旋转横梁 (顺时针为正，所以左边重应该是逆时针旋转，所以取负角度值)
+            beam.style.transform = `translate(-50%, -50%) rotate(${-angle}deg)`;
+            
+            // 保持托盘始终垂直于地面 (反向旋转相同角度)
+            leftWrapper.style.transform = `rotate(${angle}deg)`;
+            rightWrapper.style.transform = `rotate(${angle}deg)`;
+            
+            // 高亮当前台词脚本
+            const pLines = document.querySelectorAll('.script-line');
+            pLines.forEach((line, idx) => {
+                if(idx === historyIndex) {
+                    line.classList.add('active');
+                    line.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    line.classList.remove('active');
+                }
+            });
+        }
+
+        // 巧克力抛物线飞跃基础动效技能
+        function animateChocolate(fromLeft, callback) {
+            choc.style.display = 'block';
+            
+            // 获取托盘当前的物理屏幕中心坐标
+            const rectA = valA.getBoundingClientRect();
+            const rectB = valB.getBoundingClientRect();
+            const stageRect = document.querySelector('.stage').getBoundingClientRect();
+            
+            const startX = (fromLeft ? rectA.left : rectB.left) - stageRect.left + 20;
+            const startY = (fromLeft ? rectA.top : rectB.top) - stageRect.top;
+            const endX = (fromLeft ? rectB.left : rectA.left) - stageRect.left + 20;
+            const endY = (fromLeft ? rectB.top : rectA.top) - stageRect.top;
+            
+            let progress = 0;
+            const duration = 20; // 动画帧数
+            
+            function frame() {
+                progress++;
+                let t = progress / duration;
+                
+                // 线性插值坐标 + 抛物线高度差
+                let currX = startX + (endX - startX) * t;
+                let currY = startY + (endY - startY) * t - Math.sin(t * Math.PI) * 60;
+                
+                choc.style.left = `${currX}px`;
+                choc.style.top = `${currY}px`;
+                
+                if (progress < duration) {
+                    requestAnimationFrame(frame);
+                } else {
+                    choc.style.display = 'none';
+                    callback();
+                }
+            }
+            requestAnimationFrame(frame);
+        }
+
+        // 单步推演核心控制
+        function playNextStep() {
+            if (state.step >= state.history.length - 1) {
+                statusReport.innerText = `🎉 已经达到最终平衡状态！总计用时 ${state.step} 次。`;
+                if(state.timer) clearInterval(state.timer);
+                return;
+            }
+            
+            btnNext.disabled = true;
+            state.step++;
+            
+            // 判定巧克力的物理飞向
+            let isLeftToRight = (state.step % 2 !== 0);
+            
+            animateChocolate(isLeftToRight, () => {
+                updateUI(state.step);
+                btnNext.disabled = false;
+                if(state.step === state.history.length - 1) {
+                    statusReport.innerHTML = `🏆 通关！至少需要 <span style="color:#10b981;font-size:1.4rem;">${state.step}</span> 次！`;
+                } else {
+                    statusReport.innerText = `进行到第 ${state.step} 次交换...`;
+                }
+            });
+        }
+
+        // 自动连续播放
+        function toggleAutoPlay() {
+            if (state.timer) {
+                clearInterval(state.timer);
+                state.timer = null;
+                btnAuto.innerText = "自动播放 ▶";
+            } else {
+                if (state.step >= state.history.length - 1) {
+                    state.step = 0; // 如果放完了则从头循环
+                    updateUI(0);
+                }
+                btnAuto.innerText = "暂停播放 ⏸";
+                state.timer = setInterval(() => {
+                    if (state.step < state.history.length - 1) {
+                        playNextStep();
+                    } else {
+                        clearInterval(state.timer);
+                        state.timer = null;
+                        btnAuto.innerText = "自动播放 ▶";
+                    }
+                }, 1500); // 间隔1.5秒一动
+            }
+        }
+
+        // 将演算结果生成到左右的数据面板和旁白文本中
+        function renderLogsAndScripts() {
+            logBox.innerHTML = "";
+            scriptBox.innerHTML = "";
+            
+            state.history.forEach((h, i) => {
+                // 左侧专业计算日志
+                if(i === 0) {
+                    logBox.innerHTML += `[初始配置] 小芳:${h.a}块 | 小红:${h.b}块 | 终点线:${state.target}块\n`;
+                } else {
+                    logBox.innerHTML += `[动作] 次数:${h.step} | A盘:${h.a} | B盘:${h.b} (${h.desc})\n`;
+                }
+                
+                // 右侧视频配音文案
+                const sLine = document.createElement('div');
+                sLine.className = 'script-line';
+                sLine.innerHTML = `<strong>【${i === 0 ? '引言' : '第 ' + i + ' 次'}】</strong> ${h.voice}`;
+                scriptBox.appendChild(sLine);
+            });
+            
+            logBox.innerHTML += `\n[计算完成] 最少需要 ${state.history.length - 1} 次达成天平完全平衡。`;
+        }
+
+        // 绑定触发器
+        btnInit.addEventListener('click', initSimulation);
+        btnNext.addEventListener('click', playNextStep);
+        btnAuto.addEventListener('click', toggleAutoPlay);
+
+        // 默认网页加载时自动跑一次默认数据
+        initSimulation();
+    </script>
+</body>
+</html>
